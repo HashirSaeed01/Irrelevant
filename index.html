@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lithos — Your Library</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #1a0f2e;
+      --bg2:        #231540;
+      --bg3:        #2d1a52;
+      --bg4:        #3a2268;
+      --purple-mid: #6b46c1;
+      --purple-lt:  #9f7aea;
+      --purple-xl:  #d6bcfa;
+      --white:      #ffffff;
+      --white-70:   rgba(255,255,255,0.7);
+      --white-40:   rgba(255,255,255,0.4);
+      --white-15:   rgba(255,255,255,0.15);
+      --white-08:   rgba(255,255,255,0.08);
+      --accent:     #c084fc;
+      --accent2:    #f0abfc;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 5vw;
+      border-bottom: 1px solid var(--white-08);
+      background: rgba(26,15,46,0.85);
+      backdrop-filter: blur(14px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      background: var(--bg4);
+      border-radius: 8px;
+      border: 1px solid var(--white-15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-mark svg { display: block; }
+
+    .logo-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-transform: uppercase;
+    }
+
+    .logo-text span {
+      color: var(--accent);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2.2rem;
+    }
+
+    nav ul a {
+      color: var(--white-70);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav ul a:hover { color: var(--white); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white-08);
+      border: 1px solid var(--white-15);
+      border-radius: 99px;
+      padding: 0.4rem 1rem;
+      cursor: text;
+    }
+
+    .nav-search svg { opacity: 0.5; flex-shrink: 0; }
+
+    .nav-search span {
+      font-size: 0.8rem;
+      color: var(--white-40);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .nav-btn {
+      background: var(--purple-mid);
+      border: none;
+      border-radius: 99px;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.45rem 1.1rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .nav-btn:hover { background: var(--purple-lt); transform: translateY(-1px); }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 5rem 5vw 4rem;
+      max-width: 680px;
+      position: relative;
+    }
+    .hero-left { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white-08);
+      border: 1px solid var(--white-15);
+      border-radius: 99px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--purple-xl);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 .dim { color: var(--white-40); }
+    h1 .hi  { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--white-70);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .stat-item .stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-item .stat-num span { color: var(--accent); }
+
+    .stat-item .stat-lbl {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white-40);
+      margin-top: 3px;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .section {
+      padding: 3rem 5vw 1.5rem;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-head h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white-70);
+    }
+
+    .section-head h2 span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-right: 8px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+    }
+
+    .see-all {
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--purple-lt);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .see-all:hover { color: var(--accent2); }
+
+    /* ─── BOOK ROW ─── */
+    .book-row {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+
+    .book-row::-webkit-scrollbar { display: none; }
+
+    /* ─── BOOK CARD ─── */
+    .book-card {
+      flex: 0 0 148px;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative;
+    }
+
+    .book-card:hover {
+      transform: translateY(-12px);
+    }
+
+    .book-spine {
+      width: 148px;
+      height: 210px;
+      border-radius: 6px 10px 10px 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .book-spine::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: rgba(0,0,0,0.25);
+    }
+
+    .book-spine::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .book-genre-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 7px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      width: fit-content;
+    }
+
+    .book-title-text {
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .book-author {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.02em;
+    }
+
+    .book-deco {
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      font-size: 2rem;
+      opacity: 0.18;
+    }
+
+    /* ─── CATEGORY COLORS ─── */
+    .horror   .book-spine { background: #1a0a0a; }
+    .horror   .book-genre-badge { background: rgba(220,38,38,0.25); color: #fca5a5; }
+    .horror   .book-deco { color: #ef4444; }
+
+    .comedy   .book-spine { background: #1a1700; }
+    .comedy   .book-genre-badge { background: rgba(234,179,8,0.25); color: #fde68a; }
+    .comedy   .book-deco { color: #facc15; }
+
+    .scifi    .book-spine { background: #021a2e; }
+    .scifi    .book-genre-badge { background: rgba(56,189,248,0.2); color: #7dd3fc; }
+    .scifi    .book-deco { color: #38bdf8; }
+
+    .romance  .book-spine { background: #1f0a18; }
+    .romance  .book-genre-badge { background: rgba(236,72,153,0.25); color: #f9a8d4; }
+    .romance  .book-deco { color: #ec4899; }
+
+    .thriller .book-spine { background: #0f150a; }
+    .thriller .book-genre-badge { background: rgba(34,197,94,0.2); color: #86efac; }
+    .thriller .book-deco { color: #22c55e; }
+
+    .fantasy  .book-spine { background: #140a2e; }
+    .fantasy  .book-genre-badge { background: rgba(168,85,247,0.25); color: #d8b4fe; }
+    .fantasy  .book-deco { color: #a855f7; }
+
+    /* ─── STAFF PICK CONSTELLATION ─── */
+    .sp-outer {
+      margin: 0 5vw 1rem;
+      position: relative;
+    }
+
+    /* top and bottom node rows — hidden by default, no height */
+    .sp-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.5s ease;
+    }
+
+    .sp-row.top {
+      margin-bottom: 0;
+      align-items: end;
+      padding-top: 40px;
+    }
+
+    .sp-row.bottom {
+      margin-top: 0;
+      align-items: start;
+      padding-bottom: 40px;
+    }
+
+    /* stagger card heights — left low, center high, right mid */
+    .sp-row.top .sp-node:nth-child(1)    { transform: translateY(0px); }
+    .sp-row.top .sp-node:nth-child(2)    { transform: translateY(-32px); }
+    .sp-row.top .sp-node:nth-child(3)    { transform: translateY(-16px); }
+    .sp-row.bottom .sp-node:nth-child(1) { transform: translateY(0px); }
+    .sp-row.bottom .sp-node:nth-child(2) { transform: translateY(32px); }
+    .sp-row.bottom .sp-node:nth-child(3) { transform: translateY(16px); }
+
+    .sp-outer.open .sp-row {
+      max-height: 220px;
+      opacity: 1;
+    }
+
+    .sp-outer.open .sp-row.top    { margin-bottom: 24px; }
+    .sp-outer.open .sp-row.bottom { margin-top: 24px; }
+
+
+
+    .sp-node {
+      background: var(--bg2);
+      border: 1px solid var(--white-15);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.2s, opacity 0.3s, transform 0.3s;
+      overflow: hidden;
+    }
+
+    .sp-node:hover { border-color: var(--purple-lt); }
+
+    .sp-node-label {
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 3px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .sp-node-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.2;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .sp-node-author {
+      font-size: 0.6rem;
+      color: var(--white-40);
+      margin-top: 2px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    /* SVG lines overlay — sits between rows and main box */
+    .sp-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .sp-line {
+      stroke: rgba(192,132,252,0.7);
+      stroke-width: 1.5;
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      transition: stroke-dashoffset 0.5s ease;
+      fill: none;
+    }
+    .sp-line.drawn { stroke-dashoffset: 0; }
+
+    /* main box */
+    .sp-box {
+      background: var(--bg3);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      user-select: none;
+    }
+
+    .sp-box:hover { box-shadow: 0 0 28px rgba(192,132,252,0.15); }
+    .sp-box.open  { border-color: var(--accent); box-shadow: 0 0 40px rgba(192,132,252,0.2); }
+
+    .sp-heading {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--white-40);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sp-heading::before {
+      content: '';
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .sp-chevron {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: var(--white-40);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .sp-box.open .sp-chevron { transform: rotate(180deg); }
+
+    .sp-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .sp-sub {
+      font-size: 0.8rem;
+      color: var(--white-70);
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+
+    /* expanded node overlays the whole section */
+    .sp-expanded-overlay {
+      display: none;
+      background: var(--bg2);
+      border: 1.5px solid rgba(255,255,255,0.85);
+      border-radius: 16px;
+      padding: 1.6rem 2rem;
+      position: relative;
+      z-index: 20;
+      animation: expandIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;
+    }
+
+    .sp-expanded-overlay.active { display: block; }
+
+    @keyframes expandIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .sp-exp-genre {
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .sp-exp-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 4px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .sp-exp-author {
+      font-size: 0.7rem;
+      color: var(--white-40);
+      margin-bottom: 12px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .sp-exp-body {
+      font-size: 0.8rem;
+      color: var(--white-70);
+      line-height: 1.7;
+      font-family: 'Montserrat', sans-serif;
+      margin-bottom: 12px;
+    }
+
+    .sp-exp-back {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      cursor: pointer;
+      font-family: 'Montserrat', sans-serif;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+/* ─── DIVIDER ─── */
+    .divider {
+      height: 1px;
+      background: var(--white-08);
+      margin: 2rem 5vw;
+    }
+
+
+    /* ─── FAQ ─── */
+    .faq-section {
+      padding: 4rem 5vw 3rem;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .faq-heading {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-sub {
+      font-size: 0.9rem;
+      color: var(--white-40);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: 0.02em;
+    }
+
+    .faq-list {
+      border: 1px solid var(--white-15);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--white-08);
+    }
+
+    .faq-item:last-child { border-bottom: none; }
+
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      gap: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--white);
+      transition: background 0.2s;
+    }
+
+    .faq-q:hover { background: none; }
+
+    .faq-q.open { color: var(--white); }
+
+    .faq-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--white-15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--white-40);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s, color 0.2s;
+    }
+
+    .faq-q.open .faq-icon {
+      transform: rotate(180deg);
+      border-color: var(--white-40);
+      color: var(--white-40);
+    }
+
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+
+    .faq-a.open {
+      max-height: 200px;
+      opacity: 1;
+    }
+
+    .faq-a-inner {
+      padding: 0 1.5rem 1.2rem;
+      font-size: 0.82rem;
+      color: var(--white-70);
+      line-height: 1.75;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 2rem 5vw;
+      border-top: 1px solid var(--white-08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer p {
+      font-size: 0.72rem;
+      color: var(--white-40);
+      letter-spacing: 0.04em;
+    }
+
+    footer nav ul {
+      gap: 1.5rem;
+    }
+    }
+
+
+    
+
+
+
+    /* ─── NODE EXPANDED STATE ─── */
+    .sp-node {
+      transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), 
+                  border-color 0.2s, width 0.4s, height 0.4s, top 0.4s, left 0.4s, bottom 0.4s;
+    }
+
+    .sp-node.expanded {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      bottom: auto !important;
+      transform: translate(-50%, -50%) scale(1) !important;
+      width: 90% !important;
+      white-space: normal;
+      border-color: rgba(255,255,255,0.9);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.3), 0 0 60px rgba(192,132,252,0.2);
+      z-index: 50;
+      background: var(--bg2);
+      padding: 1.6rem 1.8rem;
+    }
+
+    .sp-node-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.35s;
+      opacity: 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.78rem;
+      color: var(--white-70);
+      line-height: 1.7;
+    }
+
+    .sp-node.expanded .sp-node-body {
+      max-height: 200px;
+      opacity: 1;
+      margin-top: 10px;
+    }
+
+    .sp-node-divider {
+      height: 1px;
+      background: var(--white-15);
+      margin: 8px 0 10px;
+    }
+
+    .sp-node-read {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+
+    /* ─── HORROR HEADING ─── */
+    .horror-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .horror-head h2 {
+      font-size: 1.4rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.08em;
+      color: #fff !important;
+    }
+
+    .horror-icon {
+      font-size: 2rem;
+      line-height: 1;
+      display: inline-block;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.4s ease;
+    }
+
+    .horror-icon.in-view {
+      opacity: 1;
+      animation: skullPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes skullPulse {
+      0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 4px rgba(220,38,38,0.4)); }
+      50%       { transform: scale(1.35); filter: drop-shadow(0 0 14px rgba(220,38,38,0.75)); }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 640px) {
+      nav {
+        padding: 0.85rem 4vw;
+        gap: 0;
+      }
+
+      nav ul,
+      .nav-search { display: none; }
+
+      .book-line-wrap { max-width: 100%; }
+
+      .nav-right { gap: 0.5rem; }
+
+      .logo-text { font-size: 1rem; }
+
+      .hero {
+        padding: 2.5rem 5vw 2rem;
+      }
+
+      .hero-tag {
+        font-size: 0.65rem;
+        padding: 0.28rem 0.75rem;
+      }
+
+      h1 { font-size: 2.2rem; letter-spacing: -0.025em; }
+
+      .hero-sub { font-size: 0.9rem; margin-bottom: 1.75rem; }
+
+      .hero-stats { gap: 1.5rem; }
+
+      .stat-item .stat-num { font-size: 1.3rem; }
+
+      .hero-left { text-align: center; }
+      .hero-tag { margin-left: auto; margin-right: auto; }
+      .hero-stats { justify-content: center; }
+      .pill-row { justify-content: center; }
+      .cta-row { justify-content: center; }
+
+      .featured-banner {
+        margin: 0 4vw 1rem;
+        padding: 1.25rem 1.25rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        border-radius: 12px;
+      }
+
+
+
+      .section { padding: 2rem 4vw 1rem; }
+
+      .section-head h2 { font-size: 0.85rem; }
+
+      .book-row { gap: 0.75rem; padding-left: 4vw; padding-right: 4vw; }
+
+      .book-card { flex: 0 0 120px; }
+
+      .book-spine { width: 120px; height: 175px; padding: 10px; }
+
+      .book-title-text { font-size: 0.72rem; }
+      .book-author     { font-size: 0.6rem; }
+      .book-genre-badge { font-size: 0.55rem; padding: 2px 5px; }
+      .book-deco { font-size: 1.6rem; top: 10px; right: 10px; }
+
+      .book-card:hover { transform: translateY(-8px); }
+
+      footer {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+        padding: 1.5rem 5vw;
+      }
+
+      footer nav ul { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="logo" href="#">
+      <div class="logo-mark">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2" y="2" width="5" height="14" rx="1" fill="#c084fc"/>
+          <rect x="9" y="4" width="5" height="12" rx="1" fill="rgba(192,132,252,0.5)"/>
+          <rect x="4" y="14" width="12" height="1.5" rx="0.75" fill="rgba(255,255,255,0.3)"/>
+        </svg>
+      </div>
+      <span class="logo-text">Lit<span>hos</span></span>
+    </a>
+
+    <ul>
+      <li><a href="#">Browse</a></li>
+      <li><a href="#">My List</a></li>
+      <li><a href="#">New</a></li>
+      <li><a href="#">Authors</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <div class="nav-search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>Search titles...</span>
+      </div>
+      <button class="nav-btn">Sign in</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        2,400+ titles in the collection
+      </div>
+      <h1>
+        Read what<br>
+        <span class="dim">the world</span><br>
+        <span class="hi">can't put down.</span>
+      </h1>
+      <p class="hero-sub">
+        Every genre. Every mood. Curated shelves updated weekly — from spine-chilling horror to laugh-out-loud comedy.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2.4<span>k</span></div>
+          <div class="stat-lbl">Titles</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">18</div>
+          <div class="stat-lbl">Genres</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">340<span>+</span></div>
+          <div class="stat-lbl">Authors</div>
+        </div>
+      </div></div>
+  </section>
+
+  <!-- STAFF PICK CONSTELLATION -->
+  <div class="sp-outer" id="spOuter">
+    <svg class="sp-svg" id="spSvg"></svg>
+
+    <!-- TOP ROW -->
+    <div class="sp-row top" id="spTopRow">
+      <div class="sp-node" data-i="0">
+        <div class="sp-node-label">Horror</div>
+        <div class="sp-node-title">The Hollow Place</div>
+        <div class="sp-node-author">E. Crane</div>
+      </div>
+      <div class="sp-node" data-i="1">
+        <div class="sp-node-label">Sci-Fi</div>
+        <div class="sp-node-title">The Fermi Descent</div>
+        <div class="sp-node-author">O. Rask</div>
+      </div>
+      <div class="sp-node" data-i="2">
+        <div class="sp-node-label">Romance</div>
+        <div class="sp-node-title">Before the Rain Ends</div>
+        <div class="sp-node-author">N. Sorrell</div>
+      </div>
+    </div>
+
+    <!-- MAIN BOX -->
+    <div class="sp-box" id="spBox">
+      <div class="sp-heading">Staff Picks — October <span class="sp-chevron">&#9660;</span></div>
+      <div class="sp-title">The Pale Corridor</div>
+      <div class="sp-sub">A slow-burn supernatural thriller that redefines what it means to be afraid.</div>
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="sp-row bottom" id="spBotRow">
+      <div class="sp-node" data-i="3">
+        <div class="sp-node-label">Comedy</div>
+        <div class="sp-node-title">How I Ruined Christmas</div>
+        <div class="sp-node-author">L. Finch</div>
+      </div>
+      <div class="sp-node" data-i="4">
+        <div class="sp-node-label">Fantasy</div>
+        <div class="sp-node-title">Pale Blue Signal</div>
+        <div class="sp-node-author">T. Achebe</div>
+      </div>
+      <div class="sp-node" data-i="5">
+        <div class="sp-node-label">Thriller</div>
+        <div class="sp-node-title">Red Door Inn</div>
+        <div class="sp-node-author">M. Selbourne</div>
+      </div>
+    </div>
+
+    <!-- EXPANDED OVERLAY -->
+    <div class="sp-expanded-overlay" id="spExpanded">
+      <div class="sp-exp-genre" id="spExpGenre"></div>
+      <div class="sp-exp-title" id="spExpTitle"></div>
+      <div class="sp-exp-author" id="spExpAuthor"></div>
+      <div class="sp-exp-body" id="spExpBody"></div>
+      <button class="sp-exp-back" id="spExpBack">&#8592; Back to picks</button>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var outer    = document.getElementById('spOuter');
+    var box      = document.getElementById('spBox');
+    var svg      = document.getElementById('spSvg');
+    var topRow   = document.getElementById('spTopRow');
+    var botRow   = document.getElementById('spBotRow');
+    var expanded = document.getElementById('spExpanded');
+    var nodes    = Array.prototype.slice.call(outer.querySelectorAll('.sp-node'));
+    var isOpen   = false;
+
+    var data = [
+      { genre:'Horror',  title:'The Hollow Place',     author:'E. Crane',     body:'A family returns to their childhood home, only to find the doors no longer lead where they should.' },
+      { genre:'Sci-Fi',  title:'The Fermi Descent',    author:'O. Rask',      body:'A generation ship loses contact with Earth. The crew starts hearing voices from the dark.' },
+      { genre:'Romance', title:'Before the Rain Ends', author:'N. Sorrell',   body:'Two strangers keep missing each other by minutes — until one rainy Tuesday in Lisbon.' },
+      { genre:'Comedy',  title:'How I Ruined Christmas',author:'L. Finch',    body:'A man accidentally ruins Christmas for six families in one afternoon. A love story.' },
+      { genre:'Fantasy', title:'Pale Blue Signal',     author:'T. Achebe',    body:'The last librarian of a dying empire guards one final book no one is allowed to read.' },
+      { genre:'Thriller',title:'Red Door Inn',         author:'M. Selbourne', body:'A locked door. A missing guest. And a hotel that knows too much.' },
+    ];
+
+    function borderPt(fromX, fromY, el) {
+      var r  = el.getBoundingClientRect();
+      var or = outer.getBoundingClientRect();
+      var ex = r.left - or.left, ey = r.top - or.top, ew = r.width, eh = r.height;
+      var cx = ex + ew/2, cy = ey + eh/2;
+      var dx = fromX - cx, dy = fromY - cy;
+      var len = Math.sqrt(dx*dx+dy*dy)||1; dx/=len; dy/=len;
+      var tx, ty;
+      if (Math.abs(dx)*eh > Math.abs(dy)*ew) {
+        tx = cx + (dx>0?ew/2:-ew/2); ty = cy + dy*(ew/2)/Math.abs(dx);
+      } else {
+        ty = cy + (dy>0?eh/2:-eh/2); tx = cx + dx*(eh/2)/Math.abs(dy);
+      }
+      return {x:tx, y:ty};
+    }
+
+    function drawLines() {
+      svg.innerHTML = '';
+      var or = outer.getBoundingClientRect();
+      function center(el) {
+        var r = el.getBoundingClientRect();
+        return { x: r.left-or.left+r.width/2, y: r.top-or.top+r.height/2 };
+      }
+      var bc = center(box);
+      nodes.forEach(function(nd, i) {
+        var nc = center(nd);
+        var bp = borderPt(nc.x, nc.y, box);
+        var ep = borderPt(bc.x, bc.y, nd);
+        var p  = document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d','M'+bp.x+' '+bp.y+' L'+ep.x+' '+ep.y);
+        p.setAttribute('class','sp-line');
+        svg.appendChild(p);
+        setTimeout(function(el){ el.classList.add('drawn'); }, 100+i*60, p);
+      });
+    }
+
+    function open() {
+      isOpen = true;
+      box.classList.add('open');
+      outer.classList.add('open');
+      setTimeout(drawLines, 350);
+    }
+
+    function close() {
+      isOpen = false;
+      box.classList.remove('open');
+      outer.classList.remove('open');
+      expanded.classList.remove('active');
+      box.style.display = '';
+      topRow.style.display = '';
+      botRow.style.display = '';
+      svg.innerHTML = '';
+    }
+
+    function showExpanded(i) {
+      var d = data[i];
+      document.getElementById('spExpGenre').textContent  = d.genre;
+      document.getElementById('spExpTitle').textContent  = d.title;
+      document.getElementById('spExpAuthor').textContent = d.author;
+      document.getElementById('spExpBody').textContent   = d.body;
+      box.style.display    = 'none';
+      topRow.style.display = 'none';
+      botRow.style.display = 'none';
+      svg.innerHTML = '';
+      expanded.classList.add('active');
+    }
+
+    function hideExpanded() {
+      expanded.classList.remove('active');
+      box.style.display    = '';
+      topRow.style.display = '';
+      botRow.style.display = '';
+      setTimeout(drawLines, 60);
+    }
+
+    box.addEventListener('click', function(){ isOpen ? close() : open(); });
+
+    nodes.forEach(function(nd) {
+      nd.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (!isOpen) return;
+        showExpanded(parseInt(nd.getAttribute('data-i')));
+      });
+    });
+
+    document.getElementById('spExpBack').addEventListener('click', function(e) {
+      e.stopPropagation();
+      hideExpanded();
+    });
+  })();
+  </script>
+
+  <!-- HORROR ROW -->
+  <section class="section">
+    <div class="section-head">
+      <div class="horror-head">
+        <span class="horror-icon" id="horrorIcon">&#9760;</span>
+        <h2>Horror</h2>
+      </div>
+      <a class="see-all" href="#">See all &rarr;</a>
+    </div>
+    <div class="book-row">
+
+      <div class="book-card horror">
+        <div class="book-spine">
+          <div class="book-deco">☠</div>
+          <div class="book-genre-badge">Horror</div>
+          <div class="book-title-text">The Hollow Place</div>
+          <div class="book-author">E. Crane</div>
+        </div>
+      </div>
+
+      <div class="book-card horror">
+        <div class="book-spine">
+          <div class="book-deco">🕷</div>
+          <div class="book-genre-badge">Horror</div>
+          <div class="book-title-text">Mouths in the Wall</div>
+          <div class="book-author">D. Voss</div>
+        </div>
+      </div>
+
+      <div class="book-card horror">
+        <div class="book-spine">
+          <div class="book-deco">🩸</div>
+          <div class="book-genre-badge">Horror</div>
+          <div class="book-title-text">Sleep Paralysis</div>
+          <div class="book-author">A. Park</div>
+        </div>
+      </div>
+
+      <div class="book-card horror">
+        <div class="book-spine">
+          <div class="book-deco">🔪</div>
+          <div class="book-genre-badge">Horror</div>
+          <div class="book-title-text">Red Door Inn</div>
+          <div class="book-author">M. Selbourne</div>
+        </div>
+      </div>
+
+      <div class="book-card horror">
+        <div class="book-spine">
+          <div class="book-deco">👁</div>
+          <div class="book-genre-badge">Horror</div>
+          <div class="book-title-text">Night Taxonomy</div>
+          <div class="book-author">C. Thorn</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- COMEDY ROW -->
+  <section class="section">
+    <div class="section-head">
+      <h2><span></span>Comedy</h2>
+      <a class="see-all" href="#">See all &rarr;</a>
+    </div>
+    <div class="book-row">
+
+      <div class="book-card comedy">
+        <div class="book-spine">
+          <div class="book-deco">😂</div>
+          <div class="book-genre-badge">Comedy</div>
+          <div class="book-title-text">How I Ruined Christmas</div>
+          <div class="book-author">L. Finch</div>
+        </div>
+      </div>
+
+      <div class="book-card comedy">
+        <div class="book-spine">
+          <div class="book-deco">🤦</div>
+          <div class="book-genre-badge">Comedy</div>
+          <div class="book-title-text">Mostly Harmless Choices</div>
+          <div class="book-author">P. Wren</div>
+        </div>
+      </div>
+
+      <div class="book-card comedy">
+        <div class="book-spine">
+          <div class="book-deco">🎤</div>
+          <div class="book-genre-badge">Comedy</div>
+          <div class="book-title-text">On Being Awkward</div>
+          <div class="book-author">S. Nakamura</div>
+        </div>
+      </div>
+
+      <div class="book-card comedy">
+        <div class="book-spine">
+          <div class="book-deco">🐓</div>
+          <div class="book-genre-badge">Comedy</div>
+          <div class="book-title-text">Unqualified Expert</div>
+          <div class="book-author">B. Osei</div>
+        </div>
+      </div>
+
+      <div class="book-card comedy">
+        <div class="book-spine">
+          <div class="book-deco">✌</div>
+          <div class="book-genre-badge">Comedy</div>
+          <div class="book-title-text">My Perfect Disasters</div>
+          <div class="book-author">H. Liang</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SCI-FI ROW -->
+  <section class="section">
+    <div class="section-head">
+      <h2><span></span>Sci-Fi</h2>
+      <a class="see-all" href="#">See all &rarr;</a>
+    </div>
+    <div class="book-row">
+
+      <div class="book-card scifi">
+        <div class="book-spine">
+          <div class="book-deco">🛸</div>
+          <div class="book-genre-badge">Sci-Fi</div>
+          <div class="book-title-text">The Fermi Descent</div>
+          <div class="book-author">O. Rask</div>
+        </div>
+      </div>
+
+      <div class="book-card scifi">
+        <div class="book-spine">
+          <div class="book-deco">🌌</div>
+          <div class="book-genre-badge">Sci-Fi</div>
+          <div class="book-title-text">Pale Blue Signal</div>
+          <div class="book-author">T. Achebe</div>
+        </div>
+      </div>
+
+      <div class="book-card scifi">
+        <div class="book-spine">
+          <div class="book-deco">⚡</div>
+          <div class="book-genre-badge">Sci-Fi</div>
+          <div class="book-title-text">Ion Harvest</div>
+          <div class="book-author">R. Cho</div>
+        </div>
+      </div>
+
+      <div class="book-card scifi">
+        <div class="book-spine">
+          <div class="book-deco">🔭</div>
+          <div class="book-genre-badge">Sci-Fi</div>
+          <div class="book-title-text">Second Horizon</div>
+          <div class="book-author">V. Ndlovu</div>
+        </div>
+      </div>
+
+      <div class="book-card scifi">
+        <div class="book-spine">
+          <div class="book-deco">🤖</div>
+          <div class="book-genre-badge">Sci-Fi</div>
+          <div class="book-title-text">Ghost in the Stack</div>
+          <div class="book-author">J. Mirabel</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ROMANCE ROW -->
+  <section class="section">
+    <div class="section-head">
+      <h2><span></span>Romance</h2>
+      <a class="see-all" href="#">See all &rarr;</a>
+    </div>
+    <div class="book-row">
+
+      <div class="book-card romance">
+        <div class="book-spine">
+          <div class="book-deco">💌</div>
+          <div class="book-genre-badge">Romance</div>
+          <div class="book-title-text">Before the Rain Ends</div>
+          <div class="book-author">N. Sorrell</div>
+        </div>
+      </div>
+
+      <div class="book-card romance">
+        <div class="book-spine">
+          <div class="book-deco">🌹</div>
+          <div class="book-genre-badge">Romance</div>
+          <div class="book-title-text">All the Soft Things</div>
+          <div class="book-author">I. Bravo</div>
+        </div>
+      </div>
+
+      <div class="book-card romance">
+        <div class="book-spine">
+          <div class="book-deco">💫</div>
+          <div class="book-genre-badge">Romance</div>
+          <div class="book-title-text">Latitude of Love</div>
+          <div class="book-author">C. Adeyemi</div>
+        </div>
+      </div>
+
+      <div class="book-card romance">
+        <div class="book-spine">
+          <div class="book-deco">🕊</div>
+          <div class="book-genre-badge">Romance</div>
+          <div class="book-title-text">Same Side of the Sky</div>
+          <div class="book-author">P. Moreau</div>
+        </div>
+      </div>
+
+      <div class="book-card romance">
+        <div class="book-spine">
+          <div class="book-deco">♡</div>
+          <div class="book-genre-badge">Romance</div>
+          <div class="book-title-text">You, Almost</div>
+          <div class="book-author">L. Quinn</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <div class="divider"></div>
+  <section class="faq-section">
+    <h2 class="faq-heading">Things people actually ask.</h2>
+    <p class="faq-sub">Answered properly.</p>
+    <div class="faq-list" id="faqList">
+
+      <div class="faq-item">
+        <button class="faq-q"><span>I haven't read in years. Where do I even start?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Pick a genre you'd watch on a bad night — that's your genre. Don't overthink it. Under 300 pages, first chapter hooks you, you're in. Everything else is noise.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>Why does horror have its own skull?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Because horror deserves the drama. Every genre on this shelf has a personality — horror just happens to be the loudest about it.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>What makes a staff pick actually worth reading?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Someone on our team stayed up past 2am finishing it. That's the only metric that matters. No press releases, no publisher deals, no algorithms.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>Can I trust the comedy section to actually be funny?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>I only read one book a year. Is this still for me?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Especially for you. One great book a year beats twelve forgettable ones. We'll make sure that one book counts.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>Do you ever remove books from the shelves?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Rarely. And when we do, it's never because a book made someone uncomfortable — it's because something better earned the shelf space.</div></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q"><span>What's the point of the constellation on the staff picks?</span><span class="faq-icon">&#9660;</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Books don't exist alone — they orbit each other. The constellation shows you what lives in the same universe as the pick. Click around. That's the point.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <!-- scrolling marquee -->
+    <div class="footer-marquee">
+      <div class="marquee-track">
+        <span>Horror</span><span class="dot-sep">·</span>
+        <span>Sci-Fi</span><span class="dot-sep">·</span>
+        <span>Romance</span><span class="dot-sep">·</span>
+        <span>Comedy</span><span class="dot-sep">·</span>
+        <span>Thriller</span><span class="dot-sep">·</span>
+        <span>Fantasy</span><span class="dot-sep">·</span>
+        <span>Mystery</span><span class="dot-sep">·</span>
+        <span>Literary</span><span class="dot-sep">·</span>
+        <span>Horror</span><span class="dot-sep">·</span>
+        <span>Sci-Fi</span><span class="dot-sep">·</span>
+        <span>Romance</span><span class="dot-sep">·</span>
+        <span>Comedy</span><span class="dot-sep">·</span>
+        <span>Thriller</span><span class="dot-sep">·</span>
+        <span>Fantasy</span><span class="dot-sep">·</span>
+        <span>Mystery</span><span class="dot-sep">·</span>
+        <span>Literary</span><span class="dot-sep">·</span>
+      </div>
+    </div>
+
+    <!-- big wordmark -->
+    <div class="footer-wordmark">LITHOS</div>
+
+    <!-- bottom bar -->
+    <div class="footer-bottom">
+      <p>© 2026 Lithos. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <style>
+    .site-footer {
+      background: var(--bg);
+      border-top: 1px solid var(--white-08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-marquee {
+      border-bottom: 1px solid var(--white-08);
+      border-top: 1px solid var(--white-08);
+      padding: 0.85rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marqueeScroll 18s linear infinite;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white-40);
+    }
+
+    .marquee-track span { margin: 0 0.5rem; }
+    .marquee-track .dot-sep { color: var(--accent); margin: 0 0.25rem; }
+
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .footer-wordmark {
+      font-family: 'Montserrat', sans-serif;
+      font-size: clamp(5rem, 22vw, 14rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,0.35);
+      text-align: center;
+      line-height: 1;
+      padding: 1rem 0 0;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding: 1.25rem 5vw 1.75rem;
+      margin-top: -1rem;
+    }
+
+    .footer-bottom p {
+      font-size: 0.7rem;
+      color: var(--white-40);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--white-40);
+      text-decoration: none;
+      transition: color 0.2s;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .footer-links a:hover { color: var(--white); }
+  </style>
+
+  <script>
+  (function(){
+    var items = document.querySelectorAll('.faq-item');
+    items.forEach(function(item) {
+      var btn = item.querySelector('.faq-q');
+      var ans = item.querySelector('.faq-a');
+      btn.addEventListener('click', function() {
+        var isOpen = btn.classList.contains('open');
+        // close all
+        items.forEach(function(it) {
+          it.querySelector('.faq-q').classList.remove('open');
+          it.querySelector('.faq-a').classList.remove('open');
+        });
+        if (!isOpen) {
+          btn.classList.add('open');
+          ans.classList.add('open');
+        }
+      });
+    });
+  })();
+
+  (function(){
+    var icon = document.getElementById('horrorIcon');
+    if (!icon || !window.IntersectionObserver) return;
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) {
+          icon.classList.add('in-view');
+        } else {
+          icon.classList.remove('in-view');
+          icon.style.opacity = '0';
+          icon.style.transform = 'scale(0.5)';
+          setTimeout(function(){ icon.style.opacity = ''; icon.style.transform = ''; }, 10);
+        }
+      });
+    }, { threshold: 0.5 });
+    obs.observe(icon);
+  })();
+  </script>
+</body>
+</html>
+</html>
