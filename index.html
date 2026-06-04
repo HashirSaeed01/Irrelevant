@@ -54,7 +54,7 @@
     .hero-left{padding-right:5rem;}
     .hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;opacity:0;animation:up 0.5s ease 0.1s forwards;}
     .hero-eyebrow::before{content:'';width:22px;height:1px;background:var(--blue);}
-    h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.8rem,5vw,4.4rem);font-weight:800;line-height:1.02;letter-spacing:-0.03em;color:var(--navy);margin-bottom:1.25rem;}
+    h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.4rem,4.2vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;color:var(--navy);margin-bottom:1.25rem;}
     h1 em{font-style:italic;color:var(--blue);}
     .word{display:inline-block;overflow:hidden;vertical-align:bottom;}
     .word-inner{display:inline-block;transform:translateY(110%);animation:reveal 0.55s cubic-bezier(0.16,1,0.3,1) forwards;}
@@ -105,14 +105,16 @@
     .sp-nodes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;max-height:0;overflow:hidden;opacity:0;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1),opacity 0.35s ease,margin 0.45s ease;}
     .sp-nodes.top{align-items:end;padding-top:28px;}
     .sp-nodes.bottom{align-items:start;padding-bottom:28px;}
+
+    .sp-outer.open .sp-nodes{max-height:200px;opacity:1;}
     .sp-nodes.top .sp-node:nth-child(2){transform:translateY(-18px);}
     .sp-nodes.top .sp-node:nth-child(3){transform:translateY(-9px);}
     .sp-nodes.bottom .sp-node:nth-child(2){transform:translateY(18px);}
     .sp-nodes.bottom .sp-node:nth-child(3){transform:translateY(9px);}
-    .sp-outer.open .sp-nodes{max-height:160px;opacity:1;}
     .sp-outer.open .sp-nodes.top{margin-bottom:12px;}
     .sp-outer.open .sp-nodes.bottom{margin-top:12px;}
     .sp-node{background:var(--bg2);border:1px solid var(--navy-10);border-radius:var(--r);padding:0.55rem 0.75rem;cursor:pointer;transition:border-color 0.15s;}
+    .sp-node.empty{background:transparent !important;border-color:transparent !important;cursor:default;pointer-events:none;box-shadow:none !important;}
     .sp-node:hover{border-color:var(--blue);}
     .sp-node-genre{font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
     .sp-node-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.78rem;font-weight:700;color:var(--navy);line-height:1.2;}
@@ -178,6 +180,52 @@
     .pc-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:3px 10px;border-radius:0 0 4px 4px;white-space:nowrap;}
 
     /* FAQ */
+
+/* MOCKUP CARD ROTATION */
+(function(){
+  var book = document.getElementById('mockupBook');
+  if(!book) return;
+  var slides = Array.prototype.slice.call(book.querySelectorAll('.app-book-slide'));
+  if(!slides.length) return;
+  var cur = 0;
+  book.style.overflow = 'hidden';
+  book.style.position = 'relative';
+
+  slides.forEach(function(s, i) {
+    s.style.position = i === 0 ? 'relative' : 'absolute';
+    s.style.top = '0'; s.style.left = '0'; s.style.width = '100%';
+    s.style.opacity = '1';
+    s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+    s.style.transition = 'none';
+  });
+
+  setInterval(function(){
+    var next = (cur + 1) % slides.length;
+    var curr = slides[cur];
+    var nxt = slides[next];
+
+    // Set next just off-screen to the right
+    nxt.style.transition = 'none';
+    nxt.style.transform = 'translateX(100%)';
+    nxt.style.position = 'absolute';
+
+    // Force reflow
+    void nxt.offsetWidth;
+
+    // Slide current out to left, next in from right
+    curr.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+    nxt.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+    curr.style.transform = 'translateX(-100%)';
+    nxt.style.transform = 'translateX(0)';
+
+    setTimeout(function(){
+      curr.style.position = 'absolute';
+      nxt.style.position = 'relative';
+      cur = next;
+    }, 460);
+  }, 2800);
+})();
+
     .faq-inner{max-width:640px;margin-top:2rem;}
     .faq-item{border-bottom:1px solid var(--navy-10);}
     .faq-q{width:100%;background:none;border:none;padding:0.9rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:400;color:var(--navy);transition:color 0.15s;}
@@ -205,6 +253,18 @@
     .footer-legal a{font-size:0.68rem;color:rgba(255,255,255,0.2);text-decoration:none;transition:color 0.15s;}
     .footer-legal a:hover{color:rgba(255,255,255,0.5);}
     .footer-wm{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(4.5rem,16vw,11rem);font-weight:800;text-align:center;line-height:0.9;padding:1.5rem 0 0;color:rgba(255,255,255,0.04);letter-spacing:-0.03em;user-select:none;pointer-events:none;}
+
+
+    /* MOCKUP CARD ROTATION */
+    .app-book{position:relative;}
+    .app-book-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.5s ease;border-radius:8px;overflow:hidden;background:var(--bg);}
+    .app-book-slide.active{opacity:1;position:relative;}
+    .app-book-cover{height:80px;background:var(--bg3);display:flex;align-items:flex-end;padding:0.5rem;position:relative;overflow:hidden;}
+    .app-book-cover-lines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 10px,var(--navy-06) 10px,var(--navy-06) 11px);}
+    .app-book-cover-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.65rem;font-weight:700;color:var(--navy);position:relative;z-index:1;line-height:1.2;}
+    .app-book-info{padding:0.5rem 0.6rem;}
+    .app-book-name{font-size:0.68rem;font-weight:500;color:var(--navy);line-height:1.2;margin-bottom:2px;}
+    .app-book-author{font-size:0.58rem;color:var(--navy-50);}
 
     /* ANIMS */
     @keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
@@ -292,14 +352,18 @@
       </div>
       <div class="app-body">
         <div class="app-section-label">Trending this week</div>
-        <div class="app-book">
-          <div class="app-book-cover">
-            <div class="app-book-cover-lines"></div>
-            <div class="app-book-cover-title">The Pale<br>Corridor</div>
+        <div class="app-book" id="mockupBook">
+          <div class="app-book-slide active">
+            <div class="app-book-cover"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">The Pale<br>Corridor</div></div>
+            <div class="app-book-info"><div class="app-book-name">The Pale Corridor</div><div class="app-book-author">M. Arden · 2024</div></div>
           </div>
-          <div class="app-book-info">
-            <div class="app-book-name">The Pale Corridor</div>
-            <div class="app-book-author">M. Arden · 2024</div>
+          <div class="app-book-slide">
+            <div class="app-book-cover" style="background:var(--bg2);"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">The Hollow<br>Place</div></div>
+            <div class="app-book-info"><div class="app-book-name">The Hollow Place</div><div class="app-book-author">E. Crane · 2023</div></div>
+          </div>
+          <div class="app-book-slide">
+            <div class="app-book-cover" style="background:var(--bg3);"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">Before the<br>Rain Ends</div></div>
+            <div class="app-book-info"><div class="app-book-name">Before the Rain Ends</div><div class="app-book-author">N. Sorrell · 2024</div></div>
           </div>
         </div>
         <div class="app-divider"></div>
@@ -331,6 +395,7 @@
         <div class="sp-node" data-i="0"><div class="sp-node-genre">Horror</div><div class="sp-node-title">The Hollow Place</div><div class="sp-node-author">E. Crane</div></div>
         <div class="sp-node" data-i="1"><div class="sp-node-genre">Sci-Fi</div><div class="sp-node-title">The Fermi Descent</div><div class="sp-node-author">O. Rask</div></div>
         <div class="sp-node" data-i="2"><div class="sp-node-genre">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
+        <div class="sp-node" data-i="2"><div class="sp-node-genre">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
       </div>
       <div class="sp-card" id="spCard">
         <div class="sp-card-lbl">October pick<span class="sp-chevron"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
@@ -341,6 +406,7 @@
       <div class="sp-nodes bottom" id="spBot">
         <div class="sp-node" data-i="3"><div class="sp-node-genre">Comedy</div><div class="sp-node-title">How I Ruined Christmas</div><div class="sp-node-author">L. Finch</div></div>
         <div class="sp-node" data-i="4"><div class="sp-node-genre">Fantasy</div><div class="sp-node-title">Pale Blue Signal</div><div class="sp-node-author">T. Achebe</div></div>
+        <div class="sp-node empty" data-i="5"><div class="sp-node-genre">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
         <div class="sp-node" data-i="5"><div class="sp-node-genre">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
       </div>
       <div class="sp-expanded" id="spExp">
@@ -437,14 +503,17 @@
   var el=document.getElementById('h1');
   if(!el)return;
   var words=[
-    {t:'Read',d:0.15},{t:'what',d:0.25},{t:'the',d:0.35},{t:'world',d:0.45},
-    {t:'<em>can\'t</em>',d:0.6},{t:'<em>put</em>',d:0.7},{t:'<em>down.</em>',d:0.8}
+    {t:'Read',d:0.15,br:false},
+    {t:'what',d:0.25,br:false},
+    {t:'the',d:0.35,br:false},
+    {t:'world',d:0.45,br:true},
+    {t:'<em>can\'t put down.</em>',d:0.6,br:false}
   ];
   var html='';
   words.forEach(function(w,i){
-    var br=i===4?'<br>':'';
-    html+=br+'<span class="word"><span class="word-inner" style="animation-delay:'+w.d+'s">'+w.t+'</span></span>';
-    if(i!==6&&i!==3)html+=' ';
+    html+='<span class="word"><span class="word-inner" style="animation-delay:'+w.d+'s">'+w.t+'</span></span>';
+    if(w.br) html+='<br>';
+    else if(i<words.length-1) html+=' ';
   });
   el.innerHTML=html;
 })();
@@ -486,6 +555,52 @@
 })();
 
 /* FAQ */
+
+/* MOCKUP CARD ROTATION */
+(function(){
+  var book = document.getElementById('mockupBook');
+  if(!book) return;
+  var slides = Array.prototype.slice.call(book.querySelectorAll('.app-book-slide'));
+  if(!slides.length) return;
+  var cur = 0;
+  book.style.overflow = 'hidden';
+  book.style.position = 'relative';
+
+  slides.forEach(function(s, i) {
+    s.style.position = i === 0 ? 'relative' : 'absolute';
+    s.style.top = '0'; s.style.left = '0'; s.style.width = '100%';
+    s.style.opacity = '1';
+    s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
+    s.style.transition = 'none';
+  });
+
+  setInterval(function(){
+    var next = (cur + 1) % slides.length;
+    var curr = slides[cur];
+    var nxt = slides[next];
+
+    // Set next just off-screen to the right
+    nxt.style.transition = 'none';
+    nxt.style.transform = 'translateX(100%)';
+    nxt.style.position = 'absolute';
+
+    // Force reflow
+    void nxt.offsetWidth;
+
+    // Slide current out to left, next in from right
+    curr.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+    nxt.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
+    curr.style.transform = 'translateX(-100%)';
+    nxt.style.transform = 'translateX(0)';
+
+    setTimeout(function(){
+      curr.style.position = 'absolute';
+      nxt.style.position = 'relative';
+      cur = next;
+    }, 460);
+  }, 2800);
+})();
+
 (function(){
   var items=document.querySelectorAll('.faq-item');
   items.forEach(function(item){
