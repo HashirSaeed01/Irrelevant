@@ -1,673 +1,502 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lithos — Your Library</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lithos — Read What the World Can't Put Down</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:         #faf8f3;
-      --bg2:        #f3f0e8;
-      --bg3:        #ede9de;
-      --bg4:        #e5e0d2;
-      --orange-mid: #c0532a;
-      --orange-lt:  #e8734a;
-      --orange-xl:  #f5b89a;
-      --white:      #1a1714;
-      --white-70:   rgba(26,23,20,0.7);
-      --white-40:   rgba(26,23,20,0.4);
-      --white-15:   rgba(26,23,20,0.15);
-      --white-08:   rgba(26,23,20,0.08);
-      --accent:     #c0532a;
-      --accent2:    #e8734a;
-      --ink:        #1a1714;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:      #eef4fb;
+      --bg2:     #dce9f6;
+      --bg3:     #cdddf0;
+      --navy:    #0c1e3c;
+      --navy-80: rgba(12,30,60,0.8);
+      --navy-50: rgba(12,30,60,0.5);
+      --navy-25: rgba(12,30,60,0.25);
+      --navy-10: rgba(12,30,60,0.10);
+      --navy-06: rgba(12,30,60,0.06);
+      --blue:    #1a4a8a;
+      --blue-h:  #1f5aaa;
+      --r:4px;
     }
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--navy);font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 
-    html { scroll-behavior: smooth; }
+    /* NAV */
+    nav{position:sticky;top:0;z-index:200;background:rgba(238,244,251,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--navy-10);height:56px;display:flex;align-items:center;padding:0 6vw;justify-content:space-between;}
+    .logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+    .logo-mark{width:26px;height:26px;background:var(--navy);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .logo-text{font-family:'Bricolage Grotesque',sans-serif;font-size:0.9rem;font-weight:800;letter-spacing:0.06em;color:var(--navy);}
+    .logo-text b{color:var(--blue);}
+    .nav-links{display:flex;gap:2rem;list-style:none;}
+    .nav-links a{font-size:0.78rem;font-weight:400;color:var(--navy-50);text-decoration:none;transition:color 0.15s;}
+    .nav-links a:hover{color:var(--navy);}
+    .nav-right{display:flex;gap:8px;align-items:center;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:0.01em;border-radius:var(--r);padding:0.45rem 1rem;cursor:pointer;border:1px solid transparent;transition:all 0.15s;text-decoration:none;line-height:1;}
+    .btn-ghost{background:transparent;border-color:var(--navy-25);color:var(--navy);}
+    .btn-ghost:hover{border-color:var(--navy);}
+    .btn-navy{background:var(--navy);color:#fff;border-color:var(--navy);}
+    .btn-navy:hover{background:var(--blue);}
+    .btn-lg{padding:0.7rem 1.5rem;font-size:0.85rem;}
 
-    body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: 'Montserrat', sans-serif;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding: 0 5vw;
-    }
+    /* TICKER */
+    .ticker{background:var(--navy);height:32px;overflow:hidden;display:flex;align-items:center;}
+    .ticker-track{display:inline-block;white-space:nowrap;animation:tick 40s linear infinite;font-size:0.65rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);}
+    .ticker-sep{color:var(--blue);margin:0 1rem;}
+    @keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
-    nav, .live-ticker, .site-footer { margin: 0 -5vw; }
+    /* HERO */
+    .hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:0;max-width:1280px;margin:0 auto;padding:5rem 6vw 4rem;min-height:calc(100vh - 88px);}
+    .hero-left{padding-right:5rem;}
+    .hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;opacity:0;animation:up 0.5s ease 0.1s forwards;}
+    .hero-eyebrow::before{content:'';width:22px;height:1px;background:var(--blue);}
+    h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.8rem,5vw,4.4rem);font-weight:800;line-height:1.02;letter-spacing:-0.03em;color:var(--navy);margin-bottom:1.25rem;}
+    h1 em{font-style:italic;color:var(--blue);}
+    .word{display:inline-block;overflow:hidden;vertical-align:bottom;}
+    .word-inner{display:inline-block;transform:translateY(110%);animation:reveal 0.55s cubic-bezier(0.16,1,0.3,1) forwards;}
+    .sp{display:inline-block;width:0.28em;}
+    .hero-sub{font-size:0.95rem;font-weight:300;color:var(--navy-50);line-height:1.75;margin-bottom:2rem;max-width:400px;opacity:0;animation:up 0.5s ease 0.95s forwards;}
+    .hero-badges{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;opacity:0;animation:up 0.5s ease 1.05s forwards;}
+    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--navy-10);border-radius:99px;padding:0.3rem 0.75rem;font-size:0.68rem;font-weight:400;color:var(--navy-50);}
+    .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+    .hero-cta{display:flex;gap:10px;align-items:center;opacity:0;animation:up 0.5s ease 1.15s forwards;}
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      pointer-events: none;
-      opacity: 0.02;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
+    /* APP MOCKUP */
+    .hero-right{opacity:0;animation:up 0.6s ease 0.35s forwards;display:flex;justify-content:flex-end;}
+    .app-shell{width:260px;background:var(--bg2);border:1px solid var(--navy-10);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(12,30,60,0.12),0 1px 3px rgba(12,30,60,0.08);}
+    .app-bar{background:var(--navy);padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;}
+    .app-bar-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.72rem;font-weight:700;color:#fff;letter-spacing:0.06em;}
+    .app-bar-dots{display:flex;gap:4px;}
+    .app-bar-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);}
+    .app-bar-dot:last-child{background:var(--blue);}
+    .app-body{padding:1rem;}
+    .app-section-label{font-size:0.55rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
+    .app-book{background:var(--bg);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-bottom:0.75rem;}
+    .app-book-cover{height:80px;background:var(--bg3);display:flex;align-items:flex-end;padding:0.5rem;position:relative;overflow:hidden;}
+    .app-book-cover-lines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 10px,var(--navy-06) 10px,var(--navy-06) 11px);}
+    .app-book-cover-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.65rem;font-weight:700;color:var(--navy);position:relative;z-index:1;line-height:1.2;}
+    .app-book-info{padding:0.5rem 0.6rem;}
+    .app-book-name{font-size:0.68rem;font-weight:500;color:var(--navy);line-height:1.2;margin-bottom:2px;}
+    .app-book-author{font-size:0.58rem;color:var(--navy-50);}
+    .app-divider{height:1px;background:var(--navy-10);margin:0.75rem 0;}
+    .app-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;}
+    .app-row:last-child{margin-bottom:0;}
+    .app-row-label{font-size:0.6rem;color:var(--navy-50);}
+    .app-row-val{font-size:0.6rem;font-weight:500;color:var(--blue);}
+    .app-genre-row{display:flex;gap:5px;flex-wrap:wrap;}
+    .app-genre{font-size:0.55rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;background:var(--bg3);border-radius:99px;padding:2px 7px;color:var(--navy-80);}
 
-    /* ─── NAV ─── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 5vw;
-      border-bottom: 1px solid var(--white-08);
-      background: rgba(250,248,243,0.85);
-      backdrop-filter: blur(14px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
-    .logo-mark { width:34px; height:34px; background:var(--bg4); border-radius:8px; border:1px solid var(--white-15); display:flex; align-items:center; justify-content:center; }
-    .logo-mark svg { display:block; }
-    .logo-text { font-size:1.15rem; font-weight:700; letter-spacing:0.08em; color:var(--ink); text-transform:uppercase; }
-    .logo-text span { color:var(--accent); }
-    nav ul { display:flex; list-style:none; gap:2.2rem; }
-    nav ul a { color:var(--white-70); text-decoration:none; font-size:0.8rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; transition:color 0.2s; }
-    nav ul a:hover { color:var(--ink); }
-    .nav-right { display:flex; align-items:center; gap:0.75rem; }
-    .nav-search { display:flex; align-items:center; gap:8px; background:var(--white-08); border:1px solid var(--white-15); border-radius:99px; padding:0.4rem 1rem; cursor:text; }
-    .nav-search svg { opacity:0.5; flex-shrink:0; }
-    .nav-search span { font-size:0.8rem; color:var(--white-40); }
-    .nav-btn { background:var(--orange-mid); border:none; border-radius:99px; color:#fff; font-family:'Montserrat',sans-serif; font-size:0.78rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; padding:0.45rem 1.1rem; cursor:pointer; transition:background 0.2s, transform 0.15s; }
-    .nav-btn:hover { background:var(--orange-lt); transform:translateY(-1px); }
-    .nav-btn-ghost { background:transparent; border:1.5px solid var(--ink); color:var(--ink); }
-    .nav-btn-ghost:hover { background:rgba(26,23,20,0.06); }
+    /* SECTION */
+    .section{max-width:1280px;margin:0 auto;padding:3rem 6vw;}
+    .s-label{font-size:0.65rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:0.6rem;display:flex;align-items:center;gap:8px;}
+    .s-label::before{content:'';width:18px;height:1px;background:var(--blue);}
+    .s-h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;line-height:1.06;letter-spacing:-0.025em;color:var(--navy);}
 
-    /* ─── LIVE TICKER ─── */
-    .live-ticker { background:var(--ink); border-top:1px solid rgba(192,83,42,0.25); border-bottom:1px solid rgba(192,83,42,0.25); padding:0.6rem 0; overflow:hidden; white-space:nowrap; position:relative; }
-    .live-ticker::before,.live-ticker::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none; }
-    .live-ticker::before { left:0; background:linear-gradient(to right,var(--ink),transparent); }
-    .live-ticker::after  { right:0; background:linear-gradient(to left,var(--ink),transparent); }
-    .ticker-track { display:inline-block; animation:tickerScroll 30s linear infinite; font-size:0.72rem; font-weight:600; color:rgba(255,255,255,0.8); letter-spacing:0.06em; }
-    .ticker-dot { color:var(--accent2); margin:0 1rem; font-size:0.6rem; vertical-align:middle; }
-    @keyframes tickerScroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
+    .reveal.in{opacity:1;transform:translateY(0);}
 
-    /* ─── HERO ─── */
-    .hero {
-      padding: 5rem 5vw 4.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
-      background-image: radial-gradient(circle, rgba(26,23,20,0.04) 1px, transparent 1px);
-      background-size: 28px 28px;
-      position: relative;
-    }
-    .hero-left { position:relative; z-index:1; }
-    .hero-tag { display:inline-flex; align-items:center; gap:8px; background:var(--white-08); border:1px solid var(--white-15); border-radius:99px; padding:0.3rem 0.9rem; font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem; animation:fadeUp 0.6s cubic-bezier(0.34,1.3,0.64,1) 0.1s both; }
-    .hero-tag-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
-    h1 { font-size:clamp(2.4rem,4vw,3.8rem); font-weight:800; line-height:1.08; letter-spacing:-0.03em; margin-bottom:1.25rem; animation:fadeUp 0.7s cubic-bezier(0.34,1.3,0.64,1) 0.25s both; color:var(--ink); }
-    h1 .dim { color:var(--white-40); }
-    h1 .hi  { color:var(--accent); }
-    .hero-sub { font-size:1rem; font-weight:400; color:var(--white-70); max-width:520px; line-height:1.7; margin-bottom:2rem; animation:fadeUp 0.6s cubic-bezier(0.34,1.3,0.64,1) 0.45s both; }
-    .hero-cta-row { display:flex; gap:0.75rem; align-items:center; margin-bottom:2.5rem; animation:fadeUp 0.6s cubic-bezier(0.34,1.3,0.64,1) 0.55s both; }
-    .hero-btn-primary { background:var(--accent); border:none; border-radius:99px; color:#fff; font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:700; letter-spacing:0.05em; padding:0.7rem 1.6rem; cursor:pointer; transition:background 0.2s, transform 0.15s; }
-    .hero-btn-primary:hover { background:var(--orange-lt); transform:translateY(-2px); }
-    .hero-btn-ghost { background:transparent; border:1.5px solid var(--orange-mid); border-radius:99px; color:var(--ink); font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:600; letter-spacing:0.04em; padding:0.7rem 1.5rem; cursor:pointer; transition:border-color 0.2s, transform 0.15s; }
-    .hero-btn-ghost:hover { border-color:var(--orange-lt); transform:translateY(-2px); }
-    .hero-stats { display:flex; gap:2.5rem; animation:fadeUp 0.6s cubic-bezier(0.34,1.3,0.64,1) 0.6s both; }
-    .stat-item .stat-num { font-size:1.6rem; font-weight:800; letter-spacing:-0.03em; color:var(--ink); line-height:1; }
-    .stat-item .stat-num span { color:var(--accent); }
-    .stat-item .stat-lbl { font-size:0.7rem; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; color:var(--white-40); margin-top:3px; }
+    /* STAFF PICKS */
+    .sp-outer{position:relative;margin-top:2rem;}
+    .sp-nodes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;max-height:0;overflow:hidden;opacity:0;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1),opacity 0.35s ease,margin 0.45s ease;}
+    .sp-nodes.top{align-items:end;padding-top:28px;}
+    .sp-nodes.bottom{align-items:start;padding-bottom:28px;}
+    .sp-nodes.top .sp-node:nth-child(2){transform:translateY(-18px);}
+    .sp-nodes.top .sp-node:nth-child(3){transform:translateY(-9px);}
+    .sp-nodes.bottom .sp-node:nth-child(2){transform:translateY(18px);}
+    .sp-nodes.bottom .sp-node:nth-child(3){transform:translateY(9px);}
+    .sp-outer.open .sp-nodes{max-height:160px;opacity:1;}
+    .sp-outer.open .sp-nodes.top{margin-bottom:12px;}
+    .sp-outer.open .sp-nodes.bottom{margin-top:12px;}
+    .sp-node{background:var(--bg2);border:1px solid var(--navy-10);border-radius:var(--r);padding:0.55rem 0.75rem;cursor:pointer;transition:border-color 0.15s;}
+    .sp-node:hover{border-color:var(--blue);}
+    .sp-node-genre{font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
+    .sp-node-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.78rem;font-weight:700;color:var(--navy);line-height:1.2;}
+    .sp-node-author{font-size:0.58rem;color:var(--navy-50);margin-top:2px;}
+    .sp-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:5;}
+    .sp-line{stroke:var(--blue);stroke-width:1;stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 0.55s ease;fill:none;opacity:0.2;}
+    .sp-line.drawn{stroke-dashoffset:0;}
+    .sp-card{background:var(--bg2);border:1.5px solid var(--navy);border-radius:var(--r);padding:1.4rem 1.75rem;cursor:pointer;position:relative;z-index:10;transition:box-shadow 0.2s;user-select:none;}
+    .sp-card:hover{box-shadow:0 4px 20px var(--navy-10);}
+    .sp-card.open{border-color:var(--blue);}
+    .sp-card-lbl{font-size:0.58rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy-50);margin-bottom:0.45rem;display:flex;align-items:center;gap:6px;}
+    .sp-card-lbl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
+    .sp-chevron{margin-left:auto;color:var(--navy-25);transition:transform 0.25s ease;}
+    .sp-card.open .sp-chevron{transform:rotate(180deg);}
+    .sp-card-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.45rem;font-weight:800;color:var(--navy);line-height:1.08;letter-spacing:-0.02em;}
+    .sp-card-sub{font-size:0.78rem;color:var(--navy-50);margin-top:0.3rem;line-height:1.6;}
+    .sp-card-hint{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy-25);margin-top:0.6rem;display:inline-block;}
+    .sp-card.open .sp-card-hint{display:none;}
+    .sp-expanded{display:none;background:var(--bg2);border:1px solid var(--navy-10);border-radius:var(--r);padding:1.4rem 1.75rem;z-index:20;}
+    .sp-expanded.active{display:block;animation:up 0.2s ease;}
+    .sp-exp-genre{font-size:0.56rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+    .sp-exp-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:3px;}
+    .sp-exp-author{font-size:0.68rem;color:var(--navy-50);margin-bottom:8px;}
+    .sp-exp-body{font-size:0.8rem;color:var(--navy-50);line-height:1.7;margin-bottom:10px;}
+    .sp-exp-back{font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
 
-    /* ─── HERO RIGHT ─── */
-    .hero-right { animation:fadeUp 0.8s cubic-bezier(0.34,1.3,0.64,1) 0.4s both; display:flex; justify-content:center; }
-    .featured-book-card {
-      background: var(--bg2);
-      border: 1px solid var(--white-15);
-      border-radius: 20px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 340px;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .featured-book-card:hover { transform: translateY(-6px); box-shadow: 0 30px 70px rgba(0,0,0,0.15), 0 0 40px rgba(192,83,42,0.08); }
-    .featured-book-card::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 70% 20%, rgba(192,83,42,0.08) 0%, transparent 60%); pointer-events:none; }
-    .fb-trending { display:inline-flex; align-items:center; gap:6px; background:rgba(192,83,42,0.1); border:1px solid rgba(192,83,42,0.25); border-radius:99px; padding:0.25rem 0.7rem; font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:1.25rem; }
-    .fb-trending-dot { width:5px; height:5px; border-radius:50%; background:var(--accent); animation:pulse 1.5s ease-in-out infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.7);} }
-    .fb-cover {
-      width:100%; height:160px; border-radius:12px; margin-bottom:1.25rem;
-      background: linear-gradient(135deg, #ede9de 0%, #e5e0d2 50%, #ddd8cb 100%);
-      display:flex; align-items:center; justify-content:center;
-      position:relative; overflow:hidden;
-      border:1px solid var(--white-08);
-    }
-    .fb-cover-deco { font-size:4rem; opacity:0.2; }
-    .fb-cover-lines {
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(110deg, transparent, transparent 18px, rgba(26,23,20,0.03) 18px, rgba(26,23,20,0.03) 19px);
-    }
-    .fb-cover-title { position:absolute; bottom:14px; left:14px; right:14px; font-size:1rem; font-weight:800; color:rgba(26,23,20,0.85); line-height:1.2; }
-    .fb-genre { font-size:0.58rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:0.4rem; }
-    .fb-title { font-size:1.15rem; font-weight:800; color:var(--ink); margin-bottom:0.2rem; line-height:1.2; }
-    .fb-author { font-size:0.7rem; color:var(--white-40); margin-bottom:0.9rem; }
-    .fb-desc { font-size:0.75rem; color:var(--white-70); line-height:1.65; margin-bottom:1rem; }
-    .fb-meta { display:flex; align-items:center; justify-content:space-between; }
-    .fb-stars { font-size:0.65rem; color:#b8892a; letter-spacing:1px; }
-    .fb-readers { font-size:0.62rem; color:var(--white-40); }
-    .fb-readers span { color:var(--accent); font-weight:700; }
+    /* REVIEWS */
+    .rv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--navy-10);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-top:2rem;}
+    .rv-card{background:var(--bg);padding:1.5rem;display:flex;flex-direction:column;gap:10px;transition:background 0.15s;}
+    .rv-card:hover{background:var(--bg2);}
+    .rv-stars{font-size:0.68rem;color:#a07820;letter-spacing:2px;}
+    .rv-quote{font-size:0.9rem;font-style:italic;color:var(--navy);line-height:1.65;flex:1;font-weight:300;}
+    .rv-person{display:flex;align-items:center;gap:9px;padding-top:8px;border-top:1px solid var(--navy-06);margin-top:auto;}
+    .rv-av{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid var(--navy-10);display:flex;align-items:center;justify-content:center;font-size:0.56rem;font-weight:500;color:var(--navy-50);flex-shrink:0;}
+    .rv-name{font-size:0.7rem;font-weight:500;color:var(--navy);line-height:1.2;}
+    .rv-role{font-size:0.6rem;color:var(--navy-50);}
 
-    @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+    /* PRICING */
+    .pc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--navy-10);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-top:2rem;}
+    .pc{background:var(--bg);padding:1.75rem;display:flex;flex-direction:column;gap:10px;transition:background 0.15s;position:relative;}
+    .pc:hover{background:var(--bg2);}
+    .pc-dark{background:var(--navy);}
+    .pc-dark:hover{background:var(--blue);}
+    .pc-plan{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy-50);}
+    .pc-dark .pc-plan{color:rgba(255,255,255,0.38);}
+    .pc-name{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;line-height:1;}
+    .pc-dark .pc-name{color:#fff;}
+    .pc-price{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1;}
+    .pc-dark .pc-price{color:#fff;}
+    .pc-per{font-size:0.68rem;color:var(--navy-50);margin-left:3px;}
+    .pc-dark .pc-per{color:rgba(255,255,255,0.32);}
+    .pc-desc{font-size:0.76rem;color:var(--navy-50);line-height:1.65;flex:1;}
+    .pc-dark .pc-desc{color:rgba(255,255,255,0.48);}
+    .pc-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .pc-list li{font-size:0.74rem;color:var(--navy-50);display:flex;align-items:baseline;gap:7px;}
+    .pc-dark .pc-list li{color:rgba(255,255,255,0.52);}
+    .pc-list li::before{content:'—';color:var(--blue);font-size:0.65rem;flex-shrink:0;}
+    .pc-dark .pc-list li::before{color:rgba(255,255,255,0.4);}
+    .pc-btn{width:100%;padding:0.58rem 1rem;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:500;cursor:pointer;border:1px solid var(--navy-25);background:transparent;color:var(--navy);transition:all 0.15s;margin-top:auto;letter-spacing:0.01em;}
+    .pc-btn:hover{border-color:var(--navy);background:var(--bg2);}
+    .pc-btn-w{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:#fff;}
+    .pc-btn-w:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.35);}
+    .pc-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:3px 10px;border-radius:0 0 4px 4px;white-space:nowrap;}
 
-    /* ─── STAFF PICKS ─── */
-    .sp-outer { margin:0 5vw 1rem; position:relative; overflow:visible; }
-    .sp-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.5s ease; }
-    .sp-row.top { margin-bottom:0; align-items:end; padding-top:40px; }
-    .sp-row.bottom { margin-top:0; align-items:start; padding-bottom:40px; }
-    .sp-row.top .sp-node:nth-child(1)    { transform:translateY(0px); }
-    .sp-row.top .sp-node:nth-child(2)    { transform:translateY(-32px); }
-    .sp-row.top .sp-node:nth-child(3)    { transform:translateY(-16px); }
-    .sp-row.bottom .sp-node:nth-child(1) { transform:translateY(0px); }
-    .sp-row.bottom .sp-node:nth-child(2) { transform:translateY(32px); }
-    .sp-row.bottom .sp-node:nth-child(3) { transform:translateY(16px); }
-    .sp-outer.open .sp-row { max-height:220px; opacity:1; }
-    .sp-outer.open .sp-row.top    { margin-bottom:24px; }
-    .sp-outer.open .sp-row.bottom { margin-top:24px; }
-    .sp-node { background:var(--bg2); border:1px solid var(--white-15); border-radius:8px; padding:0.6rem 0.75rem; cursor:pointer; transition:border-color 0.2s; overflow:hidden; }
-    .sp-node:hover { border-color:var(--orange-lt); }
-    .sp-node-label { font-size:0.55rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
-    .sp-node-title { font-size:0.75rem; font-weight:700; color:var(--ink); line-height:1.2; }
-    .sp-node-author { font-size:0.6rem; color:var(--white-40); margin-top:2px; }
-    .sp-svg { position:absolute; top:0; left:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:5; }
-    .sp-line { stroke:rgba(192,83,42,0.6); stroke-width:1.5; stroke-dasharray:300; stroke-dashoffset:300; transition:stroke-dashoffset 0.5s ease; fill:none; }
-    .sp-line.drawn { stroke-dashoffset:0; }
-    .sp-box {
-      background:var(--bg2); border:1.5px solid rgba(26,23,20,0.7); border-radius:16px;
-      padding:1.5rem 2rem; cursor:pointer; position:relative; z-index:10;
-      transition:border-color 0.3s, box-shadow 0.3s; user-select:none;
-    }
-    .sp-box:hover { box-shadow:0 0 28px rgba(192,83,42,0.1); }
-    .sp-box.open  { border-color:var(--accent); box-shadow:0 0 40px rgba(192,83,42,0.15); }
-    @keyframes spPulse { 0%{box-shadow:0 0 0 0 rgba(192,83,42,0.4);}70%{box-shadow:0 0 0 10px rgba(192,83,42,0);}100%{box-shadow:0 0 0 0 rgba(192,83,42,0);} }
-    .sp-box:not(.open) { animation:spPulse 2s ease-out infinite; }
-    .sp-heading { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); margin-bottom:0.6rem; display:flex; align-items:center; gap:8px; }
-    .sp-heading::before { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); }
-    .sp-chevron { margin-left:auto; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); display:inline-flex; align-items:center; animation:arrowPulse 1.8s ease-in-out infinite; }
-    .sp-box.open .sp-chevron { transform:rotate(180deg); animation:none; }
-    @keyframes arrowPulse {
-      0%,100% { transform:scale(1) translateY(0); }
-      50%      { transform:scale(1.3) translateY(2px); }
-    }
-    .sp-title { font-size:1.35rem; font-weight:800; letter-spacing:-0.02em; color:var(--ink); line-height:1.1; }
-    .sp-sub { font-size:0.8rem; color:var(--white-70); margin-top:0.4rem; line-height:1.5; }
-    .sp-expand-hint { font-size:0.6rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--white-40); margin-top:0.75rem; animation:hintBounce 1.6s ease-in-out infinite; display:inline-block; }
-    .sp-box.open .sp-expand-hint { display:none; }
-    @keyframes hintBounce { 0%,100%{transform:translateY(0);opacity:0.4;}50%{transform:translateY(4px);opacity:1;} }
-    .sp-expanded-overlay { display:none; background:var(--bg2); border:1.5px solid rgba(26,23,20,0.7); border-radius:16px; padding:1.6rem 2rem; position:relative; z-index:20; animation:expandIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-    .sp-expanded-overlay.active { display:block; }
-    @keyframes expandIn { from{opacity:0;transform:scale(0.96);}to{opacity:1;transform:scale(1);} }
-    .sp-exp-genre { font-size:0.58rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
-    .sp-exp-title { font-size:1.2rem; font-weight:800; color:var(--ink); margin-bottom:4px; }
-    .sp-exp-author { font-size:0.7rem; color:var(--white-40); margin-bottom:12px; }
-    .sp-exp-body { font-size:0.8rem; color:var(--white-70); line-height:1.7; margin-bottom:12px; }
-    .sp-exp-back { font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); cursor:pointer; background:none; border:none; padding:0; }
+    /* FAQ */
+    .faq-inner{max-width:640px;margin-top:2rem;}
+    .faq-item{border-bottom:1px solid var(--navy-10);}
+    .faq-q{width:100%;background:none;border:none;padding:0.9rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:400;color:var(--navy);transition:color 0.15s;}
+    .faq-q:hover{color:var(--blue);}
+    .faq-icon{flex-shrink:0;color:var(--navy-25);transition:transform 0.25s ease,color 0.15s;}
+    .faq-q.open .faq-icon{transform:rotate(180deg);color:var(--blue);}
+    .faq-a{max-height:0;overflow:hidden;opacity:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),opacity 0.25s ease;}
+    .faq-a.open{max-height:180px;opacity:1;}
+    .faq-a p{font-size:0.82rem;color:var(--navy-50);line-height:1.75;padding-bottom:0.9rem;}
 
-    /* ─── DIVIDER ─── */
-    .divider { position:relative; margin:2rem 5vw; display:flex; align-items:center; justify-content:center; height:20px; }
-    .divider::before, .divider::after { content:''; flex:1; height:1px; background:linear-gradient(to var(--dir), rgba(26,23,20,0.15), transparent); }
-    .divider::before { --dir:right; }
-    .divider::after  { --dir:left; }
-    .divider-botanical { flex-shrink:0; margin:0 16px; font-size:0.75rem; letter-spacing:0.3em; color:var(--accent); user-select:none; }
+    /* FOOTER */
+    .footer{background:var(--navy);}
+    .footer-main{max-width:1280px;margin:0 auto;padding:3.5rem 6vw 2.5rem;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;border-bottom:1px solid rgba(255,255,255,0.07);}
+    .footer-brand .logo-text{color:#fff;}
+    .footer-brand .logo-text b{color:var(--blue);}
+    .footer-brand .logo-mark{background:rgba(255,255,255,0.08);}
+    .footer-tagline{font-size:0.78rem;color:rgba(255,255,255,0.32);line-height:1.65;max-width:190px;margin-top:0.85rem;}
+    .footer-col h4{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.85rem;}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+    .footer-col a{font-size:0.78rem;color:rgba(255,255,255,0.48);text-decoration:none;transition:color 0.15s;}
+    .footer-col a:hover{color:rgba(255,255,255,0.82);}
+    .footer-bottom{max-width:1280px;margin:0 auto;padding:1.1rem 6vw;display:flex;align-items:center;justify-content:space-between;}
+    .footer-copy{font-size:0.68rem;color:rgba(255,255,255,0.2);}
+    .footer-legal{display:flex;gap:1.5rem;}
+    .footer-legal a{font-size:0.68rem;color:rgba(255,255,255,0.2);text-decoration:none;transition:color 0.15s;}
+    .footer-legal a:hover{color:rgba(255,255,255,0.5);}
+    .footer-wm{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(4.5rem,16vw,11rem);font-weight:800;text-align:center;line-height:0.9;padding:1.5rem 0 0;color:rgba(255,255,255,0.04);letter-spacing:-0.03em;user-select:none;pointer-events:none;}
 
-    /* ─── PRICING ─── */
-    .pricing-section { padding:1rem 5vw 0; position:relative; }
-    .pricing-eyebrow { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); margin-bottom:0.6rem; display:flex; align-items:center; gap:8px; }
-    .pricing-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
-    .pricing-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:var(--ink); margin-bottom:0; }
-    .pricing-strip { display:flex; align-items:center; gap:12px; }
-    .ps-card { flex:1; background:var(--bg2); border:1px solid var(--white-08); border-radius:16px; transition:transform 0.3s ease, border-color 0.3s; cursor:pointer; align-self:stretch; position:relative; overflow:hidden; opacity:1; }
-    .ps-card:hover { border-color:var(--white-15); }
-    .ps-card-center { flex:1.45; background:linear-gradient(135deg,rgba(192,83,42,0.14) 0%,rgba(232,115,74,0.1) 100%); border-color:rgba(192,83,42,0.45); transform:scale(1.04); box-shadow:0 0 0 1px rgba(192,83,42,0.15),0 24px 60px rgba(0,0,0,0.1); position:relative; z-index:2; }
-    .ps-card-center:hover { border-color:rgba(192,83,42,0.6); }
-    .ps-card-inner { padding:1.75rem 1.5rem; display:flex; flex-direction:column; gap:12px; height:100%; position:relative; z-index:1; }
-    .ps-top { display:flex; align-items:center; gap:8px; }
-    .ps-emoji { font-size:1.4rem; line-height:1; }
-    .ps-tag { font-size:0.58rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--white-40); background:var(--white-08); border-radius:99px; padding:3px 9px; }
-    .ps-tag-accent { color:var(--accent); background:rgba(192,83,42,0.1); }
-    .ps-name { font-size:1.3rem; font-weight:800; color:var(--ink); letter-spacing:-0.02em; line-height:1; }
-    .ps-price-row { display:flex; align-items:baseline; gap:8px; }
-    .ps-price { font-size:2rem; font-weight:800; color:var(--ink); letter-spacing:-0.04em; line-height:1; }
-    .ps-price-note { font-size:0.65rem; color:var(--white-40); }
-    .ps-blurb { font-size:0.76rem; color:var(--white-70); line-height:1.7; flex:1; }
-    .ps-list { list-style:none; display:flex; flex-direction:column; gap:7px; }
-    .ps-list li { font-size:0.72rem; color:var(--white-70); display:flex; align-items:center; gap:7px; }
-    .ps-list li::before { content:'✓'; color:var(--accent); font-size:0.62rem; font-weight:700; flex-shrink:0; }
-    .ps-btn { width:100%; padding:0.65rem 1rem; border-radius:8px; background:transparent; border:1px solid var(--white-15); color:var(--white-70); font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.04em; cursor:pointer; margin-top:4px; transition:border-color 0.2s, color 0.2s, transform 0.15s; }
-    .ps-btn:hover { border-color:var(--white-40); color:var(--ink); transform:translateY(-1px); }
-    .ps-btn-accent { background:var(--accent); border-color:var(--accent); color:#fff; }
-    .ps-btn-accent:hover { background:var(--orange-lt); border-color:var(--orange-lt); color:#fff; }
+    /* ANIMS */
+    @keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+    @keyframes reveal{from{transform:translateY(110%);}to{transform:translateY(0);}}
 
-    /* GOO FILL */
-    .ps-goo {
-      position:absolute; bottom:0; left:0; width:100%; height:0;
-      background: linear-gradient(to top, rgba(140,45,15,0.85) 0%, rgba(180,65,30,0.72) 50%, rgba(210,90,45,0.45) 100%);
-      pointer-events:none; z-index:0;
-      border-radius: 50% 50% 0 0 / 8% 8% 0 0;
-      transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .ps-card.focused .ps-goo { height:110%; animation: gooWobbleSurface 2s ease-in-out infinite; }
-    .ps-card.focused .ps-name,
-    .ps-card.focused .ps-blurb,
-    .ps-card.focused .ps-list li,
-    .ps-card.focused .ps-price,
-    .ps-card.focused .ps-price-note { color:#fff !important; }
-    .ps-card.focused .ps-tag { background:rgba(255,255,255,0.2); color:#fff; }
-    .ps-card.focused .ps-btn { color:#fff !important; border-color:rgba(255,255,255,0.5); }
-    @keyframes gooWobbleSurface {
-      0%,100% { border-radius: 50% 50% 0 0 / 8% 8% 0 0; }
-      25%      { border-radius: 55% 45% 0 0 / 10% 6% 0 0; }
-      50%      { border-radius: 45% 55% 0 0 / 6% 10% 0 0; }
-      75%      { border-radius: 52% 48% 0 0 / 9% 7% 0 0; }
-    }
-    .ps-card.goo-active .ps-name,
-    .ps-card.goo-active .ps-blurb,
-    .ps-card.goo-active .ps-list li,
-    .ps-card.goo-active .ps-price,
-    .ps-card.goo-active .ps-price-note { color:#fff !important; }
-    .ps-card.goo-active .ps-tag { background:rgba(255,255,255,0.2); color:#fff; }
-    .ps-card.goo-active .ps-btn { color:#fff !important; border-color:rgba(255,255,255,0.5); }
-    .ps-card.goo-active .ps-btn:hover { border-color:#fff; }
-
-    /* ─── REVIEWS ─── */
-    .rv-section { padding:0.25rem 5vw 1.5rem; }
-    .rv-eyebrow { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); display:flex; align-items:center; gap:8px; margin-bottom:0.6rem; }
-    .rv-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
-    .rv-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:var(--ink); margin-bottom:0.4rem; }
-    .rv-subtitle { font-family:'Cormorant Garamond',Georgia,serif; font-size:1rem; font-weight:300; font-style:italic; color:var(--white-40); margin-bottom:1.2rem; }
-    .rv-carousel { position:relative; overflow:hidden; max-width:500px; height:190px; }
-    .rv-card { position:absolute; inset:0; background:var(--bg2); border:1px solid var(--white-08); border-radius:12px; padding:1.25rem; display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateX(100%); transition:none; }
-    .rv-card.active { opacity:1; transform:translateX(0); transition:opacity 0.45s ease, transform 0.55s cubic-bezier(0.34,1.1,0.64,1); }
-    .rv-card.exiting { opacity:0; transform:translateX(-80px); transition:opacity 0.4s ease, transform 0.4s ease; }
-    .rv-stars { font-size:1.1rem; letter-spacing:3px; color:#b8892a; }
-    .rv-text { font-size:0.75rem; color:var(--white-70); line-height:1.65; font-style:italic; flex:1; }
-    .rv-header { display:flex; align-items:center; gap:8px; margin-bottom:2px; }
-    .rv-avatar { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--orange-mid),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:800; color:#fff; flex-shrink:0; }
-    .rv-name { font-size:0.68rem; font-weight:700; color:var(--ink); line-height:1.2; }
-    .rv-moniker { font-size:0.58rem; color:var(--accent); letter-spacing:0.06em; }
-    .rv-footer { display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
-    .rv-read-more { font-size:0.58rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); cursor:pointer; opacity:0.8; transition:opacity 0.2s; }
-    .rv-read-more:hover { opacity:1; }
-    .rv-badge { font-size:0.52rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:rgba(192,83,42,0.1); border:1px solid rgba(192,83,42,0.2); border-radius:4px; padding:2px 6px; color:var(--accent); }
-    .rv-quote-mark { position:absolute; top:10px; right:14px; font-size:4rem; line-height:1; font-family:Georgia,serif; color:rgba(26,23,20,0.07); font-weight:700; pointer-events:none; user-select:none; }
-
-    /* ─── HERO PARTICLES ─── */
-    .hero-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
-    .hero-particle { position:absolute; border-radius:50%; animation:particleDrift var(--dur) ease-in-out infinite var(--delay); }
-    @keyframes particleDrift {
-      0%   { transform:translate(0,0) scale(1); opacity:0; }
-      15%  { opacity:1; }
-      85%  { opacity:var(--op); }
-      100% { transform:translate(var(--dx),var(--dy)) scale(0.3); opacity:0; }
-    }
-
-    /* ─── FAQ ─── */
-    .faq-section { padding:1rem 5vw 5rem; max-width:780px; margin:0 auto; overflow:hidden; }
-    .faq-heading { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:-0.03em; color:var(--ink); text-align:center; margin-bottom:0.5rem; }
-    .faq-sub { font-size:0.9rem; color:var(--white-40); text-align:center; margin-bottom:2.5rem; letter-spacing:0.02em; }
-    .faq-list { border:1px solid var(--white-15); border-radius:16px; overflow:hidden; background:var(--bg2); }
-    .faq-item { border-bottom:1px solid var(--white-08); }
-    .faq-item:last-child { border-bottom:none; }
-    .faq-q { width:100%; background:none; border:none; padding:1.15rem 1.5rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; text-align:left; gap:1rem; font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:600; color:var(--ink); transition:background 0.2s; }
-    .faq-q:hover { background:rgba(26,23,20,0.03); }
-    .faq-icon { flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); color:var(--accent); }
-    .faq-q.open .faq-icon { transform:rotate(180deg); }
-    .faq-a { max-height:0; overflow:hidden; transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s; opacity:0; }
-    .faq-a.open { max-height:200px; opacity:1; }
-    .faq-a-inner { padding:0 1.5rem 1.2rem; font-size:0.82rem; color:var(--white-70); line-height:1.75; font-weight:400; }
-
-    /* ─── FOOTER ─── */
-    .site-footer { background:var(--ink); overflow:hidden; }
-    .footer-marquee { border-bottom:1px solid rgba(255,255,255,0.08); padding:0.85rem 0; overflow:hidden; white-space:nowrap; }
-    .marquee-track { display:inline-block; animation:marqueeScroll 18s linear infinite; font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.7); }
-    .marquee-track span { margin:0 0.5rem; }
-    .marquee-track .dot-sep { color:var(--accent2); margin:0 0.25rem; }
-    @keyframes marqueeScroll { from{transform:translateX(0);}to{transform:translateX(-50%);} }
-    .footer-wordmark { font-size:clamp(5rem,22vw,14rem); font-weight:800; letter-spacing:-0.04em; text-align:center; line-height:1; padding:1rem 0 0; user-select:none; pointer-events:none; }
-    .fw-l { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.25); display:inline-block; transition:color 0.08s ease, -webkit-text-stroke 0.08s ease; }
-    .fw-l.lit { color:rgba(192,83,42,0.9); -webkit-text-stroke:1px rgba(192,83,42,0.6); }
-    .fw-l.dim { color:rgba(255,255,255,0.6); -webkit-text-stroke:1px rgba(255,255,255,0.5); }
-    .footer-bottom { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; padding:1.25rem 5vw 1.75rem; margin-top:-1rem; text-align:center; }
-    .footer-bottom p { font-size:0.7rem; color:rgba(255,255,255,0.4); }
-    .footer-links { display:flex; gap:1.5rem; justify-content:center; }
-    .footer-links a { font-size:0.7rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.4); text-decoration:none; transition:color 0.2s; }
-    .footer-links a:hover { color:rgba(255,255,255,0.8); }
-
-      .pricing-scroll-hint { display:none; }
-      .pricing-dots { display:flex; justify-content:center; gap:6px; margin-top:1rem; }
-      .pricing-dot { width:28px; height:3px; border-radius:99px; background:var(--ink-12); border:1px solid var(--ink-15); transition:background 0.3s; }
-      .pricing-dot.active { background:var(--accent); border-color:var(--accent); }
-      .hero { grid-template-columns:1fr; gap:2rem; padding:2.5rem 5vw 2rem; }
-      .hero-right { display:none; }
-      nav ul, .nav-search { display:none; }
-      h1 { font-size:2.2rem; }
-      .hero-left { text-align:center; }
-      .hero-tag { margin-left:auto; margin-right:auto; }
-      .hero-stats, .hero-cta-row { justify-content:center; }
-      .pricing-strip { overflow-x:auto; scrollbar-width:none; padding:2rem 5vw 1.5rem; scroll-snap-type:x mandatory; padding-right:18vw; }
-      .pricing-strip::-webkit-scrollbar { display:none; }
-      .ps-card { flex:0 0 78vw; scroll-snap-align:center; transform:scale(0.9); }
-      .ps-card-center { flex:0 0 78vw; transform:scale(0.9); box-shadow:none; }
-      .ps-card.focused { transform:scale(1) !important; opacity:1; }
+    /* MOBILE */
+    @media(max-width:860px){
+      .hero{grid-template-columns:1fr;min-height:auto;padding:3rem 6vw 2.5rem;gap:2.5rem;text-align:center;}
+      .hero-left{padding-right:0;}
+      .hero-eyebrow{justify-content:center;}
+      .hero-eyebrow::before{display:none;}
+      .hero-sub,.hero-badges{margin-left:auto;margin-right:auto;}
+      .hero-cta{justify-content:center;}
+      .hero-right{justify-content:center;}
+      .app-shell{width:240px;}
+      nav .nav-links{display:none;}
+      .rv-grid{grid-template-columns:1fr;}
+      .pc-grid{grid-template-columns:1fr;background:transparent;border:none;gap:10px;}
+      .pc{border:1px solid var(--navy-10);border-radius:6px;}
+      .footer-main{grid-template-columns:1fr 1fr;gap:2rem;}
+      .footer-bottom{flex-direction:column;gap:0.5rem;text-align:center;}
+      .sp-nodes{grid-template-columns:1fr;}
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="logo" href="#">
-      <div class="logo-mark">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="#1a1714" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="#1a1714" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M8 7h8M8 11h6" stroke="#1a1714" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
-        </svg>
-      </div>
-      <span class="logo-text">Lit<span>hos</span></span>
-    </a>
-    <ul>
-      <li><a href="#">Browse</a></li>
-      <li><a href="#">My List</a></li>
-      <li><a href="#">New</a></li>
-      <li><a href="#">Authors</a></li>
-    </ul>
-    <div class="nav-right">
-      <div class="nav-search">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-        <span>Search titles...</span>
-      </div>
-      <button class="nav-btn nav-btn-ghost">Log in</button>
-      <button class="nav-btn">Sign up</button>
+<nav>
+  <a class="logo" href="#">
+    <div class="logo-mark">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
-  </nav>
+    <span class="logo-text">LIT<b>HOS</b></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Browse</a></li>
+    <li><a href="#">My List</a></li>
+    <li><a href="#">New</a></li>
+    <li><a href="#">Authors</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="#" class="btn btn-ghost">Log in</a>
+    <a href="#" class="btn btn-navy">Sign up</a>
+  </div>
+</nav>
 
-  <!-- LIVE TICKER -->
-  <div class="live-ticker">
-    <div class="ticker-track">
-      <span>842 readers online right now</span><span class="ticker-dot">◆</span>
-      <span>The Pale Corridor is trending</span><span class="ticker-dot">◆</span>
-      <span>3 new titles added this week</span><span class="ticker-dot">◆</span>
-      <span>Staff picks refreshed monthly</span><span class="ticker-dot">◆</span>
-      <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-dot">◆</span>
-      <span>Free forever · No account needed</span><span class="ticker-dot">◆</span>
-      <span>842 readers online right now</span><span class="ticker-dot">◆</span>
-      <span>The Pale Corridor is trending</span><span class="ticker-dot">◆</span>
-      <span>3 new titles added this week</span><span class="ticker-dot">◆</span>
-      <span>Staff picks refreshed monthly</span><span class="ticker-dot">◆</span>
-      <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-dot">◆</span>
-      <span>Free forever · No account needed</span><span class="ticker-dot">◆</span>
+<div class="ticker">
+  <div class="ticker-track">
+    <span>843 readers online right now</span><span class="ticker-sep">◆</span>
+    <span>The Pale Corridor — trending</span><span class="ticker-sep">◆</span>
+    <span>3 new titles this week</span><span class="ticker-sep">◆</span>
+    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-sep">◆</span>
+    <span>Free forever · No account needed</span><span class="ticker-sep">◆</span>
+    <span>843 readers online right now</span><span class="ticker-sep">◆</span>
+    <span>The Pale Corridor — trending</span><span class="ticker-sep">◆</span>
+    <span>3 new titles this week</span><span class="ticker-sep">◆</span>
+    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-sep">◆</span>
+    <span>Free forever · No account needed</span><span class="ticker-sep">◆</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">2,400+ titles. Free forever.</div>
+    <h1 id="h1"></h1>
+    <p class="hero-sub">Every genre. Every mood. No algorithms deciding what you read next.</p>
+    <div class="hero-badges">
+      <span class="badge">No account needed</span>
+      <span class="badge">843 reading right now</span>
+      <span class="badge">Updated weekly</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#" class="btn btn-navy btn-lg">Browse the library</a>
+      <a href="#" class="btn btn-ghost btn-lg">See staff picks</a>
     </div>
   </div>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-particles" id="heroParticles"></div>
-    <div class="hero-left">
-      <div class="hero-tag"><span class="hero-tag-dot"></span>2,400+ titles in the collection</div>
-      <h1>Read what<br><span class="dim">the world</span><br><span class="hi">can't put down.</span></h1>
-      <p class="hero-sub">Every genre. Every mood. Curated shelves updated weekly — from spine-chilling horror to laugh-out-loud comedy.</p>
-      <div class="hero-cta-row">
-        <button class="hero-btn-primary">Browse the library →</button>
-        <button class="hero-btn-ghost">See staff picks</button>
+  <div class="hero-right">
+    <div class="app-shell">
+      <div class="app-bar">
+        <span class="app-bar-title">LITHOS</span>
+        <div class="app-bar-dots"><div class="app-bar-dot"></div><div class="app-bar-dot"></div><div class="app-bar-dot" style="background:var(--blue);"></div></div>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num">2.4<span>k</span></div><div class="stat-lbl">Titles</div></div>
-        <div class="stat-item"><div class="stat-num">18</div><div class="stat-lbl">Genres</div></div>
-        <div class="stat-item"><div class="stat-num">340<span>+</span></div><div class="stat-lbl">Authors</div></div>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="featured-book-card">
-        <div class="fb-trending"><span class="fb-trending-dot"></span>Trending this week</div>
-        <div class="fb-cover">
-          <div class="fb-cover-lines"></div>
-          <div class="fb-cover-deco">🌑</div>
-          <div class="fb-cover-title">The Pale Corridor</div>
+      <div class="app-body">
+        <div class="app-section-label">Trending this week</div>
+        <div class="app-book">
+          <div class="app-book-cover">
+            <div class="app-book-cover-lines"></div>
+            <div class="app-book-cover-title">The Pale<br>Corridor</div>
+          </div>
+          <div class="app-book-info">
+            <div class="app-book-name">The Pale Corridor</div>
+            <div class="app-book-author">M. Arden · 2024</div>
+          </div>
         </div>
-        <div class="fb-genre">Supernatural Thriller</div>
-        <div class="fb-title">The Pale Corridor</div>
-        <div class="fb-author">M. Arden · 2024</div>
-        <div class="fb-desc">A slow-burn supernatural thriller that redefines what it means to be afraid. Once you find the corridor, the corridor finds you.</div>
-        <div class="fb-meta">
-          <div class="fb-stars">★★★★★</div>
-          <div class="fb-readers"><span>842</span> reading now</div>
+        <div class="app-divider"></div>
+        <div class="app-row"><span class="app-row-label">Readers right now</span><span class="app-row-val">843</span></div>
+        <div class="app-row"><span class="app-row-label">Rating</span><span class="app-row-val">★★★★★</span></div>
+        <div class="app-row"><span class="app-row-label">Genre</span><span class="app-row-val">Thriller</span></div>
+        <div class="app-divider"></div>
+        <div class="app-section-label">Browse genres</div>
+        <div class="app-genre-row">
+          <span class="app-genre">Horror</span>
+          <span class="app-genre">Sci-Fi</span>
+          <span class="app-genre">Romance</span>
+          <span class="app-genre">Comedy</span>
+          <span class="app-genre">Fantasy</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- STAFF PICKS -->
-  <div class="sp-outer" id="spOuter">
-    <svg class="sp-svg" id="spSvg"></svg>
-    <div class="sp-row top" id="spTopRow">
-      <div class="sp-node" data-i="0"><div class="sp-node-label">Horror</div><div class="sp-node-title">The Hollow Place</div><div class="sp-node-author">E. Crane</div></div>
-      <div class="sp-node" data-i="1"><div class="sp-node-label">Sci-Fi</div><div class="sp-node-title">The Fermi Descent</div><div class="sp-node-author">O. Rask</div></div>
-      <div class="sp-node" data-i="2"><div class="sp-node-label">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
-    </div>
-    <div class="sp-box" id="spBox">
-      <div class="sp-heading">Staff Picks — October
-        <span class="sp-chevron">
-          <svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg>
-        </span>
-      </div>
-      <div class="sp-title">The Pale Corridor</div>
-      <div class="sp-sub">A slow-burn supernatural thriller that redefines what it means to be afraid.</div>
-      <div class="sp-expand-hint" id="spHint">↓ tap to expand</div>
-    </div>
-    <div class="sp-row bottom" id="spBotRow">
-      <div class="sp-node" data-i="3"><div class="sp-node-label">Comedy</div><div class="sp-node-title">How I Ruined Christmas</div><div class="sp-node-author">L. Finch</div></div>
-      <div class="sp-node" data-i="4"><div class="sp-node-label">Fantasy</div><div class="sp-node-title">Pale Blue Signal</div><div class="sp-node-author">T. Achebe</div></div>
-      <div class="sp-node" data-i="5"><div class="sp-node-label">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
-    </div>
-    <div class="sp-expanded-overlay" id="spExpanded">
-      <div class="sp-exp-genre" id="spExpGenre"></div>
-      <div class="sp-exp-title" id="spExpTitle"></div>
-      <div class="sp-exp-author" id="spExpAuthor"></div>
-      <div class="sp-exp-body" id="spExpBody"></div>
-      <button class="sp-exp-back" id="spExpBack">← Back to picks</button>
     </div>
   </div>
+</section>
 
-  <!-- REVIEWS -->
-  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
-  <section class="rv-section" id="rvSection">
-    <div class="rv-eyebrow">What readers say</div>
-    <h2 class="rv-title">Straight from the shelf.</h2>
-    <div class="rv-carousel">
-      <div class="rv-card"><div class="rv-quote-mark">"</div><div class="rv-header"><div class="rv-avatar">JM</div><div><div class="rv-name">Jordan M.</div><div class="rv-moniker">Midnight Reader</div></div></div><div class="rv-stars">★★★★★</div><div class="rv-text">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</div><div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div></div>
-      <div class="rv-card"><div class="rv-quote-mark">"</div><div class="rv-header"><div class="rv-avatar">PK</div><div><div class="rv-name">Priya K.</div><div class="rv-moniker">Comedy Connoisseur</div></div></div><div class="rv-stars">★★★★★</div><div class="rv-text">"The comedy section alone is worth it. Laughed so hard my flatmate asked if I was okay."</div><div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div></div>
-      <div class="rv-card"><div class="rv-quote-mark">"</div><div class="rv-header"><div class="rv-avatar">TR</div><div><div class="rv-name">Theo R.</div><div class="rv-moniker">Sci-Fi Devotee</div></div></div><div class="rv-stars">★★★★☆</div><div class="rv-text">"Finally a library that doesn't feel like 2009. Staff picks are actually good."</div><div class="rv-footer"><div class="rv-badge">Top reviewer</div><div class="rv-read-more">Read more →</div></div></div>
-      <div class="rv-card"><div class="rv-quote-mark">"</div><div class="rv-header"><div class="rv-avatar">AT</div><div><div class="rv-name">Aisha T.</div><div class="rv-moniker">Romance Aficionado</div></div></div><div class="rv-stars">★★★★★</div><div class="rv-text">"Before the Rain Ends broke me. In the best way. Recommended it to everyone I know."</div><div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div></div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
-  <section class="pricing-section">
-    <div class="pricing-eyebrow">How do you want to do this?</div>
-    <h2 class="pricing-title">Pick your relationship with books.</h2>
-    <div class="pricing-strip" id="pricingStrip" style="position:relative;padding:2rem 0 1.5rem;">
-      <div class="ps-card" data-index="0">
-        <div class="ps-goo"></div>
-        <div class="ps-card-inner">
-          <div class="ps-top"><span class="ps-emoji">📖</span><span class="ps-tag">For the casual reader</span></div>
-          <div class="ps-name">Just browsing.</div>
-          <div class="ps-price-row"><span class="ps-price">Free</span><span class="ps-price-note">no card, no catch</span></div>
-          <p class="ps-blurb">You want to read when you feel like it. No commitment, no pressure. The whole library is yours — just show up.</p>
-          <ul class="ps-list"><li>Full library access</li><li>Staff picks every month</li><li>No account needed</li></ul>
-          <button class="ps-btn">Start reading →</button>
-        </div>
+<!-- STAFF PICKS -->
+<div style="background:var(--bg2);">
+  <div class="section reveal">
+    <div class="s-label">Staff picks</div>
+    <h2 class="s-h2">Chosen by people who<br>read past midnight.</h2>
+    <div class="sp-outer" id="spOuter">
+      <svg class="sp-svg" id="spSvg"></svg>
+      <div class="sp-nodes top" id="spTop">
+        <div class="sp-node" data-i="0"><div class="sp-node-genre">Horror</div><div class="sp-node-title">The Hollow Place</div><div class="sp-node-author">E. Crane</div></div>
+        <div class="sp-node" data-i="1"><div class="sp-node-genre">Sci-Fi</div><div class="sp-node-title">The Fermi Descent</div><div class="sp-node-author">O. Rask</div></div>
+        <div class="sp-node" data-i="2"><div class="sp-node-genre">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
       </div>
-      <div class="ps-card ps-card-center" data-index="1">
-        <div class="ps-goo"></div>
-        <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-size:0.55rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;padding:3px 14px;border-radius:0 0 8px 8px;white-space:nowrap;z-index:3;">✦ Most Popular</div>
-        <div class="ps-card-inner" style="padding-top:2rem;">
-          <div class="ps-top"><span class="ps-emoji">📚</span><span class="ps-tag ps-tag-accent">For the collector</span></div>
-          <div class="ps-name">Make it yours.</div>
-          <div class="ps-price-row"><span class="ps-price">$4.99</span><span class="ps-price-note">per book, forever</span></div>
-          <p class="ps-blurb">You finish a book and want to keep it. Dog-ear the pages. Lend it to a friend. Digital ownership without the dust.</p>
-          <ul class="ps-list"><li>Yours forever, offline too</li><li>No subscription. Ever.</li><li>Download in any format</li><li>Early access to new titles</li></ul>
-          <button class="ps-btn ps-btn-accent">Buy a book →</button>
-        </div>
+      <div class="sp-card" id="spCard">
+        <div class="sp-card-lbl">October pick<span class="sp-chevron"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="sp-card-title">The Pale Corridor</div>
+        <div class="sp-card-sub">A slow-burn supernatural thriller that redefines what it means to be afraid.</div>
+        <div class="sp-card-hint">↓ Expand to see all picks</div>
       </div>
-      <div class="ps-card" data-index="2">
-        <div class="ps-goo"></div>
-        <div class="ps-card-inner">
-          <div class="ps-top"><span class="ps-emoji">⭐</span><span class="ps-tag">For the obsessed</span></div>
-          <div class="ps-name">Go deep.</div>
-          <div class="ps-price-row"><span class="ps-price">$2.99</span><span class="ps-price-note">/ month</span></div>
-          <p class="ps-blurb">You read more than most people sleep. Unlimited downloads, exclusive titles, and first dibs on everything new.</p>
-          <ul class="ps-list"><li>Unlimited downloads</li><li>Chan+ exclusive titles</li><li>Priority new releases</li></ul>
-          <button class="ps-btn">Try Chan+ →</button>
-        </div>
+      <div class="sp-nodes bottom" id="spBot">
+        <div class="sp-node" data-i="3"><div class="sp-node-genre">Comedy</div><div class="sp-node-title">How I Ruined Christmas</div><div class="sp-node-author">L. Finch</div></div>
+        <div class="sp-node" data-i="4"><div class="sp-node-genre">Fantasy</div><div class="sp-node-title">Pale Blue Signal</div><div class="sp-node-author">T. Achebe</div></div>
+        <div class="sp-node" data-i="5"><div class="sp-node-genre">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
+      </div>
+      <div class="sp-expanded" id="spExp">
+        <div class="sp-exp-genre" id="spEG"></div>
+        <div class="sp-exp-title" id="spET"></div>
+        <div class="sp-exp-author" id="spEA"></div>
+        <div class="sp-exp-body" id="spEB"></div>
+        <button class="sp-exp-back" id="spBack">← Back</button>
       </div>
     </div>
-    <p class="pricing-scroll-hint">scroll for more →</p>
-    <div class="pricing-dots" id="pricingDots">
-      <div class="pricing-dot active"></div>
-      <div class="pricing-dot"></div>
-      <div class="pricing-dot"></div>
-    </div>
-  </section>
+  </div>
+</div>
 
-  <!-- FAQ -->
-  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
-  <section class="faq-section">
-    <h2 class="faq-heading">Things people actually ask.</h2>
-    <p class="faq-sub">Answered properly.</p>
-    <div class="faq-list" id="faqList">
-      <div class="faq-item"><button class="faq-q"><span>I haven't read in years. Where do I even start?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Pick a genre you'd watch on a bad night — that's your genre. Don't overthink it. Under 300 pages, first chapter hooks you, you're in. Everything else is noise.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>Why does horror have its own skull?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Because horror deserves the drama. Every genre on this shelf has a personality — horror just happens to be the loudest about it.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>What makes a staff pick actually worth reading?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Someone on our team stayed up past 2am finishing it. That's the only metric that matters. No press releases, no publisher deals, no algorithms.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>Can I trust the comedy section to actually be funny?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>I only read one book a year. Is this still for me?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Especially for you. One great book a year beats twelve forgettable ones. We'll make sure that one book counts.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>What's the point of the constellation on the staff picks?</span><span class="faq-icon"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="currentColor"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Books don't exist alone — they orbit each other. The constellation shows you what lives in the same universe as the pick. Click around. That's the point.</div></div></div>
-    </div>
-  </section>
+<!-- REVIEWS -->
+<div class="section reveal">
+  <div class="s-label">What readers say</div>
+  <h2 class="s-h2">Straight from the shelf.</h2>
+  <div class="rv-grid">
+    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</div><div class="rv-person"><div class="rv-av">JM</div><div><div class="rv-name">Jordan M.</div><div class="rv-role">Midnight Reader</div></div></div></div>
+    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"The comedy section alone is worth it. Laughed so hard my flatmate asked if I was okay."</div><div class="rv-person"><div class="rv-av">PK</div><div><div class="rv-name">Priya K.</div><div class="rv-role">Comedy Connoisseur</div></div></div></div>
+    <div class="rv-card"><div class="rv-stars">★★★★☆</div><div class="rv-quote">"Finally a library that doesn't feel like 2009. Staff picks are actually good."</div><div class="rv-person"><div class="rv-av">TR</div><div><div class="rv-name">Theo R.</div><div class="rv-role">Sci-Fi Devotee</div></div></div></div>
+    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"Before the Rain Ends broke me. In the best way. Recommended it to everyone I know."</div><div class="rv-person"><div class="rv-av">AT</div><div><div class="rv-name">Aisha T.</div><div class="rv-role">Romance Aficionado</div></div></div></div>
+  </div>
+</div>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-marquee">
-      <div class="marquee-track">
-        <span>Horror</span><span class="dot-sep">·</span><span>Sci-Fi</span><span class="dot-sep">·</span><span>Romance</span><span class="dot-sep">·</span><span>Comedy</span><span class="dot-sep">·</span><span>Thriller</span><span class="dot-sep">·</span><span>Fantasy</span><span class="dot-sep">·</span><span>Mystery</span><span class="dot-sep">·</span><span>Literary</span><span class="dot-sep">·</span>
-        <span>Horror</span><span class="dot-sep">·</span><span>Sci-Fi</span><span class="dot-sep">·</span><span>Romance</span><span class="dot-sep">·</span><span>Comedy</span><span class="dot-sep">·</span><span>Thriller</span><span class="dot-sep">·</span><span>Fantasy</span><span class="dot-sep">·</span><span>Mystery</span><span class="dot-sep">·</span><span>Literary</span><span class="dot-sep">·</span>
+<!-- PRICING -->
+<div style="background:var(--bg2);">
+  <div class="section reveal">
+    <div class="s-label">Pricing</div>
+    <h2 class="s-h2">Pick your relationship<br>with books.</h2>
+    <div class="pc-grid">
+      <div class="pc">
+        <div class="pc-plan">For the casual reader</div>
+        <div class="pc-name">Just browsing.</div>
+        <div><span class="pc-price">Free</span><span class="pc-per">no card needed</span></div>
+        <p class="pc-desc">The whole library is yours. No commitment, no pressure — just show up.</p>
+        <ul class="pc-list"><li>Full library access</li><li>Staff picks every month</li><li>No account needed</li></ul>
+        <button class="pc-btn">Start reading →</button>
+      </div>
+      <div class="pc pc-dark">
+        <div class="pc-badge">Most Popular</div>
+        <div class="pc-plan" style="margin-top:1rem;">For the collector</div>
+        <div class="pc-name">Make it yours.</div>
+        <div><span class="pc-price">$4.99</span><span class="pc-per">per book, forever</span></div>
+        <p class="pc-desc">Own it. Download it. Keep it. No subscription, ever.</p>
+        <ul class="pc-list"><li>Yours forever, offline too</li><li>No subscription. Ever.</li><li>Download in any format</li><li>Early access to new titles</li></ul>
+        <button class="pc-btn pc-btn-w">Buy a book →</button>
+      </div>
+      <div class="pc">
+        <div class="pc-plan">For the obsessed</div>
+        <div class="pc-name">Go deep.</div>
+        <div><span class="pc-price">$2.99</span><span class="pc-per">/ month</span></div>
+        <p class="pc-desc">Unlimited downloads, exclusive titles, first dibs. For people who read more than they sleep.</p>
+        <ul class="pc-list"><li>Unlimited downloads</li><li>Chan+ exclusive titles</li><li>Priority new releases</li></ul>
+        <button class="pc-btn">Try Chan+ →</button>
       </div>
     </div>
-    <div class="footer-wordmark" id="lithosWord">
-      <span class="fw-l" data-i="0">L</span><span class="fw-l" data-i="1">I</span><span class="fw-l" data-i="2">T</span><span class="fw-l" data-i="3">H</span><span class="fw-l" data-i="4">O</span><span class="fw-l" data-i="5">S</span>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="section reveal">
+  <div class="s-label">FAQ</div>
+  <h2 class="s-h2">Things people actually ask.</h2>
+  <div class="faq-inner">
+    <div class="faq-item"><button class="faq-q"><span>I haven't read in years. Where do I start?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Pick a genre you'd watch on a bad night. Under 300 pages, first chapter hooks you, you're in.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>What makes a staff pick worth reading?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Someone on our team stayed up past 2am finishing it. That's the only metric. No publisher deals, no algorithms.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>Can I trust the comedy section?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>I only read one book a year. Is this for me?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Especially for you. One great book beats twelve forgettable ones. We'll make sure it counts.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>What's the constellation on the staff picks?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Books orbit each other. The constellation shows what lives in the same universe as the pick.</p></div></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-main">
+    <div class="footer-brand">
+      <a class="logo" href="#"><div class="logo-mark" style="background:rgba(255,255,255,0.08);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="logo-text" style="color:#fff;">LIT<b style="color:var(--blue);">HOS</b></span></a>
+      <p class="footer-tagline">A library for people who actually read. No algorithms. No noise.</p>
     </div>
-    <div class="footer-bottom">
-      <p>© 2026 Lithos. All rights reserved.</p>
-      <div class="footer-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Contact</a></div>
-    </div>
-  </footer>
+    <div class="footer-col"><h4>Browse</h4><ul><li><a href="#">All titles</a></li><li><a href="#">Staff picks</a></li><li><a href="#">New this week</a></li><li><a href="#">By genre</a></li></ul></div>
+    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign up</a></li><li><a href="#">Log in</a></li><li><a href="#">My list</a></li><li><a href="#">Chan+</a></li></ul></div>
+    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Authors</a></li><li><a href="#">Contact</a></li><li><a href="#">Blog</a></li></ul></div>
+  </div>
+  <div class="footer-wm">Lithos</div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 Lithos. All rights reserved.</span>
+    <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
 
-  <script>
-  /* STAFF PICKS */
-  (function(){
-    var outer=document.getElementById('spOuter'),box=document.getElementById('spBox'),svg=document.getElementById('spSvg'),topRow=document.getElementById('spTopRow'),botRow=document.getElementById('spBotRow'),expanded=document.getElementById('spExpanded'),nodes=Array.prototype.slice.call(outer.querySelectorAll('.sp-node')),isOpen=false;
-    var data=[
-      {genre:'Horror',title:'The Hollow Place',author:'E. Crane',body:'A family returns to their childhood home, only to find the doors no longer lead where they should.'},
-      {genre:'Sci-Fi',title:'The Fermi Descent',author:'O. Rask',body:'A generation ship loses contact with Earth. The crew starts hearing voices from the dark.'},
-      {genre:'Romance',title:'Before the Rain Ends',author:'N. Sorrell',body:'Two strangers keep missing each other by minutes — until one rainy Tuesday in Lisbon.'},
-      {genre:'Comedy',title:'How I Ruined Christmas',author:'L. Finch',body:'A man accidentally ruins Christmas for six families in one afternoon. A love story.'},
-      {genre:'Fantasy',title:'Pale Blue Signal',author:'T. Achebe',body:'The last librarian of a dying empire guards one final book no one is allowed to read.'},
-      {genre:'Thriller',title:'Red Door Inn',author:'M. Selbourne',body:'A locked door. A missing guest. And a hotel that knows too much.'},
-    ];
-    function drawLines(){
-      svg.innerHTML='';svg.style.height=outer.offsetHeight+'px';svg.style.width=outer.offsetWidth+'px';
-      var sr=svg.getBoundingClientRect();
-      function center(el){var r=el.getBoundingClientRect();return{x:r.left-sr.left+r.width/2,y:r.top-sr.top+r.height/2};}
-      function borderPt(fromX,fromY,el){var r=el.getBoundingClientRect(),ex=r.left-sr.left,ey=r.top-sr.top,ew=r.width,eh=r.height,cx=ex+ew/2,cy=ey+eh/2,dx=fromX-cx,dy=fromY-cy,len=Math.sqrt(dx*dx+dy*dy)||1;dx/=len;dy/=len;var tx,ty;if(Math.abs(dx)*eh>Math.abs(dy)*ew){tx=cx+(dx>0?ew/2:-ew/2);ty=cy+dy*(ew/2)/Math.abs(dx);}else{ty=cy+(dy>0?eh/2:-eh/2);tx=cx+dx*(eh/2)/Math.abs(dy);}return{x:tx,y:ty};}
-      var bc=center(box);
-      nodes.forEach(function(nd,i){var nc=center(nd),bp=borderPt(nc.x,nc.y,box),ep=borderPt(bc.x,bc.y,nd);var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M'+bp.x+' '+bp.y+' L'+ep.x+' '+ep.y);p.setAttribute('class','sp-line');svg.appendChild(p);setTimeout(function(el){el.classList.add('drawn');},100+i*60,p);});
-    }
-    function open(){isOpen=true;box.classList.add('open');outer.classList.add('open');setTimeout(drawLines,550);}
-    function close(){isOpen=false;box.classList.remove('open');outer.classList.remove('open');expanded.classList.remove('active');box.style.display='';topRow.style.display='';botRow.style.display='';svg.innerHTML='';}
-    function showExpanded(i){var d=data[i];document.getElementById('spExpGenre').textContent=d.genre;document.getElementById('spExpTitle').textContent=d.title;document.getElementById('spExpAuthor').textContent=d.author;document.getElementById('spExpBody').textContent=d.body;box.style.display='none';topRow.style.display='none';botRow.style.display='none';svg.innerHTML='';expanded.classList.add('active');}
-    function hideExpanded(){expanded.classList.remove('active');box.style.display='';topRow.style.display='';botRow.style.display='';setTimeout(drawLines,60);}
-    box.addEventListener('click',function(){isOpen?close():open();});
-    nodes.forEach(function(nd){nd.addEventListener('click',function(e){e.stopPropagation();if(!isOpen)return;showExpanded(parseInt(nd.getAttribute('data-i')));});});
-    document.getElementById('spExpBack').addEventListener('click',function(e){e.stopPropagation();hideExpanded();});
-  })();
+<script>
+/* HERO HEADLINE WORD REVEAL */
+(function(){
+  var el=document.getElementById('h1');
+  if(!el)return;
+  var words=[
+    {t:'Read',d:0.15},{t:'what',d:0.25},{t:'the',d:0.35},{t:'world',d:0.45},
+    {t:'<em>can\'t</em>',d:0.6},{t:'<em>put</em>',d:0.7},{t:'<em>down.</em>',d:0.8}
+  ];
+  var html='';
+  words.forEach(function(w,i){
+    var br=i===4?'<br>':'';
+    html+=br+'<span class="word"><span class="word-inner" style="animation-delay:'+w.d+'s">'+w.t+'</span></span>';
+    if(i!==6&&i!==3)html+=' ';
+  });
+  el.innerHTML=html;
+})();
 
-  /* FAQ */
-  (function(){
-    var items=document.querySelectorAll('.faq-item');
-    items.forEach(function(item){var btn=item.querySelector('.faq-q'),ans=item.querySelector('.faq-a');btn.addEventListener('click',function(){var isOpen=btn.classList.contains('open');items.forEach(function(it){it.querySelector('.faq-q').classList.remove('open');it.querySelector('.faq-a').classList.remove('open');});if(!isOpen){btn.classList.add('open');ans.classList.add('open');}});});
-  })();
+/* SCROLL REVEAL */
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+  },{threshold:0.1});
+  els.forEach(function(el){obs.observe(el);});
+})();
 
-  /* LITHOS FOOTER */
-  (function(){
-    var letters=Array.prototype.slice.call(document.querySelectorAll('.fw-l'));
-    if(!letters.length)return;
-    var n=letters.length;
-    function runWave(startIdx,dir){var step=dir===1?1:-1,i=startIdx,seq=[];while(i>=0&&i<n){seq.push(i);i+=step;}seq.forEach(function(idx,pos){setTimeout(function(){letters[idx].classList.add('lit');setTimeout(function(){letters[idx].classList.remove('lit');letters[idx].classList.add('dim');setTimeout(function(){letters[idx].classList.remove('dim');},180);},120);},pos*75);});}
-    function pulse(){runWave(0,1);setTimeout(function(){runWave(n-1,-1);},n*75+300);}
-    setTimeout(pulse,600);setInterval(pulse,3200);
-  })();
+/* STAFF PICKS */
+(function(){
+  var outer=document.getElementById('spOuter'),card=document.getElementById('spCard'),svg=document.getElementById('spSvg'),top=document.getElementById('spTop'),bot=document.getElementById('spBot'),exp=document.getElementById('spExp'),nodes=Array.prototype.slice.call(outer.querySelectorAll('.sp-node')),open=false;
+  var data=[
+    {genre:'Horror',title:'The Hollow Place',author:'E. Crane',body:'A family returns to their childhood home, only to find the doors no longer lead where they should.'},
+    {genre:'Sci-Fi',title:'The Fermi Descent',author:'O. Rask',body:'A generation ship loses contact with Earth. The crew starts hearing voices from the dark.'},
+    {genre:'Romance',title:'Before the Rain Ends',author:'N. Sorrell',body:'Two strangers keep missing each other by minutes — until one rainy Tuesday in Lisbon.'},
+    {genre:'Comedy',title:'How I Ruined Christmas',author:'L. Finch',body:'A man accidentally ruins Christmas for six families in one afternoon. A love story.'},
+    {genre:'Fantasy',title:'Pale Blue Signal',author:'T. Achebe',body:'The last librarian of a dying empire guards one final book no one is allowed to read.'},
+    {genre:'Thriller',title:'Red Door Inn',author:'M. Selbourne',body:'A locked door. A missing guest. And a hotel that knows too much.'},
+  ];
+  function lines(){
+    svg.innerHTML='';svg.style.height=outer.offsetHeight+'px';svg.style.width=outer.offsetWidth+'px';
+    var sr=svg.getBoundingClientRect();
+    function c(el){var r=el.getBoundingClientRect();return{x:r.left-sr.left+r.width/2,y:r.top-sr.top+r.height/2};}
+    function bp(fx,fy,el){var r=el.getBoundingClientRect(),ex=r.left-sr.left,ey=r.top-sr.top,ew=r.width,eh=r.height,cx=ex+ew/2,cy=ey+eh/2,dx=fx-cx,dy=fy-cy,len=Math.sqrt(dx*dx+dy*dy)||1;dx/=len;dy/=len;var tx,ty;if(Math.abs(dx)*eh>Math.abs(dy)*ew){tx=cx+(dx>0?ew/2:-ew/2);ty=cy+dy*(ew/2)/Math.abs(dx);}else{ty=cy+(dy>0?eh/2:-eh/2);tx=cx+dx*(eh/2)/Math.abs(dy);}return{x:tx,y:ty};}
+    var bc=c(card);
+    nodes.forEach(function(nd,i){var nc=c(nd),b=bp(nc.x,nc.y,card),e=bp(bc.x,bc.y,nd);var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M'+b.x+' '+b.y+' L'+e.x+' '+e.y);p.setAttribute('class','sp-line');svg.appendChild(p);setTimeout(function(el){el.classList.add('drawn');},80+i*55,p);});
+  }
+  function doOpen(){open=true;card.classList.add('open');outer.classList.add('open');setTimeout(lines,480);}
+  function doClose(){open=false;card.classList.remove('open');outer.classList.remove('open');exp.classList.remove('active');card.style.display='';top.style.display='';bot.style.display='';svg.innerHTML='';}
+  function showExp(i){var d=data[i];document.getElementById('spEG').textContent=d.genre;document.getElementById('spET').textContent=d.title;document.getElementById('spEA').textContent=d.author;document.getElementById('spEB').textContent=d.body;card.style.display='none';top.style.display='none';bot.style.display='none';svg.innerHTML='';exp.classList.add('active');}
+  card.addEventListener('click',function(){open?doClose():doOpen();});
+  nodes.forEach(function(nd){nd.addEventListener('click',function(e){e.stopPropagation();if(!open)return;showExp(parseInt(nd.getAttribute('data-i')));});});
+  document.getElementById('spBack').addEventListener('click',function(e){e.stopPropagation();exp.classList.remove('active');card.style.display='';top.style.display='';bot.style.display='';setTimeout(lines,60);});
+})();
 
-  /* REVIEW CAROUSEL */
-  (function(){
-    var cards=Array.prototype.slice.call(document.querySelectorAll('.rv-card'));
-    var cur=0,n=cards.length;
-    function show(i){var c=cards[i];c.style.transition='none';c.style.transform='translateX(100%)';c.style.opacity='0';void c.offsetWidth;c.style.transition='transform 0.55s cubic-bezier(0.34,1.1,0.64,1),opacity 0.4s ease';c.style.transform='translateX(0)';c.style.opacity='1';}
-    function hide(i){var c=cards[i];c.style.transition='transform 0.4s ease,opacity 0.35s ease';c.style.transform='translateX(-80px)';c.style.opacity='0';}
-    show(cur);
-    setInterval(function(){hide(cur);cur=(cur+1)%n;setTimeout(function(){show(cur);},220);},4000);
-  })();
-
-  /* HERO PARTICLES */
-  (function(){
-    var container=document.getElementById('heroParticles');
-    if(!container)return;
-    var colors=['rgba(192,83,42,VAL)','rgba(232,115,74,VAL)','rgba(245,184,154,VAL)','rgba(26,23,20,VAL)','rgba(180,70,30,VAL)'];
-    for(var i=0;i<32;i++){
-      var p=document.createElement('div');
-      var size=(Math.random()*3+1).toFixed(1);
-      var colorBase=colors[Math.floor(Math.random()*colors.length)];
-      var opacity=(Math.random()*0.25+0.1).toFixed(2);
-      var color=colorBase.replace('VAL',opacity);
-      var x=Math.random()*100,y=Math.random()*100;
-      var dx=(Math.random()-0.5)*80,dy=-(Math.random()*160+50);
-      var dur=(Math.random()*10+7).toFixed(1),delay=-(Math.random()*14).toFixed(1);
-      p.className='hero-particle';
-      p.style.cssText=['width:'+size+'px','height:'+size+'px','left:'+x+'%','top:'+y+'%','background:'+color,'--dx:'+dx+'px','--dy:'+dy+'px','--dur:'+dur+'s','--delay:'+delay+'s','--op:'+opacity].join(';');
-      container.appendChild(p);
-    }
-  })();
-
-  /* PRICING MOBILE */
-  (function(){
-    var strip=document.getElementById('pricingStrip');
-    var cards=Array.prototype.slice.call(strip.querySelectorAll('.ps-card'));
-    var dots=Array.prototype.slice.call(document.querySelectorAll('.pricing-dot'));
-    if(!strip||window.innerWidth>700)return;
-    function updateFocus(){
-      var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity,closestIdx=0;
-      cards.forEach(function(card,i){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;closestIdx=i;}});
-      cards.forEach(function(c){c.classList.remove('focused');c.classList.remove('goo-active');c.style.opacity='0.7';c.style.transform='scale(0.9)';});
-      dots.forEach(function(d){d.classList.remove('active');});
-      if(closest){closest.classList.add('focused');closest.classList.add('goo-active');closest.style.opacity='1';closest.style.transform='scale(1)';}
-      if(dots[closestIdx]){dots[closestIdx].classList.add('active');}
-    }
-    if(cards[0]){ strip.scrollLeft=0; }
-    updateFocus();
-    strip.addEventListener('scroll', updateFocus, {passive:true});
-  })();
-  </script>
+/* FAQ */
+(function(){
+  var items=document.querySelectorAll('.faq-item');
+  items.forEach(function(item){
+    var btn=item.querySelector('.faq-q'),ans=item.querySelector('.faq-a');
+    btn.addEventListener('click',function(){
+      var isOpen=btn.classList.contains('open');
+      items.forEach(function(it){it.querySelector('.faq-q').classList.remove('open');it.querySelector('.faq-a').classList.remove('open');});
+      if(!isOpen){btn.classList.add('open');ans.classList.add('open');}
+    });
+  });
+})();
+</script>
 </body>
 </html>
