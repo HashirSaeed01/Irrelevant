@@ -228,7 +228,7 @@
     .pricing-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
     .pricing-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:var(--ink); margin-bottom:0; }
     .pricing-strip { display:flex; align-items:center; gap:12px; }
-    .ps-card { flex:1; background:var(--bg2); border:1px solid var(--white-08); border-radius:16px; transition:transform 0.3s ease, border-color 0.3s; cursor:default; align-self:stretch; position:relative; overflow:hidden; cursor:pointer; }
+    .ps-card { flex:1; background:var(--bg2); border:1px solid var(--white-08); border-radius:16px; transition:transform 0.3s ease, border-color 0.3s; cursor:pointer; align-self:stretch; position:relative; overflow:hidden; opacity:1; }
     .ps-card:hover { border-color:var(--white-15); }
     .ps-card-center { flex:1.45; background:linear-gradient(135deg,rgba(192,83,42,0.14) 0%,rgba(232,115,74,0.1) 100%); border-color:rgba(192,83,42,0.45); transform:scale(1.04); box-shadow:0 0 0 1px rgba(192,83,42,0.15),0 24px 60px rgba(0,0,0,0.1); position:relative; z-index:2; }
     .ps-card-center:hover { border-color:rgba(192,83,42,0.6); }
@@ -349,7 +349,7 @@
       .hero-stats, .hero-cta-row { justify-content:center; }
       .pricing-strip { overflow-x:auto; scrollbar-width:none; padding:2rem 5vw 1.5rem; scroll-snap-type:x mandatory; }
       .pricing-strip::-webkit-scrollbar { display:none; }
-      .ps-card { flex:0 0 78vw; scroll-snap-align:center; transform:scale(0.9); opacity:0.7; }
+      .ps-card { flex:0 0 78vw; scroll-snap-align:center; transform:scale(0.9); }
       .ps-card-center { flex:0 0 78vw; transform:scale(0.9); box-shadow:none; }
       .ps-card.focused { transform:scale(1) !important; opacity:1; }
     }
@@ -640,8 +640,9 @@
     var strip=document.getElementById('pricingStrip');
     var cards=Array.prototype.slice.call(strip.querySelectorAll('.ps-card'));
     if(!strip||window.innerWidth>700)return;
-    if(cards[1]){cards[1].classList.add('focused');cards[1].classList.add('goo-active');}
-    strip.addEventListener('scroll',function(){var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity;cards.forEach(function(card){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;}});cards.forEach(function(c){c.classList.remove('focused');c.classList.remove('goo-active');});if(closest){closest.classList.add('focused');closest.classList.add('goo-active');}},{passive:true});
+    cards.forEach(function(c){c.style.opacity='0.7';});
+    if(cards[1]){cards[1].style.opacity='1';cards[1].classList.add('focused');cards[1].classList.add('goo-active');}
+    strip.addEventListener('scroll',function(){var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity;cards.forEach(function(card){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;}});cards.forEach(function(c){c.classList.remove('focused');c.classList.remove('goo-active');c.style.opacity='0.7';});if(closest){closest.classList.add('focused');closest.classList.add('goo-active');closest.style.opacity='1';}},{passive:true});
   })();
   </script>
 </body>
