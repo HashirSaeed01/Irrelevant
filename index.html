@@ -258,7 +258,14 @@
       border-radius: 50% 50% 0 0 / 8% 8% 0 0;
       transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .ps-card.goo-active .ps-goo { height:110%; animation: gooWobbleSurface 2s ease-in-out infinite; }
+    .ps-card.focused .ps-goo { height:110%; animation: gooWobbleSurface 2s ease-in-out infinite; }
+    .ps-card.focused .ps-name,
+    .ps-card.focused .ps-blurb,
+    .ps-card.focused .ps-list li,
+    .ps-card.focused .ps-price,
+    .ps-card.focused .ps-price-note { color:#fff !important; }
+    .ps-card.focused .ps-tag { background:rgba(255,255,255,0.2); color:#fff; }
+    .ps-card.focused .ps-btn { color:#fff !important; border-color:rgba(255,255,255,0.5); }
     @keyframes gooWobbleSurface {
       0%,100% { border-radius: 50% 50% 0 0 / 8% 8% 0 0; }
       25%      { border-radius: 55% 45% 0 0 / 10% 6% 0 0; }
