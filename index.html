@@ -345,8 +345,10 @@
     .footer-links a { font-size:0.7rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:rgba(255,255,255,0.4); text-decoration:none; transition:color 0.2s; }
     .footer-links a:hover { color:rgba(255,255,255,0.8); }
 
-    /* ─── MOBILE ─── */
-    @media (max-width: 768px) {
+      .pricing-scroll-hint { display:none; }
+      .pricing-dots { display:flex; justify-content:center; gap:6px; margin-top:1rem; }
+      .pricing-dot { width:28px; height:3px; border-radius:99px; background:var(--ink-12); border:1px solid var(--ink-15); transition:background 0.3s; }
+      .pricing-dot.active { background:var(--accent); border-color:var(--accent); }
       .hero { grid-template-columns:1fr; gap:2rem; padding:2.5rem 5vw 2rem; }
       .hero-right { display:none; }
       nav ul, .nav-search { display:none; }
@@ -354,7 +356,7 @@
       .hero-left { text-align:center; }
       .hero-tag { margin-left:auto; margin-right:auto; }
       .hero-stats, .hero-cta-row { justify-content:center; }
-      .pricing-strip { overflow-x:auto; scrollbar-width:none; padding:2rem 5vw 1.5rem; scroll-snap-type:x mandatory; }
+      .pricing-strip { overflow-x:auto; scrollbar-width:none; padding:2rem 5vw 1.5rem; scroll-snap-type:x mandatory; padding-right:18vw; }
       .pricing-strip::-webkit-scrollbar { display:none; }
       .ps-card { flex:0 0 78vw; scroll-snap-align:center; transform:scale(0.9); }
       .ps-card-center { flex:0 0 78vw; transform:scale(0.9); box-shadow:none; }
@@ -533,6 +535,12 @@
         </div>
       </div>
     </div>
+    <p class="pricing-scroll-hint">scroll for more →</p>
+    <div class="pricing-dots" id="pricingDots">
+      <div class="pricing-dot active"></div>
+      <div class="pricing-dot"></div>
+      <div class="pricing-dot"></div>
+    </div>
   </section>
 
   <!-- FAQ -->
@@ -646,18 +654,17 @@
   (function(){
     var strip=document.getElementById('pricingStrip');
     var cards=Array.prototype.slice.call(strip.querySelectorAll('.ps-card'));
+    var dots=Array.prototype.slice.call(document.querySelectorAll('.pricing-dot'));
     if(!strip||window.innerWidth>700)return;
     function updateFocus(){
-      var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity;
-      cards.forEach(function(card){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;}});
+      var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity,closestIdx=0;
+      cards.forEach(function(card,i){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;closestIdx=i;}});
       cards.forEach(function(c){c.classList.remove('focused');c.classList.remove('goo-active');c.style.opacity='0.7';c.style.transform='scale(0.9)';});
+      dots.forEach(function(d){d.classList.remove('active');});
       if(closest){closest.classList.add('focused');closest.classList.add('goo-active');closest.style.opacity='1';closest.style.transform='scale(1)';}
+      if(dots[closestIdx]){dots[closestIdx].classList.add('active');}
     }
-    // Scroll center card into view on load, then focus it
-    if(cards[1]){
-      var cardCenter = cards[1].offsetLeft + cards[1].offsetWidth/2;
-      strip.scrollLeft = cardCenter - strip.offsetWidth/2;
-    }
+    if(cards[0]){ strip.scrollLeft=0; }
     updateFocus();
     strip.addEventListener('scroll', updateFocus, {passive:true});
   })();
