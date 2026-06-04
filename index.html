@@ -80,15 +80,17 @@
     .nav-search span { font-size:0.8rem; color:var(--white-40); }
     .nav-btn { background:var(--purple-mid); border:none; border-radius:99px; color:var(--white); font-family:'Montserrat',sans-serif; font-size:0.78rem; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; padding:0.45rem 1.1rem; cursor:pointer; transition:background 0.2s, transform 0.15s; }
     .nav-btn:hover { background:var(--purple-lt); transform:translateY(-1px); }
+    .nav-btn-ghost { background:transparent; border:1.5px solid #fff; color:#fff; }
+    .nav-btn-ghost:hover { background:rgba(255,255,255,0.08); }
 
     /* ─── LIVE TICKER ─── */
-    .live-ticker { background:var(--bg2); border-top:1px solid var(--white-08); border-bottom:1px solid var(--white-08); padding:0.55rem 0; overflow:hidden; white-space:nowrap; position:relative; }
+    .live-ticker { background:linear-gradient(90deg,#1a0f2e,#2d1a52,#1a0f2e); border-top:1px solid rgba(192,132,252,0.25); border-bottom:1px solid rgba(192,132,252,0.25); padding:0.6rem 0; overflow:hidden; white-space:nowrap; position:relative; box-shadow:0 0 20px rgba(192,132,252,0.08); }
     .live-ticker::before,.live-ticker::after { content:''; position:absolute; top:0; bottom:0; width:60px; z-index:2; pointer-events:none; }
     .live-ticker::before { left:0; background:linear-gradient(to right,var(--bg2),transparent); }
     .live-ticker::after  { right:0; background:linear-gradient(to left,var(--bg2),transparent); }
-    .ticker-track { display:inline-block; animation:tickerScroll 30s linear infinite; font-size:0.7rem; font-weight:500; color:#fff; letter-spacing:0.04em; }
+    .ticker-track { display:inline-block; animation:tickerScroll 30s linear infinite; font-size:0.72rem; font-weight:600; color:#fff; letter-spacing:0.06em; text-shadow:0 0 12px rgba(192,132,252,0.8); }
     .ticker-track:hover { animation-play-state:paused; }
-    .ticker-dot { color:var(--accent); margin:0 1rem; font-size:0.5rem; vertical-align:middle; }
+    .ticker-dot { color:var(--accent2); margin:0 1rem; font-size:0.6rem; vertical-align:middle; text-shadow:0 0 8px rgba(240,171,252,1); }
     @keyframes tickerScroll { from { transform:translateX(0); } to { transform:translateX(-50%); } }
 
     /* ─── HERO ─── */
@@ -162,26 +164,8 @@
 
     @keyframes fadeUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
 
-    /* ─── CURRENTLY TRENDING ─── */
-    .trending-section { padding:2rem 5vw 1rem; }
-    .trending-strip {
-      display:flex; align-items:stretch; gap:10px; overflow-x:auto; padding-bottom:0.25rem; scrollbar-width:none;
-    }
-    .trending-strip::-webkit-scrollbar { display:none; }
-    .trending-pill {
-      flex:0 0 auto; display:flex; align-items:center; gap:10px;
-      background:var(--bg2); border:1px solid var(--white-08); border-radius:10px;
-      padding:0.65rem 1rem; cursor:pointer;
-      transition:border-color 0.2s, transform 0.2s;
-      white-space:nowrap;
-    }
-    .trending-pill:hover { border-color:var(--white-15); transform:translateY(-2px); }
-    .trending-rank { font-size:0.6rem; font-weight:800; color:var(--white-40); letter-spacing:0.06em; min-width:16px; }
-    .trending-rank.top { color:var(--accent); }
-    .trending-pill-title { font-size:0.78rem; font-weight:700; color:#fff; }
-    .trending-pill-genre { font-size:0.58rem; color:var(--white-40); margin-top:1px; }
-    .trending-pill-arrow { font-size:0.62rem; color:var(--accent); margin-left:4px; }
     .trending-divider { width:1px; background:var(--white-08); flex-shrink:0; align-self:stretch; }
+
 
     /* ─── SECTION HEADER ─── */
     .section { padding:3rem 5vw 1.5rem; }
@@ -197,7 +181,7 @@
 
 
     /* ─── STAFF PICK CONSTELLATION ─── */
-    .sp-outer { margin:0 5vw 1rem; position:relative; }
+    .sp-outer { margin:0 5vw 1rem; position:relative; overflow:visible; }
     .sp-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; max-height:0; overflow:hidden; opacity:0; transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease, margin 0.5s ease; }
     .sp-row.top { margin-bottom:0; align-items:end; padding-top:40px; }
     .sp-row.bottom { margin-top:0; align-items:start; padding-bottom:40px; }
@@ -215,7 +199,7 @@
     .sp-node-label { font-size:0.55rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
     .sp-node-title { font-size:0.75rem; font-weight:700; color:#fff; line-height:1.2; }
     .sp-node-author { font-size:0.6rem; color:var(--white-40); margin-top:2px; }
-    .sp-svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:5; }
+    .sp-svg { position:absolute; top:0; left:0; width:100%; height:100%; overflow:visible; pointer-events:none; z-index:5; }
     .sp-line { stroke:rgba(192,132,252,0.7); stroke-width:1.5; stroke-dasharray:300; stroke-dashoffset:300; transition:stroke-dashoffset 0.5s ease; fill:none; }
     .sp-line.drawn { stroke-dashoffset:0; }
     .sp-box {
@@ -231,8 +215,12 @@
     .sp-box:not(.open) { animation:spPulse 2s ease-out infinite; }
     .sp-heading { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); margin-bottom:0.6rem; display:flex; align-items:center; gap:8px; }
     .sp-heading::before { content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); }
-    .sp-chevron { margin-left:auto; font-size:0.7rem; color:var(--white-40); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
-    .sp-box.open .sp-chevron { transform:rotate(180deg); }
+    .sp-chevron { margin-left:auto; transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); display:inline-flex; align-items:center; animation:arrowPulse 1.8s ease-in-out infinite; filter:drop-shadow(0 0 6px rgba(244,114,182,0.9)); }
+    .sp-box.open .sp-chevron { transform:rotate(180deg); animation:none; filter:drop-shadow(0 0 10px rgba(244,114,182,1)); }
+    @keyframes arrowPulse {
+      0%,100% { transform:scale(1) translateY(0); filter:drop-shadow(0 0 4px rgba(244,114,182,0.7)); }
+      50%      { transform:scale(1.3) translateY(2px); filter:drop-shadow(0 0 12px rgba(244,114,182,1)); }
+    }
     .sp-title { font-size:1.35rem; font-weight:800; letter-spacing:-0.02em; color:#fff; line-height:1.1; }
     .sp-sub { font-size:0.8rem; color:var(--white-70); margin-top:0.4rem; line-height:1.5; }
     .sp-expand-hint { font-size:0.6rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--white-40); margin-top:0.75rem; animation:hintBounce 1.6s ease-in-out infinite; display:inline-block; }
@@ -248,12 +236,36 @@
     .sp-exp-back { font-size:0.62rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); cursor:pointer; background:none; border:none; padding:0; }
 
     /* ─── DIVIDER ─── */
-    .divider { height:1px; background:var(--white-08); margin:2rem 5vw; }
+    .divider {
+      position:relative; margin:2rem 5vw;
+      display:flex; align-items:center; justify-content:center;
+      height:12px;
+    }
+    .divider::before, .divider::after {
+      content:''; flex:1; height:1px;
+      background:linear-gradient(to var(--dir), rgba(255,255,255,0.12), transparent);
+    }
+    .divider::before { --dir:right; }
+    .divider::after  { --dir:left; }
+    .divider-gem {
+      flex-shrink:0; margin:0 10px;
+      display:flex; align-items:center; gap:6px;
+    }
+    .divider-dot {
+      width:4px; height:4px; border-radius:50%;
+      background:var(--accent); opacity:0.7;
+    }
+    .divider-diamond {
+      width:7px; height:7px;
+      background:var(--accent);
+      transform:rotate(45deg);
+      box-shadow:0 0 6px rgba(192,132,252,0.7);
+    }
 
 
 
     /* ─── PRICING ─── */
-    .pricing-section { padding:2rem 5vw 0; }
+    .pricing-section { padding:1rem 5vw 0; position:relative; }
     .pricing-eyebrow { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); margin-bottom:0.6rem; display:flex; align-items:center; gap:8px; }
     .pricing-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
     .pricing-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:#fff; margin-bottom:0; }
@@ -285,7 +297,7 @@
     .ps-card { position:relative; overflow:hidden; cursor:pointer; }
     .ps-goo {
       position:absolute; bottom:0; left:0; width:100%; height:0;
-      background: linear-gradient(to top, rgba(109,40,217,0.95) 0%, rgba(139,92,246,0.85) 50%, rgba(167,139,250,0.6) 100%);
+      background: linear-gradient(to top, rgba(130,30,160,0.75) 0%, rgba(168,85,247,0.6) 50%, rgba(196,130,252,0.35) 100%);
       pointer-events:none; z-index:0;
       border-radius: 50% 50% 0 0 / 8% 8% 0 0;
       transition: height 0.9s cubic-bezier(0.22, 1, 0.36, 1);
@@ -315,72 +327,158 @@
     .ps-card.goo-active .ps-price-note { color:#fff !important; }
     .ps-card.goo-active .ps-tag { background:rgba(255,255,255,0.2); color:#fff; }
 
-    /* ─── BOOK REVIEW SCENE ─── */
-    .rv-section { padding:0.25rem 5vw 2rem; }
+    /* ─── REVIEWS ─── */
+    .rv-section { padding:0.25rem 5vw 1.5rem; }
     .rv-eyebrow { font-size:0.62rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:var(--white-40); display:flex; align-items:center; gap:8px; margin-bottom:0.6rem; }
     .rv-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; }
-    .rv-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:#fff; margin-bottom:2rem; }
+    .rv-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:800; letter-spacing:-0.03em; color:#fff; margin-bottom:1.5rem; }
+    .rv-carousel { position:relative; overflow:hidden; max-width:500px; height:190px;margin-top:1.0rem; }
+    .rv-card { position:absolute; inset:0; background:var(--bg2); border:1px solid var(--white-08); border-radius:12px; padding:1.25rem; display:flex; flex-direction:column; gap:8px; opacity:0; transform:translateX(100%); transition:none; }
+    .rv-card.active   { opacity:1; transform:translateX(0);     transition:opacity 0.45s ease, transform 0.55s cubic-bezier(0.34,1.1,0.64,1); }
+    .rv-card.exiting  { opacity:0; transform:translateX(-80px); transition:opacity 0.4s ease, transform 0.4s ease; }
+    .rv-stars { font-size:1.1rem; letter-spacing:3px; color:rgba(255,182,213,1); text-shadow:0 0 8px rgba(255,100,180,0.8), 0 0 16px rgba(255,100,180,0.4); }
+    .rv-text  { font-size:0.75rem; color:var(--white-70); line-height:1.65; font-style:italic; flex:1; }
+    .rv-header { display:flex; align-items:center; gap:8px; margin-bottom:2px; }
+    .rv-avatar { width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,var(--purple-mid),var(--accent)); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:800; color:#fff; flex-shrink:0; }
+    .rv-name { font-size:0.68rem; font-weight:700; color:#fff; line-height:1.2; }
+    .rv-moniker { font-size:0.58rem; color:var(--accent); letter-spacing:0.06em; }
+    .rv-footer { display:flex; align-items:center; justify-content:space-between; margin-top:6px; }
+    .rv-read-more { font-size:0.58rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); cursor:pointer; opacity:0.8; transition:opacity 0.2s; }
+    .rv-read-more:hover { opacity:1; }
+    .rv-badge { font-size:0.52rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:rgba(192,132,252,0.12); border:1px solid rgba(192,132,252,0.25); border-radius:4px; padding:2px 6px; color:var(--accent); }
 
-    .book-scene {
-      position:relative; width:100%; max-width:700px;
-      height:420px;
+
+
+    /* ─── HERO PARTICLES ─── */
+    .hero-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .hero-particle {
+      position:absolute; border-radius:50%;
+      animation:particleDrift var(--dur) ease-in-out infinite var(--delay);
+    }
+    .hero-particle.glow {
+      box-shadow: 0 0 6px 2px var(--pc), 0 0 14px 4px var(--pc);
+    }
+    @keyframes particleDrift {
+      0%   { transform:translate(0,0) scale(1); opacity:0; }
+      15%  { opacity:1; }
+      85%  { opacity:var(--op); }
+      100% { transform:translate(var(--dx),var(--dy)) scale(0.3); opacity:0; }
     }
 
-    /* The open book SVG base */
-    .book-svg { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:90%; max-width:640px; }
 
-    /* Cards popping from the gutter */
-    .pop-card {
-      position:absolute;
-      background:var(--bg2);
-      border:1px solid var(--white-15);
-      border-radius:10px;
-      padding:0.85rem 1rem;
-      width:200px;
-      display:flex; flex-direction:column; gap:6px;
-      opacity:0;
-      box-shadow:0 8px 32px rgba(0,0,0,0.5);
-      transition: border-color 0.2s;
-    }
-    .pop-card:hover { border-color:rgba(192,132,252,0.4); }
-    .pop-card.popped { animation: popUp var(--dur) cubic-bezier(0.34,1.4,0.64,1) var(--delay) forwards; }
 
-    @keyframes popUp {
-      0%   { opacity:0; transform:translate(var(--tx), 60px) rotate(var(--rot)) scale(0.7); }
-      60%  { opacity:1; }
-      100% { opacity:1; transform:translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1); }
+
+
+    .rv-quote-mark {
+      position:absolute; top:10px; right:14px;
+      font-size:4rem; line-height:1; font-family:Georgia,serif;
+      color:rgba(255,255,255,0.15); font-weight:700;
+      pointer-events:none; user-select:none;
     }
 
-    /* card positions: 2 left, 2 right, erupting from center */
-    .pop-card:nth-child(1) { --tx:-210px; --ty:-260px; --rot:-6deg; --delay:0.1s; --dur:0.8s; left:50%; bottom:80px; }
-    .pop-card:nth-child(2) { --tx:-110px; --ty:-320px; --rot:-2deg; --delay:0.25s; --dur:0.75s; left:50%; bottom:80px; }
-    .pop-card:nth-child(3) { --tx:10px;   --ty:-310px; --rot:3deg;  --delay:0.15s; --dur:0.8s; left:50%; bottom:80px; }
-    .pop-card:nth-child(4) { --tx:110px;  --ty:-250px; --rot:7deg;  --delay:0.35s; --dur:0.7s; left:50%; bottom:80px; }
 
-    .pop-stars { font-size:0.9rem; color:#facc15; letter-spacing:2px; }
-    .pop-text  { font-size:0.68rem; color:var(--white-70); line-height:1.6; font-style:italic; }
-    .pop-name  { font-size:0.6rem; font-weight:700; color:#fff; }
-    .pop-name span { color:var(--accent); font-weight:400; }
-
-    @media (max-width:640px) {
-      .book-scene { height:500px; }
-      .pop-card { width:140px; padding:0.65rem 0.75rem; }
-      .pop-card:nth-child(1) { --tx:-155px; --ty:-290px; --rot:-6deg; }
-      .pop-card:nth-child(2) { --tx:-70px;  --ty:-350px; --rot:-2deg; }
-      .pop-card:nth-child(3) { --tx:10px;   --ty:-340px; --rot:3deg; }
-      .pop-card:nth-child(4) { --tx:80px;   --ty:-280px; --rot:7deg; }
-      .pop-text { font-size:0.6rem; }
+    /* ─── RIBBON EXPLOSION ─── */
+    .divider { position:relative; }
+    .ribbon-burst { position:absolute; top:50%; transform:translateY(-50%); pointer-events:none; width:0; height:0; }
+    .ribbon {
+      position:absolute; width:6px; border-radius:2px;
+      opacity:0; top:0; left:0;
+      transform-origin:center bottom;
+    }
+    .ribbon.fired {
+      animation:ribbonFly var(--dur) cubic-bezier(0.2,0.8,0.4,1) var(--delay) forwards;
+    }
+    @keyframes ribbonFly {
+      0%   { opacity:1; transform:rotate(var(--angle)) translateY(0) scaleY(1); }
+      70%  { opacity:1; }
+      100% { opacity:0; transform:rotate(var(--angle)) translateY(var(--dist)) scaleY(0.4); }
     }
 
-    /* ─── FAQ ─── */
-    .faq-section { padding:1.5rem 5vw 3rem; max-width:780px; margin:0 auto; }
+
+      50%      { transform:translateY(var(--dy)) rotate(calc(var(--rot) + 8deg)); }
+    }
+
+
+    /* ─── PRICING AMBIENT ─── */
+    .pricing-section { position:relative; }
+    .pricing-orb {
+      position:absolute; border-radius:50%; pointer-events:none; filter:blur(60px);
+      animation:orbDrift var(--dur) ease-in-out infinite alternate var(--delay);
+    }
+    @keyframes orbDrift {
+      0%   { transform:translate(0,0) scale(1); }
+      100% { transform:translate(var(--dx),var(--dy)) scale(var(--ds)); }
+    }
+
+    /* ─── FAQ AMBIENT ─── */
+    .faq-section { position:relative; }
+    .faq-orb {
+      position:absolute; border-radius:50%; pointer-events:none; filter:blur(80px);
+      animation:orbDrift var(--dur) ease-in-out infinite alternate var(--delay);
+      z-index:0;
+    }
+    .faq-list { position:relative; z-index:1; }
+    .faq-heading, .faq-sub { position:relative; z-index:1; }
+
+
+
+    /* ─── PRICING BG BOOKS ─── */
+    .pricing-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .pricing-spine {
+      position:absolute; border-radius:2px 4px 4px 2px;
+      opacity:0; animation:spineFloat var(--dur) ease-in-out infinite var(--delay);
+    }
+    @keyframes spineFloat {
+      0%   { opacity:0; transform:translateY(0) rotate(var(--rot)); }
+      20%  { opacity:var(--op); }
+      80%  { opacity:var(--op); }
+      100% { opacity:0; transform:translateY(-30px) rotate(calc(var(--rot) + 5deg)); }
+    }
+    .pricing-section > *:not(.pricing-bg):not(.pricing-orb) { position:relative; z-index:1; }
+
+    /* ─── FAQ BG BOOKS ─── */
+    .faq-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .faq-book {
+      position:absolute; opacity:0.04;
+      animation:faqBookDrift var(--dur) ease-in-out infinite var(--delay);
+    }
+    @keyframes faqBookDrift {
+      0%,100% { transform:translate(0,0) rotate(var(--rot)); }
+      50%      { transform:translate(var(--dx),var(--dy)) rotate(calc(var(--rot) + 3deg)); }
+    }
+
+
+    /* ─── PRICING BG EXTRA ─── */
+
+    .pricing-stars { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+    .pricing-star {
+      position:absolute; border-radius:50%; background:#fff;
+      animation:pStarPulse var(--dur) ease-in-out infinite var(--delay);
+    }
+    @keyframes pStarPulse {
+      0%,100% { opacity:0; transform:scale(0.5); }
+      50%      { opacity:var(--op); transform:scale(1); }
+    }
+
+
+      15%  { opacity:var(--op); }
+      85%  { opacity:var(--op); }
+      100% { opacity:0; transform:translateY(var(--dy)) scale(0.8); }
+    }
+
+
+      50%      { transform:translateY(-20px); }
+    }
+
+/* ─── FAQ ─── */
+    .faq-section { padding:1rem 5vw 5rem; max-width:780px; margin:0 auto; }
     .faq-heading { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:-0.03em; color:#fff; text-align:center; margin-bottom:0.5rem; }
     .faq-sub { font-size:0.9rem; color:var(--white-40); text-align:center; margin-bottom:2.5rem; letter-spacing:0.02em; }
     .faq-list { border:1px solid var(--white-15); border-radius:16px; overflow:hidden; }
     .faq-item { border-bottom:1px solid var(--white-08); }
     .faq-item:last-child { border-bottom:none; }
-    .faq-q { width:100%; background:none; border:none; padding:1.1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; text-align:left; gap:1rem; font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:600; color:var(--white); transition:background 0.2s; }
-    .faq-icon { flex-shrink:0; width:22px; height:22px; border:2px solid #fff; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
+    .faq-q { width:100%; background:none; border:none; padding:1.15rem 1.5rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; text-align:left; gap:1rem; font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:600; color:var(--white); transition:background 0.2s; }
+    .faq-icon { flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); filter:drop-shadow(0 0 6px rgba(255,100,180,0.8)); }
     .faq-q.open .faq-icon { transform:rotate(180deg); }
     .faq-a { max-height:0; overflow:hidden; transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.3s; opacity:0; }
     .faq-a.open { max-height:200px; opacity:1; }
@@ -389,17 +487,17 @@
     /* ─── FOOTER ─── */
     .site-footer { background:var(--bg); border-top:1px solid var(--white-08); overflow:hidden; }
     .footer-marquee { border-bottom:1px solid var(--white-08); border-top:1px solid var(--white-08); padding:0.85rem 0; overflow:hidden; white-space:nowrap; }
-    .marquee-track { display:inline-block; animation:marqueeScroll 18s linear infinite; font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--white-40); }
+    .marquee-track { display:inline-block; animation:marqueeScroll 18s linear infinite; font-size:0.72rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.8); text-shadow:0 0 10px rgba(192,132,252,0.6); }
     .marquee-track span { margin:0 0.5rem; }
-    .marquee-track .dot-sep { color:var(--accent); margin:0 0.25rem; }
+    .marquee-track .dot-sep { color:var(--accent2); margin:0 0.25rem; text-shadow:0 0 8px rgba(240,171,252,0.9); }
     @keyframes marqueeScroll { from{transform:translateX(0);}to{transform:translateX(-50%);} }
     .footer-wordmark { font-size:clamp(5rem,22vw,14rem); font-weight:800; letter-spacing:-0.04em; text-align:center; line-height:1; padding:1rem 0 0; user-select:none; pointer-events:none; }
     .fw-l { color:transparent; -webkit-text-stroke:1px rgba(255,255,255,0.25); display:inline-block; transition:color 0.08s ease, -webkit-text-stroke 0.08s ease, text-shadow 0.08s ease; }
     .fw-l.lit { color:rgba(192,132,252,0.9); -webkit-text-stroke:1px rgba(192,132,252,0.6); text-shadow:0 0 40px rgba(192,132,252,0.8), 0 0 80px rgba(192,132,252,0.4), 0 0 120px rgba(168,85,247,0.3); }
     .fw-l.dim { color:rgba(255,255,255,0.6); -webkit-text-stroke:1px rgba(255,255,255,0.5); text-shadow:0 0 20px rgba(255,255,255,0.2); }
-    .footer-bottom { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem; padding:1.25rem 5vw 1.75rem; margin-top:-1rem; }
+    .footer-bottom { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; padding:1.25rem 5vw 1.75rem; margin-top:-1rem; text-align:center; }
     .footer-bottom p { font-size:0.7rem; color:var(--white-40); }
-    .footer-links { display:flex; gap:1.5rem; }
+    .footer-links { display:flex; gap:1.5rem; justify-content:center; }
     .footer-links a { font-size:0.7rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:var(--white-40); text-decoration:none; transition:color 0.2s; }
     .footer-links a:hover { color:var(--white); }
 
@@ -428,10 +526,10 @@
   <nav>
     <a class="logo" href="#">
       <div class="logo-mark">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <rect x="2" y="2" width="5" height="14" rx="1" fill="#c084fc"/>
-          <rect x="9" y="4" width="5" height="12" rx="1" fill="rgba(192,132,252,0.5)"/>
-          <rect x="4" y="14" width="12" height="1.5" rx="0.75" fill="rgba(255,255,255,0.3)"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M8 7h8M8 11h6" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
         </svg>
       </div>
       <span class="logo-text">Lit<span>hos</span></span>
@@ -447,7 +545,8 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
         <span>Search titles...</span>
       </div>
-      <button class="nav-btn">Sign in</button>
+      <button class="nav-btn nav-btn-ghost">Log in</button>
+      <button class="nav-btn">Sign up</button>
     </div>
   </nav>
 
@@ -471,6 +570,7 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-particles" id="heroParticles"></div>
     <div class="hero-left">
       <div class="hero-tag">
         <span class="hero-tag-dot"></span>
@@ -527,69 +627,6 @@
     </div>
   </section>
 
-  <!-- CURRENTLY TRENDING -->
-  <section class="trending-section">
-    <div class="section-head" style="margin-bottom:1rem;">
-      <h2 style="font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white-70);">
-        <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:8px;vertical-align:middle;position:relative;top:-1px;"></span>
-        Added this week
-      </h2>
-      <a href="#" class="see-all">See all new →</a>
-    </div>
-    <div class="trending-strip">
-      <div class="trending-pill">
-        <div class="trending-rank top">#1</div>
-        <div>
-          <div class="trending-pill-title">The Pale Corridor</div>
-          <div class="trending-pill-genre">Thriller</div>
-        </div>
-        <div class="trending-pill-arrow">↗</div>
-      </div>
-      <div class="trending-divider"></div>
-      <div class="trending-pill">
-        <div class="trending-rank top">#2</div>
-        <div>
-          <div class="trending-pill-title">Before the Rain Ends</div>
-          <div class="trending-pill-genre">Romance</div>
-        </div>
-        <div class="trending-pill-arrow">↗</div>
-      </div>
-      <div class="trending-divider"></div>
-      <div class="trending-pill">
-        <div class="trending-rank top">#3</div>
-        <div>
-          <div class="trending-pill-title">The Fermi Descent</div>
-          <div class="trending-pill-genre">Sci-Fi</div>
-        </div>
-        <div class="trending-pill-arrow">↗</div>
-      </div>
-      <div class="trending-divider"></div>
-      <div class="trending-pill">
-        <div class="trending-rank">#4</div>
-        <div>
-          <div class="trending-pill-title">How I Ruined Christmas</div>
-          <div class="trending-pill-genre">Comedy</div>
-        </div>
-      </div>
-      <div class="trending-divider"></div>
-      <div class="trending-pill">
-        <div class="trending-rank">#5</div>
-        <div>
-          <div class="trending-pill-title">Red Door Inn</div>
-          <div class="trending-pill-genre">Thriller</div>
-        </div>
-      </div>
-      <div class="trending-divider"></div>
-      <div class="trending-pill">
-        <div class="trending-rank">#6</div>
-        <div>
-          <div class="trending-pill-title">Pale Blue Signal</div>
-          <div class="trending-pill-genre">Fantasy</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <div class="sp-outer" id="spOuter">
     <svg class="sp-svg" id="spSvg"></svg>
     <div class="sp-row top" id="spTopRow">
@@ -598,7 +635,7 @@
       <div class="sp-node" data-i="2"><div class="sp-node-label">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
     </div>
     <div class="sp-box" id="spBox">
-      <div class="sp-heading">Staff Picks — October <span class="sp-chevron">&#9660;</span></div>
+      <div class="sp-heading">Staff Picks — October <span class="sp-chevron"><svg width="18" height="11" viewBox="0 0 18 11" fill="none"><polygon points="0,0 18,0 9,11" fill="url(#spktg)"/><defs><linearGradient id="spktg" x1="0" y1="0" x2="18" y2="11" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></div>
       <div class="sp-title">The Pale Corridor</div>
       <div class="sp-sub">A slow-burn supernatural thriller that redefines what it means to be afraid.</div>
       <div class="sp-expand-hint" id="spHint">&#8595; tap to expand</div>
@@ -619,75 +656,114 @@
 
 
   <!-- REVIEWS -->
-  <div class="divider"></div>
+  <div class="divider" id="reviewDivider"><div class="divider-gem"><div class="divider-dot"></div><div class="divider-diamond"></div><div class="divider-dot"></div></div></div>
   <section class="rv-section" id="rvSection">
     <div class="rv-eyebrow">What readers say</div>
     <h2 class="rv-title">Straight from the shelf.</h2>
-
-    <div class="book-scene">
-      <!-- 4 review cards erupting from the gutter -->
-      <div class="pop-card">
-        <div class="pop-stars">★★★★★</div>
-        <div class="pop-text">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</div>
-        <div class="pop-name">Jordan M. <span>· Horror</span></div>
+    <div class="rv-carousel">
+      <div class="rv-card">
+        <div class="rv-quote-mark">"</div>
+        <div class="rv-header">
+          <div class="rv-avatar">JM</div>
+          <div><div class="rv-name">Jordan M.</div><div class="rv-moniker">Midnight Reader</div></div>
+        </div>
+        <div class="rv-stars">★★★★★</div>
+        <div class="rv-text">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</div>
+        <div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div>
       </div>
-      <div class="pop-card">
-        <div class="pop-stars">★★★★★</div>
-        <div class="pop-text">"Laughed so hard my flatmate asked if I was okay."</div>
-        <div class="pop-name">Priya K. <span>· Comedy</span></div>
+      <div class="rv-card">
+        <div class="rv-quote-mark">"</div>
+        <div class="rv-header">
+          <div class="rv-avatar">PK</div>
+          <div><div class="rv-name">Priya K.</div><div class="rv-moniker">Comedy Connoisseur</div></div>
+        </div>
+        <div class="rv-stars">★★★★★</div>
+        <div class="rv-text">"The comedy section alone is worth it. Laughed so hard my flatmate asked if I was okay."</div>
+        <div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div>
       </div>
-      <div class="pop-card">
-        <div class="pop-stars">★★★★☆</div>
-        <div class="pop-text">"Finally a library that doesn't feel like 2009. Staff picks are actually good."</div>
-        <div class="pop-name">Theo R. <span>· Sci-Fi</span></div>
+      <div class="rv-card">
+        <div class="rv-quote-mark">"</div>
+        <div class="rv-header">
+          <div class="rv-avatar">TR</div>
+          <div><div class="rv-name">Theo R.</div><div class="rv-moniker">Sci-Fi Devotee</div></div>
+        </div>
+        <div class="rv-stars">★★★★☆</div>
+        <div class="rv-text">"Finally a library that doesn't feel like 2009. Staff picks are actually good."</div>
+        <div class="rv-footer"><div class="rv-badge">Top reviewer</div><div class="rv-read-more">Read more →</div></div>
       </div>
-      <div class="pop-card">
-        <div class="pop-stars">★★★★★</div>
-        <div class="pop-text">"Before the Rain Ends broke me. In the best way."</div>
-        <div class="pop-name">Aisha T. <span>· Romance</span></div>
+      <div class="rv-card">
+        <div class="rv-quote-mark">"</div>
+        <div class="rv-header">
+          <div class="rv-avatar">AT</div>
+          <div><div class="rv-name">Aisha T.</div><div class="rv-moniker">Romance Aficionado</div></div>
+        </div>
+        <div class="rv-stars">★★★★★</div>
+        <div class="rv-text">"Before the Rain Ends broke me. In the best way. Recommended it to everyone I know."</div>
+        <div class="rv-footer"><div class="rv-badge">Verified reader</div><div class="rv-read-more">Read more →</div></div>
       </div>
-
-      <!-- Open book SVG -->
-      <svg class="book-svg" viewBox="0 0 640 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Left page -->
-        <path d="M320 30 C240 28, 100 40, 20 80 L20 200 C100 165, 240 155, 320 158 Z"
-              fill="#2a1a4a" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <!-- Left page lines -->
-        <line x1="60" y1="95"  x2="290" y2="82"  stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="60" y1="110" x2="290" y2="98"  stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="60" y1="125" x2="290" y2="114" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="60" y1="140" x2="290" y2="130" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="60" y1="155" x2="290" y2="146" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="60" y1="170" x2="290" y2="162" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-
-        <!-- Right page -->
-        <path d="M320 30 C400 28, 540 40, 620 80 L620 200 C540 165, 400 155, 320 158 Z"
-              fill="#231540" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-        <!-- Right page lines -->
-        <line x1="350" y1="82"  x2="580" y2="95"  stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="350" y1="98"  x2="580" y2="110" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="350" y1="114" x2="580" y2="125" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="350" y1="130" x2="580" y2="140" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="350" y1="146" x2="580" y2="155" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-        <line x1="350" y1="162" x2="580" y2="170" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
-
-        <!-- Spine / gutter glow -->
-        <path d="M320 25 C318 80, 318 140, 320 200" stroke="rgba(192,132,252,0.8)" stroke-width="3" stroke-linecap="round"/>
-        <path d="M320 25 C318 80, 318 140, 320 200" stroke="rgba(192,132,252,0.3)" stroke-width="10" stroke-linecap="round"/>
-
-        <!-- Shadow under book -->
-        <ellipse cx="320" cy="210" rx="280" ry="12" fill="rgba(0,0,0,0.4)"/>
-      </svg>
+    </div>
+      <div class="rv-dot"></div>
+      <div class="rv-dot"></div>
+      <div class="rv-dot"></div>
     </div>
   </section>
 
   <!-- PRICING -->
-  <div class="divider"></div>
+  <div class="divider"><div class="divider-gem"><div class="divider-dot"></div><div class="divider-diamond"></div><div class="divider-dot"></div></div></div>
   <section class="pricing-section">
+    <div class="pricing-stars" id="pricingStars"></div>
+    <div class="pricing-orb" style="width:300px;height:300px;background:rgba(192,132,252,0.12);top:-60px;left:-80px;--dur:7s;--delay:0s;--dx:40px;--dy:30px;--ds:1.15;"></div>
+    <div class="pricing-orb" style="width:200px;height:200px;background:rgba(236,72,153,0.08);bottom:-40px;right:-40px;--dur:9s;--delay:-3s;--dx:-30px;--dy:-20px;--ds:0.9;"></div>
+    <div class="pricing-orb" style="width:160px;height:160px;background:rgba(167,139,250,0.1);top:50%;right:20%;--dur:6s;--delay:-1.5s;--dx:20px;--dy:-40px;--ds:1.2;"></div>
+    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;">
+
+      <!-- Quill 1 top left -->
+      <svg style="position:absolute;top:5%;left:2%;opacity:0.07;animation:qfloat 6s ease-in-out infinite;" width="60" height="120" viewBox="0 0 60 120" fill="none">
+        <path d="M30 110 C28 90,10 60,5 20 C20 35,40 50,45 80 C42 70,35 55,30 110Z" fill="white"/>
+        <path d="M5 20 C15 10,35 8,50 5 C40 25,20 40,5 20Z" fill="white"/>
+        <line x1="30" y1="110" x2="30" y2="90" stroke="rgba(192,132,252,0.5)" stroke-width="1.5"/>
+      </svg>
+
+      <!-- Quill 2 bottom right -->
+      <svg style="position:absolute;bottom:8%;right:3%;opacity:0.06;animation:qfloat 8s ease-in-out infinite -3s;transform:rotate(25deg);" width="50" height="100" viewBox="0 0 60 120" fill="none">
+        <path d="M30 110 C28 90,10 60,5 20 C20 35,40 50,45 80 C42 70,35 55,30 110Z" fill="white"/>
+        <path d="M5 20 C15 10,35 8,50 5 C40 25,20 40,5 20Z" fill="white"/>
+        <line x1="30" y1="110" x2="30" y2="90" stroke="rgba(192,132,252,0.5)" stroke-width="1.5"/>
+      </svg>
+
+      <!-- Ink drop 1 -->
+      <svg style="position:absolute;top:40%;left:5%;opacity:0.07;animation:qfloat 7s ease-in-out infinite -1s;" width="30" height="40" viewBox="0 0 30 40" fill="none">
+        <path d="M15 2 C15 2,2 18,2 26 C2 33,8 38,15 38 C22 38,28 33,28 26 C28 18,15 2,15 2Z" fill="white"/>
+      </svg>
+
+      <!-- Ink drop 2 -->
+      <svg style="position:absolute;bottom:20%;right:6%;opacity:0.06;animation:qfloat 9s ease-in-out infinite -4s;" width="22" height="30" viewBox="0 0 30 40" fill="none">
+        <path d="M15 2 C15 2,2 18,2 26 C2 33,8 38,15 38 C22 38,28 33,28 26 C28 18,15 2,15 2Z" fill="white"/>
+      </svg>
+
+      <!-- Open book top right -->
+      <svg style="position:absolute;top:6%;right:4%;opacity:0.06;animation:qfloat 10s ease-in-out infinite -2s;" width="70" height="50" viewBox="0 0 80 55" fill="none">
+        <path d="M40 8 C30 6,10 10,6 24 L6 48 C10 36,30 32,40 34Z" stroke="white" stroke-width="1.5" fill="none"/>
+        <path d="M40 8 C50 6,70 10,74 24 L74 48 C70 36,50 32,40 34Z" stroke="white" stroke-width="1.5" fill="none"/>
+        <line x1="40" y1="8" x2="40" y2="34" stroke="rgba(192,132,252,0.6)" stroke-width="1.2"/>
+      </svg>
+
+      <!-- Bookmark bottom left -->
+      <svg style="position:absolute;bottom:5%;left:4%;opacity:0.07;animation:qfloat 7s ease-in-out infinite -5s;" width="24" height="40" viewBox="0 0 24 44" fill="none">
+        <path d="M2 2 L22 2 L22 42 L12 34 L2 42 Z" stroke="white" stroke-width="1.5" fill="none"/>
+      </svg>
+
+    </div>
+    <style>
+    @keyframes qfloat {
+      0%,100% { transform:translateY(0) rotate(var(--r,0deg)); }
+      50%      { transform:translateY(-14px) rotate(var(--r,0deg)); }
+    }
+    </style>
     <div class="pricing-eyebrow">How do you want to do this?</div>
     <h2 class="pricing-title">Pick your relationship with books.</h2>
-    <div class="pricing-strip" id="pricingStrip">
-      <div class="ps-card" data-index="0">
+    <div class="pricing-strip" id="pricingStrip" style="position:relative;">
+      <div class="ps-card" data-index="0" style="background-image:repeating-linear-gradient(-45deg,transparent,transparent 8px,rgba(255,255,255,0.015) 8px,rgba(255,255,255,0.015) 9px);">
         <div class="ps-goo"></div>
         <div class="ps-card-inner">
           <div class="ps-top"><span class="ps-emoji">📖</span><span class="ps-tag">For the casual reader</span></div>
@@ -700,7 +776,8 @@
       </div>
       <div class="ps-card ps-card-center" data-index="1">
         <div class="ps-goo"></div>
-        <div class="ps-card-inner">
+        <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--accent),var(--accent2));color:#1a0f2e;font-size:0.55rem;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;padding:3px 14px;border-radius:0 0 8px 8px;white-space:nowrap;z-index:3;">✦ Most Popular</div>
+        <div class="ps-card-inner" style="padding-top:2rem;">
           <div class="ps-top"><span class="ps-emoji">📚</span><span class="ps-tag ps-tag-accent">For the collector</span></div>
           <div class="ps-name">Make it yours.</div>
           <div class="ps-price-row"><span class="ps-price">$4.99</span><span class="ps-price-note">per book, forever</span></div>
@@ -709,7 +786,7 @@
           <button class="ps-btn ps-btn-accent">Buy a book →</button>
         </div>
       </div>
-      <div class="ps-card" data-index="2">
+      <div class="ps-card" data-index="2" style="background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:14px 14px;">
         <div class="ps-goo"></div>
         <div class="ps-card-inner">
           <div class="ps-top"><span class="ps-emoji">⭐</span><span class="ps-tag">For the obsessed</span></div>
@@ -724,17 +801,29 @@
   </section>
 
   <!-- FAQ -->
-  <div class="divider"></div>
+  <div class="divider"><div class="divider-gem"><div class="divider-dot"></div><div class="divider-diamond"></div><div class="divider-dot"></div></div></div>
   <section class="faq-section">
+    <div class="faq-bg">
+      <svg class="faq-book" style="width:120px;top:5%;left:5%;--rot:-12deg;--dx:15px;--dy:20px;--dur:8s;--delay:0s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+      <svg class="faq-book" style="width:80px;top:40%;right:3%;--rot:10deg;--dx:-10px;--dy:-15px;--dur:10s;--delay:-3s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+      <svg class="faq-book" style="width:160px;bottom:5%;left:50%;--rot:5deg;--dx:-20px;--dy:10px;--dur:12s;--delay:-6s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+    </div>
+    <div id="faqWanderer" style="position:absolute;width:380px;height:380px;background:rgba(139,92,246,0.1);border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;transition:top 2.5s ease, left 2.5s ease;top:10%;left:10%;"></div>
+    <div class="faq-bg">
+      <svg class="faq-book" style="width:120px;top:5%;left:5%;--rot:-12deg;--dx:15px;--dy:20px;--dur:8s;--delay:0s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+      <svg class="faq-book" style="width:80px;top:40%;right:3%;--rot:10deg;--dx:-10px;--dy:-15px;--dur:10s;--delay:-3s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+      <svg class="faq-book" style="width:160px;bottom:5%;left:50%;--rot:5deg;--dx:-20px;--dy:10px;--dur:12s;--delay:-6s;" viewBox="0 0 80 60" fill="none"><path d="M40 8 C30 6,10 10,6 24 L6 52 C10 40,30 36,40 38 Z" stroke="white" stroke-width="1.5"/><path d="M40 8 C50 6,70 10,74 24 L74 52 C70 40,50 36,40 38 Z" stroke="white" stroke-width="1.5"/><line x1="40" y1="8" x2="40" y2="38" stroke="rgba(192,132,252,0.6)" stroke-width="1.5"/></svg>
+    </div>
+    <div class="faq-orb" style="width:200px;height:200px;background:rgba(192,132,252,0.07);bottom:5%;right:-60px;--dur:8s;--delay:-4s;--dx:-20px;--dy:-30px;--ds:0.85;"></div>
     <h2 class="faq-heading">Things people actually ask.</h2>
     <p class="faq-sub">Answered properly.</p>
     <div class="faq-list" id="faqList">
-      <div class="faq-item"><button class="faq-q"><span>I haven't read in years. Where do I even start?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Pick a genre you'd watch on a bad night — that's your genre. Don't overthink it. Under 300 pages, first chapter hooks you, you're in. Everything else is noise.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>Why does horror have its own skull?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Because horror deserves the drama. Every genre on this shelf has a personality — horror just happens to be the loudest about it.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>What makes a staff pick actually worth reading?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Someone on our team stayed up past 2am finishing it. That's the only metric that matters. No press releases, no publisher deals, no algorithms.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>Can I trust the comedy section to actually be funny?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>I only read one book a year. Is this still for me?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Especially for you. One great book a year beats twelve forgettable ones. We'll make sure that one book counts.</div></div></div>
-      <div class="faq-item"><button class="faq-q"><span>What's the point of the constellation on the staff picks?</span><span class="faq-icon"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 1L5 5.5L9 1" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><div class="faq-a-inner">Books don't exist alone — they orbit each other. The constellation shows you what lives in the same universe as the pick. Click around. That's the point.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>I haven't read in years. Where do I even start?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">Pick a genre you'd watch on a bad night — that's your genre. Don't overthink it. Under 300 pages, first chapter hooks you, you're in. Everything else is noise.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>Why does horror have its own skull?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">Because horror deserves the drama. Every genre on this shelf has a personality — horror just happens to be the loudest about it.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>What makes a staff pick actually worth reading?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">Someone on our team stayed up past 2am finishing it. That's the only metric that matters. No press releases, no publisher deals, no algorithms.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>Can I trust the comedy section to actually be funny?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>I only read one book a year. Is this still for me?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">Especially for you. One great book a year beats twelve forgettable ones. We'll make sure that one book counts.</div></div></div>
+      <div class="faq-item"><button class="faq-q"><span>What's the point of the constellation on the staff picks?</span><span class="faq-icon"><svg width="24" height="14" viewBox="0 0 24 14" fill="none"><polygon points="0,0 24,0 12,14" fill="url(#pktg)"/><defs><linearGradient id="pktg" x1="0" y1="0" x2="24" y2="14" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#f472b6"/><stop offset="100%" stop-color="#ec4899"/></linearGradient></defs></svg></span></button><div class="faq-a"><div class="faq-a-inner">Books don't exist alone — they orbit each other. The constellation shows you what lives in the same universe as the pick. Click around. That's the point.</div></div></div>
     </div>
   </section>
 
@@ -786,8 +875,33 @@
       {genre:'Thriller',title:'Red Door Inn',author:'M. Selbourne',body:'A locked door. A missing guest. And a hotel that knows too much.'},
     ];
     function borderPt(fromX,fromY,el){var r=el.getBoundingClientRect(),or=outer.getBoundingClientRect(),ex=r.left-or.left,ey=r.top-or.top,ew=r.width,eh=r.height,cx=ex+ew/2,cy=ey+eh/2,dx=fromX-cx,dy=fromY-cy,len=Math.sqrt(dx*dx+dy*dy)||1;dx/=len;dy/=len;var tx,ty;if(Math.abs(dx)*eh>Math.abs(dy)*ew){tx=cx+(dx>0?ew/2:-ew/2);ty=cy+dy*(ew/2)/Math.abs(dx);}else{ty=cy+(dy>0?eh/2:-eh/2);tx=cx+dx*(eh/2)/Math.abs(dy);}return{x:tx,y:ty};}
-    function drawLines(){svg.innerHTML='';var or=outer.getBoundingClientRect();function center(el){var r=el.getBoundingClientRect();return{x:r.left-or.left+r.width/2,y:r.top-or.top+r.height/2};}var bc=center(box);nodes.forEach(function(nd,i){var nc=center(nd),bp=borderPt(nc.x,nc.y,box),ep=borderPt(bc.x,bc.y,nd),p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M'+bp.x+' '+bp.y+' L'+ep.x+' '+ep.y);p.setAttribute('class','sp-line');svg.appendChild(p);setTimeout(function(el){el.classList.add('drawn');},100+i*60,p);});}
-    function open(){isOpen=true;box.classList.add('open');outer.classList.add('open');setTimeout(drawLines,350);}
+    function drawLines(){
+      svg.innerHTML='';
+      svg.style.height=outer.offsetHeight+'px';
+      svg.style.width=outer.offsetWidth+'px';
+      var sr=svg.getBoundingClientRect();
+      function center(el){var r=el.getBoundingClientRect();return{x:r.left-sr.left+r.width/2,y:r.top-sr.top+r.height/2};}
+      function borderPtLocal(fromX,fromY,el){
+        var r=el.getBoundingClientRect();
+        var ex=r.left-sr.left,ey=r.top-sr.top,ew=r.width,eh=r.height;
+        var cx=ex+ew/2,cy=ey+eh/2,dx=fromX-cx,dy=fromY-cy;
+        var len=Math.sqrt(dx*dx+dy*dy)||1;dx/=len;dy/=len;
+        var tx,ty;
+        if(Math.abs(dx)*eh>Math.abs(dy)*ew){tx=cx+(dx>0?ew/2:-ew/2);ty=cy+dy*(ew/2)/Math.abs(dx);}
+        else{ty=cy+(dy>0?eh/2:-eh/2);tx=cx+dx*(eh/2)/Math.abs(dy);}
+        return{x:tx,y:ty};
+      }
+      var bc=center(box);
+      nodes.forEach(function(nd,i){
+        var nc=center(nd),bp=borderPtLocal(nc.x,nc.y,box),ep=borderPtLocal(bc.x,bc.y,nd);
+        var p=document.createElementNS('http://www.w3.org/2000/svg','path');
+        p.setAttribute('d','M'+bp.x+' '+bp.y+' L'+ep.x+' '+ep.y);
+        p.setAttribute('class','sp-line');
+        svg.appendChild(p);
+        setTimeout(function(el){el.classList.add('drawn');},100+i*60,p);
+      });
+    }
+    function open(){isOpen=true;box.classList.add('open');outer.classList.add('open');setTimeout(drawLines,550);}
     function close(){isOpen=false;box.classList.remove('open');outer.classList.remove('open');expanded.classList.remove('active');box.style.display='';topRow.style.display='';botRow.style.display='';svg.innerHTML='';}
     function showExpanded(i){var d=data[i];document.getElementById('spExpGenre').textContent=d.genre;document.getElementById('spExpTitle').textContent=d.title;document.getElementById('spExpAuthor').textContent=d.author;document.getElementById('spExpBody').textContent=d.body;box.style.display='none';topRow.style.display='none';botRow.style.display='none';svg.innerHTML='';expanded.classList.add('active');}
     function hideExpanded(){expanded.classList.remove('active');box.style.display='';topRow.style.display='';botRow.style.display='';setTimeout(drawLines,60);}
@@ -812,8 +926,7 @@
     var strip=document.getElementById('pricingStrip');
     var cards=Array.prototype.slice.call(strip.querySelectorAll('.ps-card'));
     if(!strip||window.innerWidth>700)return;
-    cards[1].classList.add('focused');
-    cards[1].classList.add('goo-active');
+    if(cards[1]){cards[1].classList.add('focused');cards[1].classList.add('goo-active');}
     strip.addEventListener('scroll',function(){var stripRect=strip.getBoundingClientRect(),center=stripRect.left+stripRect.width/2,closest=null,minDist=Infinity;cards.forEach(function(card){var r=card.getBoundingClientRect(),dist=Math.abs((r.left+r.width/2)-center);if(dist<minDist){minDist=dist;closest=card;}});cards.forEach(function(c){c.classList.remove('focused');c.classList.remove('goo-active');});if(closest){closest.classList.add('focused');closest.classList.add('goo-active');}},{passive:true});
   })();
   </script>
@@ -873,20 +986,198 @@
   </script>
 
 
+
+
+
+
+
+
+
   <script>
-  /* ── BOOK POP ── */
+  /* ── REVIEW CAROUSEL ── */
   (function(){
-    var section = document.getElementById('rvSection');
-    var cards = Array.prototype.slice.call(section.querySelectorAll('.pop-card'));
-    var fired = false;
-    var obs = new IntersectionObserver(function(entries){
-      if(entries[0].isIntersecting && !fired){
-        fired = true;
-        cards.forEach(function(c){ c.classList.add('popped'); });
-      }
-    }, { threshold: 0.2 });
-    obs.observe(section);
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.rv-card'));
+    var cur = 0;
+    var n = cards.length;
+
+    // Reset all cards to off-screen right, no transition
+    function reset(card) {
+      card.style.transition = 'none';
+      card.style.transform = 'translateX(100%)';
+      card.style.opacity = '0';
+      card.classList.remove('active', 'exiting');
+    }
+
+    // Init
+    cards.forEach(function(c) { reset(c); });
+
+    // Show card at index i
+    function show(i) {
+      var card = cards[i];
+      // Force off-screen right with no transition
+      card.style.transition = 'none';
+      card.style.transform = 'translateX(100%)';
+      card.style.opacity = '0';
+      // Reflow
+      void card.offsetWidth;
+      // Animate in
+      card.style.transition = 'transform 0.55s cubic-bezier(0.34,1.1,0.64,1), opacity 0.4s ease';
+      card.style.transform = 'translateX(0)';
+      card.style.opacity = '1';
+    }
+
+    // Hide card at index i (slide left)
+    function hide(i, cb) {
+      var card = cards[i];
+      card.style.transition = 'transform 0.4s ease, opacity 0.35s ease';
+      card.style.transform = 'translateX(-80px)';
+      card.style.opacity = '0';
+      setTimeout(function() {
+        card.style.transition = 'none';
+        card.style.transform = 'translateX(100%)';
+        if (cb) cb();
+      }, 420);
+    }
+
+    show(cur);
+
+    setInterval(function() {
+      var prev = cur;
+      cur = (cur + 1) % n;
+      hide(prev, function() {});
+      setTimeout(function() { show(cur); }, 200);
+    }, 4000);
   })();
   </script>
+
+
+
+  <script>
+  /* ── HERO PARTICLES ── */
+  (function(){
+    var container = document.getElementById('heroParticles');
+    if (!container) return;
+    var colors = [
+      'rgba(192,132,252,VAL)',
+      'rgba(240,171,252,VAL)',
+      'rgba(167,139,250,VAL)',
+      'rgba(255,255,255,VAL)',
+      'rgba(124,58,237,VAL)',
+    ];
+    for (var i = 0; i < 38; i++) {
+      var p = document.createElement('div');
+      var isGlow = Math.random() < 0.35;
+      var size = isGlow
+        ? (Math.random() * 4 + 3).toFixed(1)
+        : (Math.random() * 2 + 0.8).toFixed(1);
+      var colorBase = colors[Math.floor(Math.random() * colors.length)];
+      var opacity = isGlow ? (Math.random() * 0.4 + 0.5).toFixed(2) : (Math.random() * 0.3 + 0.15).toFixed(2);
+      var color = colorBase.replace('VAL', opacity);
+      var x = Math.random() * 100;
+      var y = Math.random() * 100;
+      var dx = (Math.random() - 0.5) * 100;
+      var dy = -(Math.random() * 180 + 60);
+      var dur = (Math.random() * 10 + 7).toFixed(1);
+      var delay = -(Math.random() * 14).toFixed(1);
+
+      p.className = 'hero-particle' + (isGlow ? ' glow' : '');
+      p.style.cssText = [
+        'width:'+size+'px',
+        'height:'+size+'px',
+        'left:'+x+'%',
+        'top:'+y+'%',
+        'background:'+color,
+        '--pc:'+color,
+        '--dx:'+dx+'px',
+        '--dy:'+dy+'px',
+        '--dur:'+dur+'s',
+        '--delay:'+delay+'s',
+        '--op:'+opacity,
+      ].join(';');
+      container.appendChild(p);
+    }
+  })();
+  </script>
+
+  <script>
+  /* ── RIBBON EXPLOSION ── */
+  (function(){
+    var colors = ['#f472b6','#c084fc','#a78bfa','#67e8f9','#fb923c','#facc15','#4ade80','#f9a8d4','#e879f9','#38bdf8'];
+
+    var rvSection = document.getElementById('rvSection');
+    if (!rvSection) return;
+    var fired = false;
+
+    function burstAt(xPct, yPct) {
+      var wrap = document.createElement('div');
+      var r = rvSection.getBoundingClientRect();
+      wrap.style.cssText = 'position:fixed;top:'+(r.top + r.height*yPct)+'px;left:'+(r.left + r.width*xPct)+'px;pointer-events:none;z-index:999;overflow:visible;';
+      document.body.appendChild(wrap);
+      for (var i = 0; i < 22; i++) {
+        (function() {
+          var p = document.createElement('div');
+          var color = colors[Math.floor(Math.random() * colors.length)];
+          var w = Math.random() * 5 + 4;
+          var h = Math.random() * 16 + 8;
+          var dur = Math.random() * 500 + 600;
+          var delay = Math.random() * 100;
+          var vx = (Math.random() - 0.5) * 8;
+          var vy = -(Math.random() * 6 + 3);
+          var startRot = Math.random() * 360;
+          p.style.cssText = ['position:absolute','top:0','left:0','width:'+w+'px','height:'+h+'px','border-radius:3px','background:'+color,'box-shadow:0 0 5px '+color,'transform:rotate('+startRot+'deg)','opacity:1'].join(';');
+          wrap.appendChild(p);
+          var startTime=null, x=0, y=0, rot=startRot, opacity=1, gravity=0.15;
+          function step(ts) {
+            if (!startTime) startTime = ts + delay;
+            if (ts < startTime) { requestAnimationFrame(step); return; }
+            var progress = (ts - startTime) / dur;
+            if (progress >= 1) { p.remove(); return; }
+            x+=vx; y+=vy; vy+=gravity; rot+=vx*3; opacity=1-progress;
+            p.style.transform='translate('+x+'px,'+y+'px) rotate('+rot+'deg)';
+            p.style.opacity=opacity;
+            requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        })();
+      }
+      setTimeout(function(){ wrap.remove(); }, 2000);
+    }
+
+    var obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !fired) {
+        fired = true;
+        burstAt(0.1, 0.3);
+        setTimeout(function(){ burstAt(0.9, 0.3); }, 500);
+        setTimeout(function(){ burstAt(0.5, 0.7); }, 1000);
+      }
+    }, { threshold: 0.5 });
+    obs.observe(rvSection);
+  })();
+  </script>
+
+
+  <script>
+  /* ── FAQ WANDERER ── */
+  (function(){
+    var el = document.getElementById('faqWanderer');
+    if (!el) return;
+    var section = el.closest('.faq-section');
+
+    function wander() {
+      var maxX = 60; // percent
+      var maxY = 60;
+      var x = Math.random() * maxX;
+      var y = Math.random() * maxY;
+      el.style.left = x + '%';
+      el.style.top  = y + '%';
+      var next = Math.random() * 3000 + 2000;
+      setTimeout(wander, next);
+    }
+
+    wander();
+  })();
+  </script>
+
+
 </body>
 </html>
