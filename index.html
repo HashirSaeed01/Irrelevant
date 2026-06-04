@@ -314,7 +314,56 @@
     }
 
     /* ─── FAQ ─── */
-    .faq-section { padding:1rem 5vw 5rem; max-width:780px; margin:0 auto; overflow:hidden; }
+    .faq-section {
+      position: relative;
+      padding: 1rem 5vw 5rem;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .faq-deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .faq-deco-icon {
+      position: absolute;
+      color: rgba(26, 23, 20, 0.07);
+    }
+    .faq-deco-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .faq-deco-icon--1  { top: 4%;   left: 2%;    width: 52px; transform: rotate(-14deg); }
+    .faq-deco-icon--2  { top: 10%;  right: 4%;   width: 58px; transform: rotate(18deg);  color: rgba(26,23,20,0.055); }
+    .faq-deco-icon--3  { top: 22%;  left: 6%;    width: 40px; transform: rotate(8deg);   color: rgba(26,23,20,0.05); }
+    .faq-deco-icon--4  { top: 28%;  right: 1%;   width: 46px; transform: rotate(-22deg); }
+    .faq-deco-icon--5  { top: 38%;  left: 0;     width: 44px; transform: rotate(-6deg);  color: rgba(26,23,20,0.06); }
+    .faq-deco-icon--6  { top: 48%;  right: 6%;   width: 64px; transform: rotate(12deg);  color: rgba(26,23,20,0.045); }
+    .faq-deco-icon--7  { top: 55%;  left: 3%;    width: 50px; transform: rotate(-18deg); }
+    .faq-deco-icon--8  { top: 62%;  right: 2%;   width: 42px; transform: rotate(24deg);   color: rgba(26,23,20,0.05); }
+    .faq-deco-icon--9  { top: 72%;  left: 8%;    width: 56px; transform: rotate(6deg);    color: rgba(26,23,20,0.055); }
+    .faq-deco-icon--10 { top: 78%;  right: 8%;   width: 48px; transform: rotate(-10deg); }
+    .faq-deco-icon--11 { top: 86%;  left: 1%;    width: 44px; transform: rotate(16deg);  color: rgba(26,23,20,0.045); }
+    .faq-deco-icon--12 { top: 14%;  left: 38%;   width: 36px; transform: rotate(-8deg);  color: rgba(26,23,20,0.04); }
+    .faq-deco-icon--13 { top: 68%;  right: 22%;  width: 38px; transform: rotate(20deg);  color: rgba(26,23,20,0.04); }
+    .faq-deco-icon--14 { top: 42%;  left: 12%;   width: 34px; transform: rotate(-25deg); color: rgba(26,23,20,0.038); }
+    .faq-deco-icon--15 { top: 8%;   right: 28%;   width: 32px; transform: rotate(10deg);   color: rgba(26,23,20,0.04); }
+    .faq-deco-icon--16 { bottom: 6%; right: 1%;  width: 54px; transform: rotate(-16deg); }
+    .faq-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+    @media (max-width: 700px) {
+      .faq-deco-icon--12,
+      .faq-deco-icon--13,
+      .faq-deco-icon--14,
+      .faq-deco-icon--15 { display: none; }
+      .faq-deco-icon { color: rgba(26, 23, 20, 0.05); }
+    }
     .faq-heading { font-size:clamp(2rem,5vw,3rem); font-weight:800; letter-spacing:-0.03em; color:var(--ink); text-align:center; margin-bottom:0.5rem; }
     .faq-sub { font-size:0.9rem; color:var(--white-40); text-align:center; margin-bottom:2.5rem; letter-spacing:0.02em; }
     .faq-list { border:1px solid var(--white-15); border-radius:16px; overflow:hidden; background:var(--bg2); }
@@ -482,11 +531,7 @@
   </div>
 
   <!-- REVIEWS -->
-  <div class="divider" aria-hidden="true">
-    <span class="divider-rule"></span>
-    <span class="divider-mark">·</span>
-    <span class="divider-rule"></span>
-  </div>
+  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
   <section class="rv-section" id="rvSection">
     <div class="rv-eyebrow">What readers say</div>
     <h2 class="rv-title">Straight from the shelf.</h2>
@@ -499,11 +544,7 @@
   </section>
 
   <!-- PRICING -->
-  <div class="divider" aria-hidden="true">
-    <span class="divider-rule"></span>
-    <span class="divider-mark">·</span>
-    <span class="divider-rule"></span>
-  </div>
+  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
   <section class="pricing-section">
     <div class="pricing-eyebrow">How do you want to do this?</div>
     <h2 class="pricing-title">Pick your relationship with books.</h2>
@@ -552,11 +593,7 @@
   </section>
 
   <!-- FAQ -->
-  <div class="divider" aria-hidden="true">
-    <span class="divider-rule"></span>
-    <span class="divider-mark">·</span>
-    <span class="divider-rule"></span>
-  </div>
+  <div class="divider"><div class="divider-botanical">✦ ✦ ✦</div></div>
   <section class="faq-section">
     <h2 class="faq-heading">Things people actually ask.</h2>
     <p class="faq-sub">Answered properly.</p>
