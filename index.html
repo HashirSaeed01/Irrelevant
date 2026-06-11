@@ -43,7 +43,7 @@ img{max-width:100%;}
 a{color:inherit;}
 .serif{font-family:'Newsreader',Georgia,serif;}
 
-.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:clamp(20px,4vw,44px);padding-right:clamp(20px,4vw,44px);}
 
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
 
@@ -109,10 +109,15 @@ h1 em{font-style:italic;font-weight:400;color:var(--accent);}
 .shelf-caption{font-size:0.75rem;color:var(--ink-40);margin-top:10px;}
 
 /* ---------- FACT LINE ---------- */
-.facts{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:5rem;}
-.facts-row{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;flex-wrap:wrap;}
-.facts-row span{font-size:0.8rem;color:var(--ink-60);}
+.facts{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:3.5rem;}
+.facts-row{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;align-items:center;gap:0.5rem 2rem;padding-top:1rem;padding-bottom:1rem;}
+.facts-row span{font-size:0.8rem;color:var(--ink-60);white-space:nowrap;}
 .facts-row b{font-weight:500;color:var(--ink);}
+@media (max-width:1023px){
+  .facts-row{grid-template-columns:1fr 1fr;justify-content:start;justify-items:start;padding-top:1.1rem;padding-bottom:1.1rem;gap:0.55rem 1.5rem;}
+  .facts-row span{white-space:normal;}
+  .facts-genres{grid-column:1 / -1;order:5;color:var(--ink-40);}
+}
 
 /* ---------- SECTIONS ---------- */
 section{padding:5.5rem 0 0;}
@@ -189,13 +194,13 @@ h2 em{font-style:italic;font-weight:400;}
 
 /* ---------- FOOTER ---------- */
 footer{background:#fafbfc;border-top:1px solid var(--line);}
-.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;padding:3.5rem 0 2.5rem;}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;padding-top:3.5rem;padding-bottom:2.5rem;}
 .foot-tag{font-size:0.85rem;color:var(--ink-60);max-width:24ch;margin-top:0.8rem;line-height:1.6;}
 .foot h4{font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-40);font-weight:500;margin-bottom:0.9rem;}
 .foot ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
 .foot ul a{font-size:0.85rem;color:var(--ink-60);text-decoration:none;}
 .foot ul a:hover{color:var(--ink);}
-.foot-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.2rem 0;border-top:1px solid var(--line);}
+.foot-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding-top:1.2rem;padding-bottom:1.2rem;border-top:1px solid var(--line);}
 .foot-bottom span,.foot-bottom a{font-size:0.78rem;color:var(--ink-40);text-decoration:none;}
 .foot-bottom a:hover{color:var(--ink);}
 .foot-legal{display:flex;gap:1.5rem;}
@@ -220,14 +225,15 @@ footer{background:#fafbfc;border-top:1px solid var(--line);}
 }
 @media (max-width:640px){
   .nav-links{display:none;}
-  .hero{padding-top:3.5rem;}
-  section{padding-top:4rem;}
+  .hero{padding-top:3rem;}
+  section{padding-top:3.5rem;}
+  .sec-head{margin-bottom:2rem;}
+  .closing{padding:3.5rem 0;margin-top:3.5rem;}
   .picks{grid-template-columns:1fr;gap:2rem;}
   .b1{height:190px;}.b2{height:168px;}.b3{height:204px;}.b4{height:176px;}.b5{height:194px;}
   .book{padding:10px 8px;}
   .book-title{font-size:0.8rem;}
   .book-genre{display:none;}
-  .facts-row{flex-direction:column;gap:0.4rem;}
 }
 </style>
 </head>
@@ -282,7 +288,7 @@ footer{background:#fafbfc;border-top:1px solid var(--line);}
   <div class="wrap facts-row">
     <span><b>843</b> readers online right now</span>
     <span><b>3</b> new titles added this week</span>
-    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span>
+    <span class="facts-genres">Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span>
     <span>Free to read, forever</span>
   </div>
 </div>
