@@ -1,614 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lithos — Read What the World Can't Put Down</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
-  <style>
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    :root{
-      --bg:      #eef4fb;
-      --bg2:     #dce9f6;
-      --bg3:     #cdddf0;
-      --navy:    #0c1e3c;
-      --navy-80: rgba(12,30,60,0.8);
-      --navy-50: rgba(12,30,60,0.5);
-      --navy-25: rgba(12,30,60,0.25);
-      --navy-10: rgba(12,30,60,0.10);
-      --navy-06: rgba(12,30,60,0.06);
-      --blue:    #1a4a8a;
-      --blue-h:  #1f5aaa;
-      --r:4px;
-    }
-    html{scroll-behavior:smooth;}
-    body{background:var(--bg);color:var(--navy);font-family:'DM Sans',system-ui,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lithos — A library for people who actually read</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-    /* NAV */
-    nav{position:sticky;top:0;z-index:200;background:rgba(238,244,251,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--navy-10);height:56px;display:flex;align-items:center;padding:0 6vw;justify-content:space-between;}
-    .logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
-    .logo-mark{width:26px;height:26px;background:var(--navy);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .logo-text{font-family:'Bricolage Grotesque',sans-serif;font-size:0.9rem;font-weight:800;letter-spacing:0.06em;color:var(--navy);}
-    .logo-text b{color:var(--blue);}
-    .nav-links{display:flex;gap:2rem;list-style:none;}
-    .nav-links a{font-size:0.78rem;font-weight:400;color:var(--navy-50);text-decoration:none;transition:color 0.15s;}
-    .nav-links a:hover{color:var(--navy);}
-    .nav-right{display:flex;gap:8px;align-items:center;}
-    .btn{display:inline-flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;letter-spacing:0.01em;border-radius:var(--r);padding:0.45rem 1rem;cursor:pointer;border:1px solid transparent;transition:all 0.15s;text-decoration:none;line-height:1;}
-    .btn-ghost{background:transparent;border-color:var(--navy-25);color:var(--navy);}
-    .btn-ghost:hover{border-color:var(--navy);}
-    .btn-navy{background:var(--navy);color:#fff;border-color:var(--navy);}
-    .btn-navy:hover{background:var(--blue);}
-    .btn-lg{padding:0.7rem 1.5rem;font-size:0.85rem;}
+:root{
+  --paper:   #ffffff;
+  --ink:     #181c21;
+  --ink-60:  #5b626b;
+  --ink-40:  #8b9098;
+  --line:    #e6e8ea;
+  --line-2:  #d4d7da;
+  --accent:  #234a7c;
+  --accent-h:#1a3a64;
 
-    /* TICKER */
-    .ticker{background:var(--navy);height:32px;overflow:hidden;display:flex;align-items:center;}
-    .ticker-track{display:inline-block;white-space:nowrap;animation:tick 40s linear infinite;font-size:0.65rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);}
-    .ticker-sep{color:var(--blue);margin:0 1rem;}
-    @keyframes tick{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  /* cover tints — the "light colors" */
+  --t-blue:  #e9f0f8;
+  --t-sage:  #eaf1e7;
+  --t-sand:  #f5efe3;
+  --t-lilac: #efeaf5;
+  --t-rose:  #f7ebe9;
+  --t-grey:  #eff1f3;
 
-    /* HERO */
-    .hero{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:0;max-width:1280px;margin:0 auto;padding:5rem 6vw 4rem;min-height:calc(100vh - 88px);}
-    .hero-left{padding-right:5rem;}
-    .hero-eyebrow{display:flex;align-items:center;gap:8px;font-size:0.68rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--blue);margin-bottom:1.5rem;opacity:0;animation:up 0.5s ease 0.1s forwards;}
-    .hero-eyebrow::before{content:'';width:22px;height:1px;background:var(--blue);}
-    h1{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(2.4rem,4.2vw,4rem);font-weight:800;line-height:1.05;letter-spacing:-0.02em;color:var(--navy);margin-bottom:1.25rem;}
-    h1 em{font-style:italic;color:var(--blue);}
-    .word{display:inline-block;overflow:hidden;vertical-align:bottom;}
-    .word-inner{display:inline-block;transform:translateY(110%);animation:reveal 0.55s cubic-bezier(0.16,1,0.3,1) forwards;}
-    .sp{display:inline-block;width:0.28em;}
-    .hero-sub{font-size:0.95rem;font-weight:300;color:var(--navy-50);line-height:1.75;margin-bottom:2rem;max-width:400px;opacity:0;animation:up 0.5s ease 0.95s forwards;}
-    .hero-badges{display:flex;gap:8px;margin-bottom:2rem;flex-wrap:wrap;opacity:0;animation:up 0.5s ease 1.05s forwards;}
-    .badge{display:inline-flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--navy-10);border-radius:99px;padding:0.3rem 0.75rem;font-size:0.68rem;font-weight:400;color:var(--navy-50);}
-    .badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
-    .hero-cta{display:flex;gap:10px;align-items:center;opacity:0;animation:up 0.5s ease 1.15s forwards;}
+  --max:1120px;
+}
 
-    /* APP MOCKUP */
-    .hero-right{opacity:0;animation:up 0.6s ease 0.35s forwards;display:flex;justify-content:flex-end;}
-    .app-shell{width:260px;background:var(--bg2);border:1px solid var(--navy-10);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(12,30,60,0.12),0 1px 3px rgba(12,30,60,0.08);}
-    .app-bar{background:var(--navy);padding:0.6rem 1rem;display:flex;align-items:center;justify-content:space-between;}
-    .app-bar-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.72rem;font-weight:700;color:#fff;letter-spacing:0.06em;}
-    .app-bar-dots{display:flex;gap:4px;}
-    .app-bar-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);}
-    .app-bar-dot:last-child{background:var(--blue);}
-    .app-body{padding:1rem;}
-    .app-section-label{font-size:0.55rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.5rem;}
-    .app-book{background:var(--bg);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-bottom:0.75rem;}
-    .app-book-cover{height:80px;background:var(--bg3);display:flex;align-items:flex-end;padding:0.5rem;position:relative;overflow:hidden;}
-    .app-book-cover-lines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 10px,var(--navy-06) 10px,var(--navy-06) 11px);}
-    .app-book-cover-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.65rem;font-weight:700;color:var(--navy);position:relative;z-index:1;line-height:1.2;}
-    .app-book-info{padding:0.5rem 0.6rem;}
-    .app-book-name{font-size:0.68rem;font-weight:500;color:var(--navy);line-height:1.2;margin-bottom:2px;}
-    .app-book-author{font-size:0.58rem;color:var(--navy-50);}
-    .app-divider{height:1px;background:var(--navy-10);margin:0.75rem 0;}
-    .app-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;}
-    .app-row:last-child{margin-bottom:0;}
-    .app-row-label{font-size:0.6rem;color:var(--navy-50);}
-    .app-row-val{font-size:0.6rem;font-weight:500;color:var(--blue);}
-    .app-genre-row{display:flex;gap:5px;flex-wrap:wrap;}
-    .app-genre{font-size:0.55rem;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;background:var(--bg3);border-radius:99px;padding:2px 7px;color:var(--navy-80);}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;}
+a{color:inherit;}
+.serif{font-family:'Newsreader',Georgia,serif;}
 
-    /* SECTION */
-    .section{max-width:1280px;margin:0 auto;padding:3rem 6vw;}
-    .s-label{font-size:0.65rem;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue);margin-bottom:0.6rem;display:flex;align-items:center;gap:8px;}
-    .s-label::before{content:'';width:18px;height:1px;background:var(--blue);}
-    .s-h2{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;line-height:1.06;letter-spacing:-0.025em;color:var(--navy);}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px;}
 
-    /* REVEAL */
-    .reveal{opacity:0;transform:translateY(16px);transition:opacity 0.5s ease,transform 0.5s ease;}
-    .reveal.in{opacity:1;transform:translateY(0);}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
 
-    /* STAFF PICKS */
-    .sp-outer{position:relative;margin-top:2rem;}
-    .sp-nodes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;max-height:0;overflow:hidden;opacity:0;transition:max-height 0.45s cubic-bezier(0.4,0,0.2,1),opacity 0.35s ease,margin 0.45s ease;}
-    .sp-nodes.top{align-items:end;padding-top:28px;}
-    .sp-nodes.bottom{align-items:start;padding-bottom:28px;}
+/* ---------- NAV ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px;}
+.brand{font-family:'Newsreader',serif;font-size:1.35rem;font-weight:500;letter-spacing:0.01em;text-decoration:none;display:flex;align-items:baseline;gap:2px;}
+.brand span{color:var(--accent);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-size:0.875rem;color:var(--ink-60);text-decoration:none;transition:color .15s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{display:flex;align-items:center;gap:1.25rem;}
+.link-quiet{font-size:0.875rem;color:var(--ink-60);text-decoration:none;}
+.link-quiet:hover{color:var(--ink);}
+.btn{
+  display:inline-block;font-size:0.875rem;font-weight:500;text-decoration:none;
+  padding:0.55rem 1.25rem;border-radius:3px;border:1px solid var(--ink);
+  background:var(--ink);color:#fff;transition:background .15s,border-color .15s;
+}
+.btn:hover{background:var(--accent-h);border-color:var(--accent-h);}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--line-2);}
+.btn-line:hover{background:transparent;border-color:var(--ink);color:var(--ink);}
+.btn-lg{padding:0.75rem 1.6rem;font-size:0.9rem;}
 
-    .sp-outer.open .sp-nodes{max-height:200px;opacity:1;}
-    .sp-nodes.top .sp-node:nth-child(2){transform:translateY(-18px);}
-    .sp-nodes.top .sp-node:nth-child(3){transform:translateY(-9px);}
-    .sp-nodes.bottom .sp-node:nth-child(2){transform:translateY(18px);}
-    .sp-nodes.bottom .sp-node:nth-child(3){transform:translateY(9px);}
-    .sp-outer.open .sp-nodes.top{margin-bottom:12px;}
-    .sp-outer.open .sp-nodes.bottom{margin-top:12px;}
-    .sp-node{background:var(--bg2);border:1px solid var(--navy-10);border-radius:var(--r);padding:0.55rem 0.75rem;cursor:pointer;transition:border-color 0.15s;}
-    .sp-node.empty{background:transparent !important;border-color:transparent !important;cursor:default;pointer-events:none;box-shadow:none !important;}
-    .sp-node:hover{border-color:var(--blue);}
-    .sp-node-genre{font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:3px;}
-    .sp-node-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.78rem;font-weight:700;color:var(--navy);line-height:1.2;}
-    .sp-node-author{font-size:0.58rem;color:var(--navy-50);margin-top:2px;}
-    .sp-svg{position:absolute;top:0;left:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:5;}
-    .sp-line{stroke:var(--blue);stroke-width:1;stroke-dasharray:400;stroke-dashoffset:400;transition:stroke-dashoffset 0.55s ease;fill:none;opacity:0.2;}
-    .sp-line.drawn{stroke-dashoffset:0;}
-    .sp-card{background:var(--bg2);border:1.5px solid var(--navy);border-radius:var(--r);padding:1.4rem 1.75rem;cursor:pointer;position:relative;z-index:10;transition:box-shadow 0.2s;user-select:none;}
-    .sp-card:hover{box-shadow:0 4px 20px var(--navy-10);}
-    .sp-card.open{border-color:var(--blue);}
-    .sp-card-lbl{font-size:0.58rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy-50);margin-bottom:0.45rem;display:flex;align-items:center;gap:6px;}
-    .sp-card-lbl::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;}
-    .sp-chevron{margin-left:auto;color:var(--navy-25);transition:transform 0.25s ease;}
-    .sp-card.open .sp-chevron{transform:rotate(180deg);}
-    .sp-card-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.45rem;font-weight:800;color:var(--navy);line-height:1.08;letter-spacing:-0.02em;}
-    .sp-card-sub{font-size:0.78rem;color:var(--navy-50);margin-top:0.3rem;line-height:1.6;}
-    .sp-card-hint{font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy-25);margin-top:0.6rem;display:inline-block;}
-    .sp-card.open .sp-card-hint{display:none;}
-    .sp-expanded{display:none;background:var(--bg2);border:1px solid var(--navy-10);border-radius:var(--r);padding:1.4rem 1.75rem;z-index:20;}
-    .sp-expanded.active{display:block;animation:up 0.2s ease;}
-    .sp-exp-genre{font-size:0.56rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
-    .sp-exp-title{font-family:'Bricolage Grotesque',sans-serif;font-size:1.1rem;font-weight:800;color:var(--navy);margin-bottom:3px;}
-    .sp-exp-author{font-size:0.68rem;color:var(--navy-50);margin-bottom:8px;}
-    .sp-exp-body{font-size:0.8rem;color:var(--navy-50);line-height:1.7;margin-bottom:10px;}
-    .sp-exp-back{font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);cursor:pointer;background:none;border:none;font-family:'DM Sans',sans-serif;padding:0;}
+/* ---------- HERO ---------- */
+.hero{padding:5.5rem 0 0;}
+.hero-grid{display:grid;grid-template-columns:7fr 5fr;gap:4rem;align-items:end;}
+.kicker{font-size:0.8rem;color:var(--ink-60);margin-bottom:1.25rem;}
+.kicker b{font-weight:500;color:var(--ink);}
+h1{
+  font-family:'Newsreader',serif;font-weight:500;
+  font-size:clamp(2.6rem,5.2vw,4.2rem);
+  line-height:1.05;letter-spacing:-0.015em;
+  margin-bottom:1.4rem;text-wrap:balance;
+}
+h1 em{font-style:italic;font-weight:400;color:var(--accent);}
+.hero-sub{font-size:1.05rem;color:var(--ink-60);max-width:46ch;margin-bottom:2.2rem;}
+.hero-cta{display:flex;gap:0.75rem;flex-wrap:wrap;}
+.hero-note{font-size:0.8rem;color:var(--ink-40);margin-top:1.1rem;}
 
-    /* REVIEWS */
-    .rv-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--navy-10);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-top:2rem;}
-    .rv-card{background:var(--bg);padding:1.5rem;display:flex;flex-direction:column;gap:10px;transition:background 0.15s;}
-    .rv-card:hover{background:var(--bg2);}
-    .rv-stars{font-size:0.68rem;color:#a07820;letter-spacing:2px;}
-    .rv-quote{font-size:0.9rem;font-style:italic;color:var(--navy);line-height:1.65;flex:1;font-weight:300;}
-    .rv-person{display:flex;align-items:center;gap:9px;padding-top:8px;border-top:1px solid var(--navy-06);margin-top:auto;}
-    .rv-av{width:26px;height:26px;border-radius:50%;background:var(--bg3);border:1px solid var(--navy-10);display:flex;align-items:center;justify-content:center;font-size:0.56rem;font-weight:500;color:var(--navy-50);flex-shrink:0;}
-    .rv-name{font-size:0.7rem;font-weight:500;color:var(--navy);line-height:1.2;}
-    .rv-role{font-size:0.6rem;color:var(--navy-50);}
+/* the shelf — signature element */
+.shelf{display:flex;align-items:flex-end;gap:10px;padding-bottom:14px;border-bottom:2px solid var(--ink);}
+.book{
+  flex:1;min-width:0;border:1px solid var(--line-2);border-bottom-width:3px;
+  border-radius:2px 2px 0 0;
+  padding:14px 10px;display:flex;flex-direction:column;justify-content:space-between;
+  text-decoration:none;
+  transition:transform .2s ease,border-color .2s ease;
+}
+.book:hover{transform:translateY(-5px);border-color:var(--ink-40);border-bottom-color:var(--ink);}
+.book-genre{font-size:0.56rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-40);margin-bottom:8px;}
+.book-title{font-family:'Newsreader',serif;font-size:0.95rem;font-weight:500;line-height:1.15;color:var(--ink);}
+.book-author{font-size:0.62rem;color:var(--ink-60);margin-top:10px;}
+.b1{height:230px;background:var(--t-blue);}
+.b2{height:205px;background:var(--t-sand);}
+.b3{height:248px;background:var(--t-sage);}
+.b4{height:215px;background:var(--t-rose);}
+.b5{height:236px;background:var(--t-lilac);}
+.shelf-caption{font-size:0.75rem;color:var(--ink-40);margin-top:10px;}
 
-    /* PRICING */
-    .pc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--navy-10);border:1px solid var(--navy-10);border-radius:8px;overflow:hidden;margin-top:2rem;}
-    .pc{background:var(--bg);padding:1.75rem;display:flex;flex-direction:column;gap:10px;transition:background 0.15s;position:relative;}
-    .pc:hover{background:var(--bg2);}
-    .pc-dark{background:var(--navy);}
-    .pc-dark:hover{background:var(--blue);}
-    .pc-plan{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy-50);}
-    .pc-dark .pc-plan{color:rgba(255,255,255,0.38);}
-    .pc-name{font-family:'Bricolage Grotesque',sans-serif;font-size:1.3rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;line-height:1;}
-    .pc-dark .pc-name{color:#fff;}
-    .pc-price{font-family:'Bricolage Grotesque',sans-serif;font-size:2rem;font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1;}
-    .pc-dark .pc-price{color:#fff;}
-    .pc-per{font-size:0.68rem;color:var(--navy-50);margin-left:3px;}
-    .pc-dark .pc-per{color:rgba(255,255,255,0.32);}
-    .pc-desc{font-size:0.76rem;color:var(--navy-50);line-height:1.65;flex:1;}
-    .pc-dark .pc-desc{color:rgba(255,255,255,0.48);}
-    .pc-list{list-style:none;display:flex;flex-direction:column;gap:5px;}
-    .pc-list li{font-size:0.74rem;color:var(--navy-50);display:flex;align-items:baseline;gap:7px;}
-    .pc-dark .pc-list li{color:rgba(255,255,255,0.52);}
-    .pc-list li::before{content:'—';color:var(--blue);font-size:0.65rem;flex-shrink:0;}
-    .pc-dark .pc-list li::before{color:rgba(255,255,255,0.4);}
-    .pc-btn{width:100%;padding:0.58rem 1rem;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.74rem;font-weight:500;cursor:pointer;border:1px solid var(--navy-25);background:transparent;color:var(--navy);transition:all 0.15s;margin-top:auto;letter-spacing:0.01em;}
-    .pc-btn:hover{border-color:var(--navy);background:var(--bg2);}
-    .pc-btn-w{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:#fff;}
-    .pc-btn-w:hover{background:rgba(255,255,255,0.2);border-color:rgba(255,255,255,0.35);}
-    .pc-badge{position:absolute;top:0;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:0.5rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:3px 10px;border-radius:0 0 4px 4px;white-space:nowrap;}
+/* ---------- FACT LINE ---------- */
+.facts{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:5rem;}
+.facts-row{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;flex-wrap:wrap;}
+.facts-row span{font-size:0.8rem;color:var(--ink-60);}
+.facts-row b{font-weight:500;color:var(--ink);}
 
-    /* FAQ */
+/* ---------- SECTIONS ---------- */
+section{padding:5.5rem 0 0;}
+.sec-head{max-width:62ch;margin-bottom:2.75rem;}
+.sec-label{font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem;}
+h2{
+  font-family:'Newsreader',serif;font-weight:500;
+  font-size:clamp(1.7rem,3vw,2.4rem);line-height:1.12;letter-spacing:-0.01em;
+  text-wrap:balance;
+}
+h2 em{font-style:italic;font-weight:400;}
+.sec-sub{font-size:0.95rem;color:var(--ink-60);margin-top:0.9rem;max-width:52ch;}
 
-/* MOCKUP CARD ROTATION */
-(function(){
-  var book = document.getElementById('mockupBook');
-  if(!book) return;
-  var slides = Array.prototype.slice.call(book.querySelectorAll('.app-book-slide'));
-  if(!slides.length) return;
-  var cur = 0;
-  book.style.overflow = 'hidden';
-  book.style.position = 'relative';
+/* ---------- PICKS ---------- */
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem 2rem;}
+.pick{text-decoration:none;display:block;}
+.pick-cover{
+  height:170px;border:1px solid var(--line-2);border-radius:2px;
+  padding:16px;display:flex;flex-direction:column;justify-content:flex-end;
+  transition:transform .2s ease,border-color .2s ease;
+}
+.pick:hover .pick-cover{transform:translateY(-4px);border-color:var(--ink-40);}
+.pick-cover .book-title{font-size:1.15rem;}
+.pick-meta{padding-top:0.9rem;}
+.pick-name{font-family:'Newsreader',serif;font-size:1.05rem;font-weight:500;color:var(--ink);}
+.pick-author{font-size:0.78rem;color:var(--ink-40);margin:2px 0 6px;}
+.pick-blurb{font-size:0.85rem;color:var(--ink-60);line-height:1.6;}
 
-  slides.forEach(function(s, i) {
-    s.style.position = i === 0 ? 'relative' : 'absolute';
-    s.style.top = '0'; s.style.left = '0'; s.style.width = '100%';
-    s.style.opacity = '1';
-    s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
-    s.style.transition = 'none';
-  });
+/* ---------- QUOTES ---------- */
+.quotes{display:grid;grid-template-columns:1fr 1fr;gap:0 4rem;}
+.quote{padding:1.9rem 0;border-top:1px solid var(--line);}
+.quote-text{font-family:'Newsreader',serif;font-style:italic;font-size:1.2rem;line-height:1.5;color:var(--ink);margin-bottom:1rem;text-wrap:pretty;}
+.quote-by{font-size:0.8rem;color:var(--ink-60);}
+.quote-by b{font-weight:500;color:var(--ink);}
 
-  setInterval(function(){
-    var next = (cur + 1) % slides.length;
-    var curr = slides[cur];
-    var nxt = slides[next];
+/* ---------- PRICING ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;align-items:stretch;}
+.plan{
+  border:1px solid var(--line-2);border-radius:4px;padding:1.9rem 1.7rem;
+  display:flex;flex-direction:column;background:var(--paper);
+}
+.plan-feat{border-color:var(--ink);}
+.plan-tag{font-size:0.72rem;color:var(--ink-40);margin-bottom:0.5rem;}
+.plan-feat .plan-tag{color:var(--accent);}
+.plan-name{font-family:'Newsreader',serif;font-size:1.4rem;font-weight:500;margin-bottom:0.9rem;}
+.plan-price{font-family:'Newsreader',serif;font-size:2.1rem;font-weight:500;line-height:1;}
+.plan-per{font-size:0.8rem;color:var(--ink-40);margin-left:4px;}
+.plan-desc{font-size:0.85rem;color:var(--ink-60);margin:0.9rem 0 1.2rem;line-height:1.6;}
+.plan-list{list-style:none;display:flex;flex-direction:column;gap:0.45rem;margin-bottom:1.6rem;}
+.plan-list li{font-size:0.85rem;color:var(--ink-60);padding-left:1.1rem;position:relative;}
+.plan-list li::before{content:'·';position:absolute;left:0;color:var(--accent);font-weight:700;}
+.plan .btn{margin-top:auto;text-align:center;}
 
-    // Set next just off-screen to the right
-    nxt.style.transition = 'none';
-    nxt.style.transform = 'translateX(100%)';
-    nxt.style.position = 'absolute';
+/* ---------- FAQ ---------- */
+.faq{max-width:680px;}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;text-align:left;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;color:var(--ink);
+  padding:1.1rem 0;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;
+}
+.faq-q:hover{color:var(--accent);}
+.faq-icon{flex-shrink:0;width:10px;height:10px;position:relative;}
+.faq-icon::before,.faq-icon::after{content:'';position:absolute;background:currentColor;transition:transform .25s ease;}
+.faq-icon::before{left:0;top:4px;width:10px;height:2px;}
+.faq-icon::after{left:4px;top:0;width:2px;height:10px;}
+.faq-q[aria-expanded="true"] .faq-icon::after{transform:scaleY(0);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.faq-a p{font-size:0.9rem;color:var(--ink-60);line-height:1.7;padding-bottom:1.2rem;max-width:58ch;}
 
-    // Force reflow
-    void nxt.offsetWidth;
+/* ---------- CLOSING ---------- */
+.closing{padding:5.5rem 0;border-top:1px solid var(--line);margin-top:5.5rem;text-align:left;}
+.closing h2{margin-bottom:1.4rem;}
 
-    // Slide current out to left, next in from right
-    curr.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
-    nxt.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
-    curr.style.transform = 'translateX(-100%)';
-    nxt.style.transform = 'translateX(0)';
+/* ---------- FOOTER ---------- */
+footer{background:#fafbfc;border-top:1px solid var(--line);}
+.foot{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2.5rem;padding:3.5rem 0 2.5rem;}
+.foot-tag{font-size:0.85rem;color:var(--ink-60);max-width:24ch;margin-top:0.8rem;line-height:1.6;}
+.foot h4{font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-40);font-weight:500;margin-bottom:0.9rem;}
+.foot ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.foot ul a{font-size:0.85rem;color:var(--ink-60);text-decoration:none;}
+.foot ul a:hover{color:var(--ink);}
+.foot-bottom{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.2rem 0;border-top:1px solid var(--line);}
+.foot-bottom span,.foot-bottom a{font-size:0.78rem;color:var(--ink-40);text-decoration:none;}
+.foot-bottom a:hover{color:var(--ink);}
+.foot-legal{display:flex;gap:1.5rem;}
 
-    setTimeout(function(){
-      curr.style.position = 'absolute';
-      nxt.style.position = 'relative';
-      cur = next;
-    }, 460);
-  }, 2800);
-})();
+/* ---------- REVEAL (subtle) ---------- */
+.fade{opacity:0;transform:translateY(10px);transition:opacity .5s ease,transform .5s ease;}
+.fade.in{opacity:1;transform:none;}
 
-    .faq-inner{max-width:640px;margin-top:2rem;}
-    .faq-item{border-bottom:1px solid var(--navy-10);}
-    .faq-q{width:100%;background:none;border:none;padding:0.9rem 0;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:400;color:var(--navy);transition:color 0.15s;}
-    .faq-q:hover{color:var(--blue);}
-    .faq-icon{flex-shrink:0;color:var(--navy-25);transition:transform 0.25s ease,color 0.15s;}
-    .faq-q.open .faq-icon{transform:rotate(180deg);color:var(--blue);}
-    .faq-a{max-height:0;overflow:hidden;opacity:0;transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1),opacity 0.25s ease;}
-    .faq-a.open{max-height:180px;opacity:1;}
-    .faq-a p{font-size:0.82rem;color:var(--navy-50);line-height:1.75;padding-bottom:0.9rem;}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;}
+  html{scroll-behavior:auto;}
+  .fade{opacity:1;transform:none;}
+}
 
-    /* FOOTER */
-    .footer{background:var(--navy);}
-    .footer-main{max-width:1280px;margin:0 auto;padding:3.5rem 6vw 2.5rem;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:3rem;border-bottom:1px solid rgba(255,255,255,0.07);}
-    .footer-brand .logo-text{color:#fff;}
-    .footer-brand .logo-text b{color:var(--blue);}
-    .footer-brand .logo-mark{background:rgba(255,255,255,0.08);}
-    .footer-tagline{font-size:0.78rem;color:rgba(255,255,255,0.32);line-height:1.65;max-width:190px;margin-top:0.85rem;}
-    .footer-col h4{font-size:0.6rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.28);margin-bottom:0.85rem;}
-    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
-    .footer-col a{font-size:0.78rem;color:rgba(255,255,255,0.48);text-decoration:none;transition:color 0.15s;}
-    .footer-col a:hover{color:rgba(255,255,255,0.82);}
-    .footer-bottom{max-width:1280px;margin:0 auto;padding:1.1rem 6vw;display:flex;align-items:center;justify-content:space-between;}
-    .footer-copy{font-size:0.68rem;color:rgba(255,255,255,0.2);}
-    .footer-legal{display:flex;gap:1.5rem;}
-    .footer-legal a{font-size:0.68rem;color:rgba(255,255,255,0.2);text-decoration:none;transition:color 0.15s;}
-    .footer-legal a:hover{color:rgba(255,255,255,0.5);}
-    .footer-wm{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(4.5rem,16vw,11rem);font-weight:800;text-align:center;line-height:0.9;padding:1.5rem 0 0;color:rgba(255,255,255,0.04);letter-spacing:-0.03em;user-select:none;pointer-events:none;}
-
-
-    /* MOCKUP CARD ROTATION */
-    .app-book{position:relative;}
-    .app-book-slide{position:absolute;inset:0;opacity:0;transition:opacity 0.5s ease;border-radius:8px;overflow:hidden;background:var(--bg);}
-    .app-book-slide.active{opacity:1;position:relative;}
-    .app-book-cover{height:80px;background:var(--bg3);display:flex;align-items:flex-end;padding:0.5rem;position:relative;overflow:hidden;}
-    .app-book-cover-lines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 10px,var(--navy-06) 10px,var(--navy-06) 11px);}
-    .app-book-cover-title{font-family:'Bricolage Grotesque',sans-serif;font-size:0.65rem;font-weight:700;color:var(--navy);position:relative;z-index:1;line-height:1.2;}
-    .app-book-info{padding:0.5rem 0.6rem;}
-    .app-book-name{font-size:0.68rem;font-weight:500;color:var(--navy);line-height:1.2;margin-bottom:2px;}
-    .app-book-author{font-size:0.58rem;color:var(--navy-50);}
-
-    /* ANIMS */
-    @keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-    @keyframes reveal{from{transform:translateY(110%);}to{transform:translateY(0);}}
-
-    /* MOBILE */
-    @media(max-width:860px){
-      .hero{grid-template-columns:1fr;min-height:auto;padding:3rem 6vw 2.5rem;gap:2.5rem;text-align:center;}
-      .hero-left{padding-right:0;}
-      .hero-eyebrow{justify-content:center;}
-      .hero-eyebrow::before{display:none;}
-      .hero-sub,.hero-badges{margin-left:auto;margin-right:auto;}
-      .hero-cta{justify-content:center;}
-      .hero-right{justify-content:center;}
-      .app-shell{width:240px;}
-      nav .nav-links{display:none;}
-      .rv-grid{grid-template-columns:1fr;}
-      .pc-grid{grid-template-columns:1fr;background:transparent;border:none;gap:10px;}
-      .pc{border:1px solid var(--navy-10);border-radius:6px;}
-      .footer-main{grid-template-columns:1fr 1fr;gap:2rem;}
-      .footer-bottom{flex-direction:column;gap:0.5rem;text-align:center;}
-      .sp-nodes{grid-template-columns:1fr;}
-    }
-  </style>
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:960px){
+  .hero-grid{grid-template-columns:1fr;gap:3.5rem;}
+  .picks{grid-template-columns:1fr 1fr;}
+  .plans{grid-template-columns:1fr;}
+  .quotes{grid-template-columns:1fr;}
+  .foot{grid-template-columns:1fr 1fr;}
+}
+@media (max-width:640px){
+  .nav-links{display:none;}
+  .hero{padding-top:3.5rem;}
+  section{padding-top:4rem;}
+  .picks{grid-template-columns:1fr;gap:2rem;}
+  .b1{height:190px;}.b2{height:168px;}.b3{height:204px;}.b4{height:176px;}.b5{height:194px;}
+  .book{padding:10px 8px;}
+  .book-title{font-size:0.8rem;}
+  .book-genre{display:none;}
+  .facts-row{flex-direction:column;gap:0.4rem;}
+}
+</style>
 </head>
 <body>
 
-<nav>
-  <a class="logo" href="#">
-    <div class="logo-mark">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#">Lithos<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#picks">Staff picks</a></li>
+      <li><a href="#readers">Readers</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a class="link-quiet" href="#">Log in</a>
+      <a class="btn" href="#">Start reading</a>
     </div>
-    <span class="logo-text">LIT<b>HOS</b></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="#">Browse</a></li>
-    <li><a href="#">My List</a></li>
-    <li><a href="#">New</a></li>
-    <li><a href="#">Authors</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="#" class="btn btn-ghost">Log in</a>
-    <a href="#" class="btn btn-navy">Sign up</a>
   </div>
-</nav>
+</header>
 
-<div class="ticker">
-  <div class="ticker-track">
-    <span>843 readers online right now</span><span class="ticker-sep">◆</span>
-    <span>The Pale Corridor — trending</span><span class="ticker-sep">◆</span>
-    <span>3 new titles this week</span><span class="ticker-sep">◆</span>
-    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-sep">◆</span>
-    <span>Free forever · No account needed</span><span class="ticker-sep">◆</span>
-    <span>843 readers online right now</span><span class="ticker-sep">◆</span>
-    <span>The Pale Corridor — trending</span><span class="ticker-sep">◆</span>
-    <span>3 new titles this week</span><span class="ticker-sep">◆</span>
-    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span><span class="ticker-sep">◆</span>
-    <span>Free forever · No account needed</span><span class="ticker-sep">◆</span>
+<main>
+
+<!-- HERO -->
+<section class="hero" aria-label="Introduction">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="kicker"><b>2,400+ titles</b> across six genres, free to read.</p>
+      <h1>Read what the world <em>can't put down.</em></h1>
+      <p class="hero-sub">Lithos is an online library curated by people, not algorithms. Open a book in your browser and start reading — no account, no app, no noise.</p>
+      <div class="hero-cta">
+        <a class="btn btn-lg" href="#picks">Browse the library</a>
+        <a class="btn btn-line btn-lg" href="#picks">See staff picks</a>
+      </div>
+      <p class="hero-note">No card. No sign-up. Reading starts in one click.</p>
+    </div>
+    <div>
+      <div class="shelf" aria-label="A shelf of featured books">
+        <a class="book b1" href="#picks"><span class="book-genre">Thriller</span><span class="book-title">The Pale Corridor</span><span class="book-author">M. Arden</span></a>
+        <a class="book b2" href="#picks"><span class="book-genre">Horror</span><span class="book-title">The Hollow Place</span><span class="book-author">E. Crane</span></a>
+        <a class="book b3" href="#picks"><span class="book-genre">Romance</span><span class="book-title">Before the Rain Ends</span><span class="book-author">N. Sorrell</span></a>
+        <a class="book b4" href="#picks"><span class="book-genre">Sci-Fi</span><span class="book-title">The Fermi Descent</span><span class="book-author">O. Rask</span></a>
+        <a class="book b5" href="#picks"><span class="book-genre">Fantasy</span><span class="book-title">Pale Blue Signal</span><span class="book-author">T. Achebe</span></a>
+      </div>
+      <p class="shelf-caption">On the front shelf this week — June 2026</p>
+    </div>
+  </div>
+</section>
+
+<!-- FACT LINE -->
+<div class="facts">
+  <div class="wrap facts-row">
+    <span><b>843</b> readers online right now</span>
+    <span><b>3</b> new titles added this week</span>
+    <span>Horror · Sci-Fi · Romance · Comedy · Thriller · Fantasy</span>
+    <span>Free to read, forever</span>
   </div>
 </div>
 
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">2,400+ titles. Free forever.</div>
-    <h1 id="h1"></h1>
-    <p class="hero-sub">Every genre. Every mood. No algorithms deciding what you read next.</p>
-    <div class="hero-badges">
-      <span class="badge">No account needed</span>
-      <span class="badge">843 reading right now</span>
-      <span class="badge">Updated weekly</span>
+<!-- STAFF PICKS -->
+<section id="picks">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <p class="sec-label">Staff picks</p>
+      <h2>Chosen by people who read <em>past midnight.</em></h2>
+      <p class="sec-sub">One rule for a staff pick: someone on the team stayed up too late finishing it. No publisher deals, no trending charts.</p>
     </div>
-    <div class="hero-cta">
-      <a href="#" class="btn btn-navy btn-lg">Browse the library</a>
-      <a href="#" class="btn btn-ghost btn-lg">See staff picks</a>
+    <div class="picks fade">
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-grey);"><span class="book-genre">Thriller · October pick</span><span class="book-title">The Pale Corridor</span></div>
+        <div class="pick-meta"><div class="pick-name">The Pale Corridor</div><div class="pick-author">M. Arden, 2024</div><p class="pick-blurb">A slow-burn supernatural thriller about a hotel hallway that is longer on the way back.</p></div>
+      </a>
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-sand);"><span class="book-genre">Horror</span><span class="book-title">The Hollow Place</span></div>
+        <div class="pick-meta"><div class="pick-name">The Hollow Place</div><div class="pick-author">E. Crane, 2023</div><p class="pick-blurb">A family returns to their childhood home and finds the doors no longer lead where they should.</p></div>
+      </a>
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-blue);"><span class="book-genre">Sci-Fi</span><span class="book-title">The Fermi Descent</span></div>
+        <div class="pick-meta"><div class="pick-name">The Fermi Descent</div><div class="pick-author">O. Rask, 2025</div><p class="pick-blurb">A generation ship loses contact with Earth — then the crew starts hearing voices from the dark.</p></div>
+      </a>
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-rose);"><span class="book-genre">Romance</span><span class="book-title">Before the Rain Ends</span></div>
+        <div class="pick-meta"><div class="pick-name">Before the Rain Ends</div><div class="pick-author">N. Sorrell, 2024</div><p class="pick-blurb">Two strangers keep missing each other by minutes, until one rainy Tuesday in Lisbon.</p></div>
+      </a>
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-sage);"><span class="book-genre">Comedy</span><span class="book-title">How I Ruined Christmas</span></div>
+        <div class="pick-meta"><div class="pick-name">How I Ruined Christmas</div><div class="pick-author">L. Finch, 2023</div><p class="pick-blurb">A man accidentally ruins Christmas for six families in one afternoon. Somehow, a love story.</p></div>
+      </a>
+      <a class="pick" href="#">
+        <div class="pick-cover" style="background:var(--t-lilac);"><span class="book-genre">Fantasy</span><span class="book-title">Pale Blue Signal</span></div>
+        <div class="pick-meta"><div class="pick-name">Pale Blue Signal</div><div class="pick-author">T. Achebe, 2025</div><p class="pick-blurb">The last librarian of a dying empire guards one final book no one is allowed to read.</p></div>
+      </a>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="app-shell">
-      <div class="app-bar">
-        <span class="app-bar-title">LITHOS</span>
-        <div class="app-bar-dots"><div class="app-bar-dot"></div><div class="app-bar-dot"></div><div class="app-bar-dot" style="background:var(--blue);"></div></div>
+</section>
+
+<!-- READERS -->
+<section id="readers">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <p class="sec-label">From our readers</p>
+      <h2>Straight from the shelf.</h2>
+    </div>
+    <div class="quotes fade">
+      <div class="quote"><p class="quote-text">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</p><p class="quote-by"><b>Jordan M.</b> — reading since 2024</p></div>
+      <div class="quote"><p class="quote-text">"The comedy section alone is worth it. Laughed so hard my flatmate checked on me."</p><p class="quote-by"><b>Priya K.</b> — reading since 2023</p></div>
+      <div class="quote"><p class="quote-text">"Finally a library that doesn't feel like 2009. The staff picks are actually good."</p><p class="quote-by"><b>Theo R.</b> — reading since 2025</p></div>
+      <div class="quote"><p class="quote-text">"Before the Rain Ends broke me, in the best way. I've recommended it to everyone I know."</p><p class="quote-by"><b>Aisha T.</b> — reading since 2024</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <p class="sec-label">Pricing</p>
+      <h2>Three ways to read.</h2>
+      <p class="sec-sub">The library is free. Pay only if you want to own books or read more of them offline.</p>
+    </div>
+    <div class="plans fade">
+      <div class="plan">
+        <p class="plan-tag">For the casual reader</p>
+        <h3 class="plan-name">Browse</h3>
+        <p><span class="plan-price">Free</span><span class="plan-per">no card needed</span></p>
+        <p class="plan-desc">The whole library, in your browser. No commitment — just show up and read.</p>
+        <ul class="plan-list">
+          <li>Full library access</li>
+          <li>Staff picks every month</li>
+          <li>No account needed</li>
+        </ul>
+        <a class="btn btn-line" href="#">Start reading</a>
       </div>
-      <div class="app-body">
-        <div class="app-section-label">Trending this week</div>
-        <div class="app-book" id="mockupBook">
-          <div class="app-book-slide active">
-            <div class="app-book-cover"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">The Pale<br>Corridor</div></div>
-            <div class="app-book-info"><div class="app-book-name">The Pale Corridor</div><div class="app-book-author">M. Arden · 2024</div></div>
-          </div>
-          <div class="app-book-slide">
-            <div class="app-book-cover" style="background:var(--bg2);"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">The Hollow<br>Place</div></div>
-            <div class="app-book-info"><div class="app-book-name">The Hollow Place</div><div class="app-book-author">E. Crane · 2023</div></div>
-          </div>
-          <div class="app-book-slide">
-            <div class="app-book-cover" style="background:var(--bg3);"><div class="app-book-cover-lines"></div><div class="app-book-cover-title">Before the<br>Rain Ends</div></div>
-            <div class="app-book-info"><div class="app-book-name">Before the Rain Ends</div><div class="app-book-author">N. Sorrell · 2024</div></div>
-          </div>
-        </div>
-        <div class="app-divider"></div>
-        <div class="app-row"><span class="app-row-label">Readers right now</span><span class="app-row-val">843</span></div>
-        <div class="app-row"><span class="app-row-label">Rating</span><span class="app-row-val">★★★★★</span></div>
-        <div class="app-row"><span class="app-row-label">Genre</span><span class="app-row-val">Thriller</span></div>
-        <div class="app-divider"></div>
-        <div class="app-section-label">Browse genres</div>
-        <div class="app-genre-row">
-          <span class="app-genre">Horror</span>
-          <span class="app-genre">Sci-Fi</span>
-          <span class="app-genre">Romance</span>
-          <span class="app-genre">Comedy</span>
-          <span class="app-genre">Fantasy</span>
-        </div>
+      <div class="plan plan-feat">
+        <p class="plan-tag">Most readers choose this</p>
+        <h3 class="plan-name">Own</h3>
+        <p><span class="plan-price">$4.99</span><span class="plan-per">per book, once</span></p>
+        <p class="plan-desc">Buy a book and it's yours — download it, keep it, read it offline. No subscription, ever.</p>
+        <ul class="plan-list">
+          <li>Yours forever, offline too</li>
+          <li>Download in any format</li>
+          <li>Early access to new titles</li>
+        </ul>
+        <a class="btn" href="#">Buy a book</a>
+      </div>
+      <div class="plan">
+        <p class="plan-tag">For the obsessed</p>
+        <h3 class="plan-name">Lithos+</h3>
+        <p><span class="plan-price">$2.99</span><span class="plan-per">per month</span></p>
+        <p class="plan-desc">Unlimited downloads, exclusive titles, and first access to every new release.</p>
+        <ul class="plan-list">
+          <li>Unlimited downloads</li>
+          <li>Member-only titles</li>
+          <li>New releases first</li>
+        </ul>
+        <a class="btn btn-line" href="#">Try Lithos+</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- STAFF PICKS -->
-<div style="background:var(--bg2);">
-  <div class="section reveal">
-    <div class="s-label">Staff picks</div>
-    <h2 class="s-h2">Chosen by people who<br>read past midnight.</h2>
-    <div class="sp-outer" id="spOuter">
-      <svg class="sp-svg" id="spSvg"></svg>
-      <div class="sp-nodes top" id="spTop">
-        <div class="sp-node" data-i="0"><div class="sp-node-genre">Horror</div><div class="sp-node-title">The Hollow Place</div><div class="sp-node-author">E. Crane</div></div>
-        <div class="sp-node" data-i="1"><div class="sp-node-genre">Sci-Fi</div><div class="sp-node-title">The Fermi Descent</div><div class="sp-node-author">O. Rask</div></div>
-        <div class="sp-node" data-i="2"><div class="sp-node-genre">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
-        <div class="sp-node" data-i="2"><div class="sp-node-genre">Romance</div><div class="sp-node-title">Before the Rain Ends</div><div class="sp-node-author">N. Sorrell</div></div>
-      </div>
-      <div class="sp-card" id="spCard">
-        <div class="sp-card-lbl">October pick<span class="sp-chevron"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-        <div class="sp-card-title">The Pale Corridor</div>
-        <div class="sp-card-sub">A slow-burn supernatural thriller that redefines what it means to be afraid.</div>
-        <div class="sp-card-hint">↓ Expand to see all picks</div>
-      </div>
-      <div class="sp-nodes bottom" id="spBot">
-        <div class="sp-node" data-i="3"><div class="sp-node-genre">Comedy</div><div class="sp-node-title">How I Ruined Christmas</div><div class="sp-node-author">L. Finch</div></div>
-        <div class="sp-node" data-i="4"><div class="sp-node-genre">Fantasy</div><div class="sp-node-title">Pale Blue Signal</div><div class="sp-node-author">T. Achebe</div></div>
-        <div class="sp-node empty" data-i="5"><div class="sp-node-genre">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
-        <div class="sp-node" data-i="5"><div class="sp-node-genre">Thriller</div><div class="sp-node-title">Red Door Inn</div><div class="sp-node-author">M. Selbourne</div></div>
-      </div>
-      <div class="sp-expanded" id="spExp">
-        <div class="sp-exp-genre" id="spEG"></div>
-        <div class="sp-exp-title" id="spET"></div>
-        <div class="sp-exp-author" id="spEA"></div>
-        <div class="sp-exp-body" id="spEB"></div>
-        <button class="sp-exp-back" id="spBack">← Back</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- REVIEWS -->
-<div class="section reveal">
-  <div class="s-label">What readers say</div>
-  <h2 class="s-h2">Straight from the shelf.</h2>
-  <div class="rv-grid">
-    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"Read The Pale Corridor in one sitting. Missed a full night of sleep. Zero regrets."</div><div class="rv-person"><div class="rv-av">JM</div><div><div class="rv-name">Jordan M.</div><div class="rv-role">Midnight Reader</div></div></div></div>
-    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"The comedy section alone is worth it. Laughed so hard my flatmate asked if I was okay."</div><div class="rv-person"><div class="rv-av">PK</div><div><div class="rv-name">Priya K.</div><div class="rv-role">Comedy Connoisseur</div></div></div></div>
-    <div class="rv-card"><div class="rv-stars">★★★★☆</div><div class="rv-quote">"Finally a library that doesn't feel like 2009. Staff picks are actually good."</div><div class="rv-person"><div class="rv-av">TR</div><div><div class="rv-name">Theo R.</div><div class="rv-role">Sci-Fi Devotee</div></div></div></div>
-    <div class="rv-card"><div class="rv-stars">★★★★★</div><div class="rv-quote">"Before the Rain Ends broke me. In the best way. Recommended it to everyone I know."</div><div class="rv-person"><div class="rv-av">AT</div><div><div class="rv-name">Aisha T.</div><div class="rv-role">Romance Aficionado</div></div></div></div>
-  </div>
-</div>
-
-<!-- PRICING -->
-<div style="background:var(--bg2);">
-  <div class="section reveal">
-    <div class="s-label">Pricing</div>
-    <h2 class="s-h2">Pick your relationship<br>with books.</h2>
-    <div class="pc-grid">
-      <div class="pc">
-        <div class="pc-plan">For the casual reader</div>
-        <div class="pc-name">Just browsing.</div>
-        <div><span class="pc-price">Free</span><span class="pc-per">no card needed</span></div>
-        <p class="pc-desc">The whole library is yours. No commitment, no pressure — just show up.</p>
-        <ul class="pc-list"><li>Full library access</li><li>Staff picks every month</li><li>No account needed</li></ul>
-        <button class="pc-btn">Start reading →</button>
-      </div>
-      <div class="pc pc-dark">
-        <div class="pc-badge">Most Popular</div>
-        <div class="pc-plan" style="margin-top:1rem;">For the collector</div>
-        <div class="pc-name">Make it yours.</div>
-        <div><span class="pc-price">$4.99</span><span class="pc-per">per book, forever</span></div>
-        <p class="pc-desc">Own it. Download it. Keep it. No subscription, ever.</p>
-        <ul class="pc-list"><li>Yours forever, offline too</li><li>No subscription. Ever.</li><li>Download in any format</li><li>Early access to new titles</li></ul>
-        <button class="pc-btn pc-btn-w">Buy a book →</button>
-      </div>
-      <div class="pc">
-        <div class="pc-plan">For the obsessed</div>
-        <div class="pc-name">Go deep.</div>
-        <div><span class="pc-price">$2.99</span><span class="pc-per">/ month</span></div>
-        <p class="pc-desc">Unlimited downloads, exclusive titles, first dibs. For people who read more than they sleep.</p>
-        <ul class="pc-list"><li>Unlimited downloads</li><li>Chan+ exclusive titles</li><li>Priority new releases</li></ul>
-        <button class="pc-btn">Try Chan+ →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- FAQ -->
-<div class="section reveal">
-  <div class="s-label">FAQ</div>
-  <h2 class="s-h2">Things people actually ask.</h2>
-  <div class="faq-inner">
-    <div class="faq-item"><button class="faq-q"><span>I haven't read in years. Where do I start?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Pick a genre you'd watch on a bad night. Under 300 pages, first chapter hooks you, you're in.</p></div></div>
-    <div class="faq-item"><button class="faq-q"><span>What makes a staff pick worth reading?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Someone on our team stayed up past 2am finishing it. That's the only metric. No publisher deals, no algorithms.</p></div></div>
-    <div class="faq-item"><button class="faq-q"><span>Can I trust the comedy section?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>We laughed out loud on public transport and didn't care who saw. Yes, you can trust it.</p></div></div>
-    <div class="faq-item"><button class="faq-q"><span>I only read one book a year. Is this for me?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Especially for you. One great book beats twelve forgettable ones. We'll make sure it counts.</p></div></div>
-    <div class="faq-item"><button class="faq-q"><span>What's the constellation on the staff picks?</span><span class="faq-icon"><svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button><div class="faq-a"><p>Books orbit each other. The constellation shows what lives in the same universe as the pick.</p></div></div>
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head fade">
+      <p class="sec-label">FAQ</p>
+      <h2>Things people actually ask.</h2>
+    </div>
+    <div class="faq fade">
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>I haven't read in years. Where do I start?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a"><p>Pick the genre you'd watch on a bad night. Choose something under 300 pages. If the first chapter hooks you, you're in.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>What makes a staff pick worth reading?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a"><p>Someone on our team stayed up past 2am finishing it. That's the only metric — no publisher deals, no algorithms.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>Do I need an account to read?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a"><p>No. Every book in the library opens in your browser without signing up. You only need an account to buy a book or join Lithos+.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false"><span>I only read one book a year. Is this for me?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a"><p>Especially for you. One great book beats twelve forgettable ones — the staff picks exist to make that one count.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <div class="wrap fade">
+    <h2>Your next favourite book is <em>already on the shelf.</em></h2>
+    <a class="btn btn-lg" href="#picks">Browse the library</a>
   </div>
 </div>
 
-<footer class="footer">
-  <div class="footer-main">
-    <div class="footer-brand">
-      <a class="logo" href="#"><div class="logo-mark" style="background:rgba(255,255,255,0.08);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="logo-text" style="color:#fff;">LIT<b style="color:var(--blue);">HOS</b></span></a>
-      <p class="footer-tagline">A library for people who actually read. No algorithms. No noise.</p>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="brand" href="#">Lithos<span>.</span></a>
+      <p class="foot-tag">A library for people who actually read. No algorithms. No noise.</p>
     </div>
-    <div class="footer-col"><h4>Browse</h4><ul><li><a href="#">All titles</a></li><li><a href="#">Staff picks</a></li><li><a href="#">New this week</a></li><li><a href="#">By genre</a></li></ul></div>
-    <div class="footer-col"><h4>Account</h4><ul><li><a href="#">Sign up</a></li><li><a href="#">Log in</a></li><li><a href="#">My list</a></li><li><a href="#">Chan+</a></li></ul></div>
-    <div class="footer-col"><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Authors</a></li><li><a href="#">Contact</a></li><li><a href="#">Blog</a></li></ul></div>
+    <div><h4>Browse</h4><ul><li><a href="#">All titles</a></li><li><a href="#picks">Staff picks</a></li><li><a href="#">New this week</a></li><li><a href="#">By genre</a></li></ul></div>
+    <div><h4>Account</h4><ul><li><a href="#">Sign up</a></li><li><a href="#">Log in</a></li><li><a href="#">My list</a></li><li><a href="#">Lithos+</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Authors</a></li><li><a href="#">Contact</a></li><li><a href="#">Blog</a></li></ul></div>
   </div>
-  <div class="footer-wm">Lithos</div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 Lithos. All rights reserved.</span>
-    <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Lithos. All rights reserved.</span>
+    <div class="foot-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
   </div>
 </footer>
 
 <script>
-/* HERO HEADLINE WORD REVEAL */
+/* Subtle scroll fade-in */
 (function(){
-  var el=document.getElementById('h1');
-  if(!el)return;
-  var words=[
-    {t:'Read',d:0.15,br:false},
-    {t:'what',d:0.25,br:false},
-    {t:'the',d:0.35,br:false},
-    {t:'world',d:0.45,br:true},
-    {t:'<em>can\'t put down.</em>',d:0.6,br:false}
-  ];
-  var html='';
-  words.forEach(function(w,i){
-    html+='<span class="word"><span class="word-inner" style="animation-delay:'+w.d+'s">'+w.t+'</span></span>';
-    if(w.br) html+='<br>';
-    else if(i<words.length-1) html+=' ';
-  });
-  el.innerHTML=html;
-})();
-
-/* SCROLL REVEAL */
-(function(){
-  var els=document.querySelectorAll('.reveal');
-  var obs=new IntersectionObserver(function(entries){
-    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
-  },{threshold:0.1});
-  els.forEach(function(el){obs.observe(el);});
-})();
-
-/* STAFF PICKS */
-(function(){
-  var outer=document.getElementById('spOuter'),card=document.getElementById('spCard'),svg=document.getElementById('spSvg'),top=document.getElementById('spTop'),bot=document.getElementById('spBot'),exp=document.getElementById('spExp'),nodes=Array.prototype.slice.call(outer.querySelectorAll('.sp-node')),open=false;
-  var data=[
-    {genre:'Horror',title:'The Hollow Place',author:'E. Crane',body:'A family returns to their childhood home, only to find the doors no longer lead where they should.'},
-    {genre:'Sci-Fi',title:'The Fermi Descent',author:'O. Rask',body:'A generation ship loses contact with Earth. The crew starts hearing voices from the dark.'},
-    {genre:'Romance',title:'Before the Rain Ends',author:'N. Sorrell',body:'Two strangers keep missing each other by minutes — until one rainy Tuesday in Lisbon.'},
-    {genre:'Comedy',title:'How I Ruined Christmas',author:'L. Finch',body:'A man accidentally ruins Christmas for six families in one afternoon. A love story.'},
-    {genre:'Fantasy',title:'Pale Blue Signal',author:'T. Achebe',body:'The last librarian of a dying empire guards one final book no one is allowed to read.'},
-    {genre:'Thriller',title:'Red Door Inn',author:'M. Selbourne',body:'A locked door. A missing guest. And a hotel that knows too much.'},
-  ];
-  function lines(){
-    svg.innerHTML='';svg.style.height=outer.offsetHeight+'px';svg.style.width=outer.offsetWidth+'px';
-    var sr=svg.getBoundingClientRect();
-    function c(el){var r=el.getBoundingClientRect();return{x:r.left-sr.left+r.width/2,y:r.top-sr.top+r.height/2};}
-    function bp(fx,fy,el){var r=el.getBoundingClientRect(),ex=r.left-sr.left,ey=r.top-sr.top,ew=r.width,eh=r.height,cx=ex+ew/2,cy=ey+eh/2,dx=fx-cx,dy=fy-cy,len=Math.sqrt(dx*dx+dy*dy)||1;dx/=len;dy/=len;var tx,ty;if(Math.abs(dx)*eh>Math.abs(dy)*ew){tx=cx+(dx>0?ew/2:-ew/2);ty=cy+dy*(ew/2)/Math.abs(dx);}else{ty=cy+(dy>0?eh/2:-eh/2);tx=cx+dx*(eh/2)/Math.abs(dy);}return{x:tx,y:ty};}
-    var bc=c(card);
-    nodes.forEach(function(nd,i){var nc=c(nd),b=bp(nc.x,nc.y,card),e=bp(bc.x,bc.y,nd);var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M'+b.x+' '+b.y+' L'+e.x+' '+e.y);p.setAttribute('class','sp-line');svg.appendChild(p);setTimeout(function(el){el.classList.add('drawn');},80+i*55,p);});
+  var els = document.querySelectorAll('.fade');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
   }
-  function doOpen(){open=true;card.classList.add('open');outer.classList.add('open');setTimeout(lines,480);}
-  function doClose(){open=false;card.classList.remove('open');outer.classList.remove('open');exp.classList.remove('active');card.style.display='';top.style.display='';bot.style.display='';svg.innerHTML='';}
-  function showExp(i){var d=data[i];document.getElementById('spEG').textContent=d.genre;document.getElementById('spET').textContent=d.title;document.getElementById('spEA').textContent=d.author;document.getElementById('spEB').textContent=d.body;card.style.display='none';top.style.display='none';bot.style.display='none';svg.innerHTML='';exp.classList.add('active');}
-  card.addEventListener('click',function(){open?doClose():doOpen();});
-  nodes.forEach(function(nd){nd.addEventListener('click',function(e){e.stopPropagation();if(!open)return;showExp(parseInt(nd.getAttribute('data-i')));});});
-  document.getElementById('spBack').addEventListener('click',function(e){e.stopPropagation();exp.classList.remove('active');card.style.display='';top.style.display='';bot.style.display='';setTimeout(lines,60);});
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, {threshold: 0.12});
+  els.forEach(function(el){ obs.observe(el); });
 })();
 
-/* FAQ */
-
-/* MOCKUP CARD ROTATION */
+/* FAQ accordion */
 (function(){
-  var book = document.getElementById('mockupBook');
-  if(!book) return;
-  var slides = Array.prototype.slice.call(book.querySelectorAll('.app-book-slide'));
-  if(!slides.length) return;
-  var cur = 0;
-  book.style.overflow = 'hidden';
-  book.style.position = 'relative';
-
-  slides.forEach(function(s, i) {
-    s.style.position = i === 0 ? 'relative' : 'absolute';
-    s.style.top = '0'; s.style.left = '0'; s.style.width = '100%';
-    s.style.opacity = '1';
-    s.style.transform = i === 0 ? 'translateX(0)' : 'translateX(100%)';
-    s.style.transition = 'none';
-  });
-
-  setInterval(function(){
-    var next = (cur + 1) % slides.length;
-    var curr = slides[cur];
-    var nxt = slides[next];
-
-    // Set next just off-screen to the right
-    nxt.style.transition = 'none';
-    nxt.style.transform = 'translateX(100%)';
-    nxt.style.position = 'absolute';
-
-    // Force reflow
-    void nxt.offsetWidth;
-
-    // Slide current out to left, next in from right
-    curr.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
-    nxt.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1)';
-    curr.style.transform = 'translateX(-100%)';
-    nxt.style.transform = 'translateX(0)';
-
-    setTimeout(function(){
-      curr.style.position = 'absolute';
-      nxt.style.position = 'relative';
-      cur = next;
-    }, 460);
-  }, 2800);
-})();
-
-(function(){
-  var items=document.querySelectorAll('.faq-item');
+  var items = document.querySelectorAll('.faq-item');
   items.forEach(function(item){
-    var btn=item.querySelector('.faq-q'),ans=item.querySelector('.faq-a');
-    btn.addEventListener('click',function(){
-      var isOpen=btn.classList.contains('open');
-      items.forEach(function(it){it.querySelector('.faq-q').classList.remove('open');it.querySelector('.faq-a').classList.remove('open');});
-      if(!isOpen){btn.classList.add('open');ans.classList.add('open');}
+    var btn = item.querySelector('.faq-q');
+    var ans = item.querySelector('.faq-a');
+    btn.addEventListener('click', function(){
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      items.forEach(function(it){
+        it.querySelector('.faq-q').setAttribute('aria-expanded','false');
+        it.querySelector('.faq-a').style.maxHeight = null;
+      });
+      if (!open) {
+        btn.setAttribute('aria-expanded','true');
+        ans.style.maxHeight = ans.scrollHeight + 'px';
+      }
     });
   });
 })();
